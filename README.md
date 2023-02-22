@@ -22,3 +22,9 @@ Install pillow (An imaging library).
 Now, if you navigate to the website folder, you should be able to run the server.
 
 `python manage.py runserver`
+
+
+# Project Layout
+
+This is laid out very similarly to Rango. `froggr` is an app that 
+is part of the `froggr_website` project. 
