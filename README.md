@@ -9,7 +9,7 @@ We will use the latest python version.
 
 Activate the virtual environment.
 
-`conda active froggr`
+`conda activate froggr`
 
 Install Django package.  We will use the latest stable version.
 
