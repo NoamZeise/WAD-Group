@@ -1,7 +1,10 @@
 # Setup (anaconda)
 
-Run these commands to setup an anaconda virtual environment for the app.
+Download this repository to your current directory
 
+`git clone https://github.com/NoamZeise/froggr_website.git`
+
+Run these commands to setup an anaconda virtual environment for the app.
 
 We will use the latest python version.
 
@@ -20,6 +23,8 @@ Install pillow (An imaging library).
 `pip install pillow`
 
 Now, if you navigate to the website folder, you should be able to run the server.
+
+`cd froggr_website`
 
 `python manage.py runserver`
 
