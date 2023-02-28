@@ -99,3 +99,6 @@ class Reaction(models.Model):
                 fields=['user', 'post'],
                 name="only 1 reaction per user, per post")
         ]
+
+    def __str__(self):
+        return "Reaction: user=" + self.user + "   post=" + self.post
