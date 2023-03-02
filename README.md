@@ -33,3 +33,10 @@ Now, if you navigate to the website folder, you should be able to run the server
 
 This is laid out very similarly to Rango. `froggr` is an app that 
 is part of the `froggr_website` project. 
+
+
+# admin details
+
+* username: `admin`
+* usermail: `admin@mail.com`
+* password: `admin`
