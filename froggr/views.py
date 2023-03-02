@@ -2,13 +2,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
-from rango.models import Category
-from rango.models import Page
-from rango.forms import CategoryForm
+#from rango.models import Category
+#from rango.models import Page
+#from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
-from rango.forms import PageForm
-from rango.forms import UserForm, UserProfileForm
+#from rango.forms import PageForm
+#from rango.forms import UserForm, UserProfileForm
 from datetime import datetime
 
 # Create your views here.
@@ -20,7 +20,7 @@ def posts(request):
     return HttpResponse("Posts!")
 
 def test(request):
-    return HttpResponse("test")
+    return render(request, 'test_template.html')
 
 def dog(request):
     return HttpResponse("This is the dog page")
