@@ -22,6 +22,9 @@ def posts(request):
 def test(request):
     return render(request, 'test_template.html')
 
+def test2(request):
+    return render(request, 'test_template_2.html')
+
 def dog(request):
     return HttpResponse("This is the dog page")
 

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'test.css' %}">
 <html>
   <head lang='en'>
     <meta charset="UTF-8" />
     <title> test page </title>
   </head>
   <body>
-    <h1> This is a Test Page for checking if froggr can see the template files
+    <h1> This is a Test Page for checking if froggr can see the template files </h1>
+    <p> this paragraph is red because of a static file </p>
+    <p> go to the other test page: <a href="{% url 'froggr:test2' %}"> here </a> </p>
   </body>
 </html>
