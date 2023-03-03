@@ -7,31 +7,45 @@ People can maintain friends lists, search for froggs, and see the top froggs by 
 
 Download this repository to your current directory
 
-`git clone https://github.com/NoamZeise/froggr_website.git`
+```
+git clone https://github.com/NoamZeise/froggr_website.git
+```
 
 Run these commands to setup an anaconda virtual environment for the app.
 
 We will use the latest python version.
 
-`conda create -n froggr python=3.10`
+```
+conda create -n froggr python=3.10
+```
 
 Activate the virtual environment.
 
-`conda activate froggr`
+```
+conda activate froggr
+```
 
 Install Django package.  We will use the latest stable version.
 
-`pip install django==4.1`
+```
+pip install django==4.1
+```
 
 Install pillow (An imaging library).
 
-`pip install pillow`
+```
+pip install pillow
+```
 
 Now, if you navigate to the website folder, you should be able to run the server.
 
-`cd froggr_website`
+```
+cd froggr_website
+```
 
-`python manage.py runserver`
+```
+python manage.py runserver
+```
 
 
 # Project Layout
