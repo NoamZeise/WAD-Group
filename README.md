@@ -1,3 +1,8 @@
+# Froggr Django Webapp
+
+A social media when people can post froggs(bloggs) that can be commented on and reacted to. 
+People can maintain friends lists, search for froggs, and see the top froggs by reactions.
+
 # Setup (anaconda)
 
 Download this repository to your current directory
@@ -31,25 +36,40 @@ Now, if you navigate to the website folder, you should be able to run the server
 
 # Project Layout
 
-This is laid out very similarly to Rango. `froggr` is an app that 
-is part of the `froggr_website` project. 
+`froggr` is an app that is part of the `froggr_website` project.
+
+* The `froggr/` folder holds the python files that are used by the froggr app
+* The `static/` folder holds permanent files used by the website (images/css/js files)
+* The `media/` folder holds transient files, like user submitted images.
+* The `templates/` folder holds the html templates that are used by django to render pages.
 
 
-# admin details
+# Using the population script
 
-* making an admin account
+Make sure you are in froggr the virtulenv. If not, run `conda activate froggr`.
 
-run 
+Run the script from the root of the project using `python populate_froggr.py`
+
+If you want to clear the database run `python manage.py flush` and enter `yes` when prompted.
+
+
+# Making an admin account
+
+Make sure you are in the froggr virtulenv. If not, run `conda activate froggr`.
+
+Run 
 ```
 python manage.py createsuperuser
 ```
-Then use the login on the `/admin/` page
+Input a username, email and password when prompted.
+
+Then start the server and use the login on the `/admin/` page.
 
 
-
-# running tests
+# Running tests
+Make sure you are in the froggr virtulenv, if not run `conda activate froggr`.
 
 ``` python manage.py test froggr.(test folder).(test name) ```
 
-for example, to run the test in `froggr/Tests/LoginTests.py` you would run 
+For example, to run the test in `froggr/Tests/LoginTests.py` you would run 
 ``` python manage.py test froggr.Tests.LoginTests ```
