@@ -37,9 +37,14 @@ is part of the `froggr_website` project.
 
 # admin details
 
-* username: `admin`
-* usermail: `admin@mail.com`
-* password: `admin`
+* making an admin account
+
+run 
+```
+python manage.py createsuperuser
+```
+Then use the login on the `/admin/` page
+
 
 
 # running tests

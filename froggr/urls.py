@@ -10,4 +10,6 @@ urlpatterns = [
     path('test/', views.test, name='test'),
     path('test2/', views.test2, name='test2'),
     path('dog/', views.dog, name="dog"),
+    path('home/', views.home, name="home"),
+    path('frog-in/', views.frogin, name="frog-in"),
 ]

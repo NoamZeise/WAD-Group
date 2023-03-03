@@ -25,12 +25,19 @@ def test(request):
 def test2(request):
     return render(request, 'test_template_2.html')
 
+def home(request):
+    return render(request, 'home.html')
+
 def dog(request):
     return HttpResponse("This is the dog page")
 
+
+def frogin(request):
+    return render(request, 'frog-in.html')
+
 def register(request):
     registered = False
-
+    
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
