@@ -44,6 +44,12 @@ class Connection(models.Model):
                 name="only 1 connection to a particular friend")
         ]
 
+    def save(self, *args, **kwargs):
+        if self.user == self.friend:
+            print("Didn't add Connection: Cannot be friends with yourself")
+            return
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return self.user.username + " -> " + self.friend.username
 
