@@ -6,9 +6,10 @@ django.setup()
 from froggr.models import User, UserProfile, Connection, BlogPost, Comment, Reaction
 
 def populate():
-    gen_user("John Smith")
-    gen_user("EvaSmith")
-    gen_user("Jean12")
+    gen_friends(
+        gen_user("John Smith"),
+        gen_user("EvaSmith"),
+        gen_user("Jean12"))
 
 def gen_user(name):
     u = User.objects.get_or_create(username=name,
@@ -21,6 +22,14 @@ def gen_user(name):
     
     print("> Added User: " + u.username)
     return (u, profile)
+
+def gen_friends(*users):
+    for u1 in users:
+        for u2 in users:
+            c = Connection.objects.get_or_create(user=u1[0], friend=u2[0])[0]
+            c.save()
+            print("> Added connection: " + u1[0].username + " -> " + u2[0].username)
+            
 
 if __name__ == '__main__':
     print("Stating Population Script...")

@@ -45,7 +45,7 @@ class Connection(models.Model):
         ]
 
     def __str__(self):
-        return "Connection: user=" + self.user + "  friend=" + self.friend
+        return self.user.username + " -> " + self.friend.username
 
 
 class BlogPost(models.Model):
