@@ -1,7 +1,12 @@
-<head>
-  <title>Frog in</title>
-</head>
-<body>
-  <h1>Frog in Dummy Page</h1>
-  <p>To be improved.</p>
-</body>
+{% extends 'froggr/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Frog in
+{% endblock %}
+
+
+{% block body_block %}
+<h1>This is an example page</h1>
+<p>This example has a paragraph</p>
+{% endblock %}

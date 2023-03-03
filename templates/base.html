@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+  <head lang='en'>
+    <meta charset="UTF-8" />
+    <title>Froggr Base -
+      {% block title_block %}
+      Default Title
+      {% endblock %}</title>
+  </head>
+  <body>
+    <div>
+      {% block body_block %}
+      This is body_block's default content
+      {% endblock %}
+    </div>
+  </body>
+</html>
