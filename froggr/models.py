@@ -1,33 +1,31 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User 
 # Create your models here.
 
 
-class User(models.Model):
+class UserProfile(models.Model):
     """Represents a User of the website,
     with a profile page, connections, and posts"""
     
     # each user's username, email is unique
-    username = models.CharField(max_length=25, unique=True)
-    email = models.CharField(max_length=25, unique=True)
-    # TODO: make more secure at some point
-    password = models.CharField(max_length=25)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     # link to profile should be unique
     profile_slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
         # make user profile url based on username
-        self.profile_slug = slugify(self.username)
-        super(User, self).save(*args, **kwargs)
+        self.profile_slug = slugify(self.user.username)
+        super(UserProfile, self).save(*args, **kwargs)
 
     def delete(self):
         # TODO add code to delete
         # user posts files and profile files from server
         
-        super(User, self).delete()
+        super(UserProfile, self).delete()
     
     def __str__(self):
-        return "User: username=" + self.username
+        return self.user.username
 
 
 class Connection(models.Model):
@@ -64,7 +62,7 @@ class BlogPost(models.Model):
         super(User, self).save(*args, **kwargs)
     
     def __str__(self):
-        return "BlogPost: title=" + self.title + "  user=" + self.user
+        return self.user + " -- " + self.title
         
 
 class Comment(models.Model):
@@ -79,7 +77,7 @@ class Comment(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return "Comment:  user=" + self.user + " post=" + self.post
+        return self.user + " -- " + self.post
 
 
 class Reaction(models.Model):

@@ -3,8 +3,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'froggr_website.settings')
 
 import django
 django.setup()
-
-from froggr.models import User, Connection, BlogPost, Comment, Reaction
+from froggr.models import User, UserProfile, Connection, BlogPost, Comment, Reaction
 
 def populate():
     gen_user("John Smith")
@@ -13,11 +12,15 @@ def populate():
 
 def gen_user(name):
     u = User.objects.get_or_create(username=name,
-                                   email=(name + "@mail.com"),
-                                   password=(name+"A123$"))[0]
+                                   email=(name + "@mail.com"))[0]
+    u.set_password(name + "@123")
     u.save()
+
+    profile = UserProfile.objects.get_or_create(user=u)[0]
+    profile.save()
+    
     print("> Added User: " + u.username)
-    return u
+    return (u, profile)
 
 if __name__ == '__main__':
     print("Stating Population Script...")
