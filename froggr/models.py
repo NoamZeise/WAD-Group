@@ -4,6 +4,14 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+def user_dir_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
+def post_dir_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
 class UserProfile(models.Model):
     """Represents a User of the website,
     with a profile page, connections, and posts"""
@@ -13,17 +21,14 @@ class UserProfile(models.Model):
     # link to profile should be unique
     profile_slug = models.SlugField(unique=True)
 
+    text = models.TextField(default="My Profile.")
+    image = models.ImageField(upload_to=user_dir_path, blank=True)
+
     def save(self, *args, **kwargs):
         # make user profile url based on username
         self.profile_slug = slugify(self.user.username)
         super(UserProfile, self).save(*args, **kwargs)
 
-    def delete(self):
-        # TODO add code to delete
-        # user posts files and profile files from server
-        
-        super(UserProfile, self).delete()
-    
     def __str__(self):
         return self.user.username
 
@@ -34,7 +39,7 @@ class Connection(models.Model):
     
     # delete the connection if any of the users are deleted
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="User")
-    friend = models.ForeignKey(User, on_delete=models.CASCADE,  related_name="User_friend")
+    friend = models.ForeignKey(User, on_delete=models.CASCADE,  related_name="Friend")
 
     class Meta:
         # pair (user, friend) is unique for this entity
@@ -53,7 +58,6 @@ class Connection(models.Model):
     def __str__(self):
         return self.user.username + " -> " + self.friend.username
 
-
 class BlogPost(models.Model):
     """ A post on the website. User who posted, and link to page is stored. """
 
@@ -62,13 +66,24 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     post_slug = models.SlugField(unique=True)
 
+    text = models.TextField(default="My Frogg")
+    image = models.ImageField(upload_to=post_dir_path, blank=True)
+
     def save(self, *args, **kwargs):
         # make post url based on username and post title
-        self.post_slug = slugify(self.user.username + "-" + self.title)
-        super(User, self).save(*args, **kwargs)
-    
+        self.post_slug = slugify(self.user.username + "/" + self.title)
+        super(BlogPost, self).save(*args, **kwargs)
+
+    class Meta:
+        # pair (user, friend) is unique for this entity
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'title'],
+                name="only 1 blog with a title per user")
+        ]
+        
     def __str__(self):
-        return self.user + " -- " + self.title
+        return self.user.username + " -- " + self.title
         
 
 class Comment(models.Model):
@@ -80,10 +95,10 @@ class Comment(models.Model):
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
 
     #  use text field for comment so we can have more characters than charfield
-    content = models.TextField()
+    text = models.TextField()
 
     def __str__(self):
-        return self.user + " -- " + self.post
+        return self.user.username + " -- " + self.post.title
 
 
 class Reaction(models.Model):
@@ -94,7 +109,7 @@ class Reaction(models.Model):
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
     # should be +1 or -1, so they can all be added together together
     # to get the 'score' of the page
-    reacton = models.SmallIntegerField()
+    reaction = models.SmallIntegerField()
     
     class Meta:
         # user can only give one reaction to a post
@@ -105,4 +120,4 @@ class Reaction(models.Model):
         ]
 
     def __str__(self):
-        return "Reaction: user=" + self.user + "   post=" + self.post
+        return self.user.username + "->" + self.post.title + " : " + str(self.reaction)

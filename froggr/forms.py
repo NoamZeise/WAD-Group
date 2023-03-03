@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from rango.models import UserProfile
+from rango.models import UserProfile, BlogPost
 
 
 class UserForm(forms.ModelForm):
@@ -8,10 +8,16 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email'. 'password')
+        fields = ('username', 'email', 'password')
 
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('picture')
+        fields = ('text', 'image')
+
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ('title', 'text', 'image')
