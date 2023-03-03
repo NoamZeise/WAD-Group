@@ -40,3 +40,11 @@ is part of the `froggr_website` project.
 * username: `admin`
 * usermail: `admin@mail.com`
 * password: `admin`
+
+
+# running tests
+
+``` python manage.py test froggr.(test folder).(test name) ```
+
+for example, to run the test in `froggr/Tests/LoginTests.py` you would run 
+``` python manage.py test froggr.Tests.LoginTests ```
