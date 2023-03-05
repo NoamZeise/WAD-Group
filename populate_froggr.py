@@ -28,6 +28,7 @@ def populate():
     gen_reaction(users[0], blogs[1], 1)
     gen_reaction(users[0], blogs[3], -1)
     gen_reaction(users[3], blogs[2], -1)
+
     gen_reaction(users[1], blogs[1], 1)
     
  
