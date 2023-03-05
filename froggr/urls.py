@@ -12,4 +12,5 @@ urlpatterns = [
     path('dog/', views.dog, name="dog"),
     path('home/', views.home, name="home"),
     path('frog-in/', views.frogin, name="frog-in"),
+    path('register/', views.register, name="register"),
 ]

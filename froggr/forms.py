@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from rango.models import UserProfile, BlogPost
+from froggr.models import UserProfile, BlogPost
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
 
-class UserForm(forms.ModelForm):
-    password = forms.CharField(widgrt=forms.PasswordInput())
+class UserForm(UserCreationForm):
+    password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
