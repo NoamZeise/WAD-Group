@@ -49,6 +49,18 @@ def register(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
+def my_frogs(request):
+    return render(request, 'my_frogs.html')
+
+def my_profile(request): 
+    return render(request, 'my_profile.html')
+
+def search_results(request):
+    return render(request, 'search_results.html')
+
+def top_frogs(request):
+    return render(request, 'top_frogs.html')
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
