@@ -13,4 +13,8 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('frog-in/', views.frogin, name="frog-in"),
     path('register/', views.register, name="register"),
+    path('my-frogs/', views.my_frogs, name="my-frogs"),
+    path('my-profile/', views.my_profile, name="my-profile"),
+    path('search-results/', views.search_results, name="search-results"),
+    path('top-frogs/', views.top_frogs, name="top-frogs"),
 ]
