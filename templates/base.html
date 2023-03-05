@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-
+<link rel="stylesheet" href="{% static 'bar.css' %}">
 <html>
   <head lang='en'>
     <meta charset="UTF-8" />
@@ -10,10 +10,15 @@
       {% endblock %}</title>
   </head>
   <body>
-    <div>
-      {% block body_block %}
-      This is body_block's default content
-      {% endblock %}
+    <div class="topnav">
+      <a class="navbar-brand" href="/">
+        <div class="logo-image">
+          <img src="{% static 'frog3.jpg' %}" alt="pic of frog" />
+        </div>
+      </a>
+      <a class="active" href="#my-profile">Profile</a>
+      <a href="#my-profile">Create a frogg</a>
+      <a href="#frog-in">Frog out</a>
     </div>
   </body>
 </html>
