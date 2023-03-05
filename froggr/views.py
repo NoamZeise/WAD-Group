@@ -12,6 +12,7 @@ from froggr.forms import UserForm, UserProfileForm
 from datetime import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from froggr.models import BlogPost, User
 
 # Create your views here.
 
@@ -35,7 +36,7 @@ def dog(request):
 
 
 def frogin(request):
-    return render(request, 'frog-in.html')
+    return render(request, 'frog_in.html')
 
 def register(request):
     form = UserForm()
