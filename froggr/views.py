@@ -27,13 +27,6 @@ def home(request):
     context_dict = {"posts": posts}
     return render(request, 'home.html', context=context_dict)
 
-def frogin(request):
-    return render(request, 'frog_in.html')
-
-def frogout(request):
-    logout(request)
-    return redirect(reverse('froggr:home'))
-
 def register(request):
     form = UserForm()
     if request.method == 'POST':
@@ -103,12 +96,11 @@ def frogin(request):
             login(request, user)
             return redirect('froggr:home')
         else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'rango/frog-in.html')
             messages.info(request, 'Username OR Password is incorrect')
     context = {}
     return render(request, 'frog_in.html', context)
 
 
+def frogout(request):
+    logout(request)
+    return redirect(reverse('froggr:home'))
