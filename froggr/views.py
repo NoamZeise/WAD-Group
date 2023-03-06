@@ -41,7 +41,7 @@ def register(request):
             form.save()
             username = form.cleaned_data.get("username")
             messages.success(request, 'Account created for: ' + username)
-            return redirect('froggr:login')
+            return redirect('froggr:frog-in')
     context = {'form': form}
     return render(request, 'register.html', context)
 
