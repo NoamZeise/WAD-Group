@@ -24,10 +24,14 @@
         </div>
       </a>
       <a class="active" href="{% url 'froggr:my-profile' %}">Profile</a>
-      <a href="{% url 'froggr:my-profile' %}">Create a frogg</a>
+      <a href="{% url 'froggr:create-frogg' %}">Create a frogg</a>
       <a href="{% url 'froggr:top-frogs' %}">Top Frogs</a>
       <a href="{% url 'froggr:search-results' %}">Search Bar</a>
+      {% if user.is_authenticated %}
       <a href="{% url 'froggr:frog-in' %}">Frog out</a>
+      {% else %}
+      <a href="{% url 'froggr:frog-in' %}">Frog in</a>
+      {% endif %}
     </div>
     <br></br><br></br>
 
