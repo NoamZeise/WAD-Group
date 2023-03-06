@@ -92,21 +92,23 @@ def create_frogg(request):
     
     return render(request, 'create_frogg.html', {'blog_form': form})
 
-def user_login(request):
+def frogin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('froggr:home'))
-            else:
-                return HttpResponse("Your Froggr account is disabled.")
+        if user is not None:
+            login(request, user)
+            return redirect('froggr:home')
         else:
             print(f"Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'rango/frog-in.html')
+            messages.info(request, 'Username OR Password is incorrect')
+    context = {}
+    return render(request, 'frog_in.html', context)
+
+
