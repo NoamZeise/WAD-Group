@@ -23,20 +23,32 @@ Signup
       <div>	
 	<form method="POST" action="">
           {% csrf_token %}
-	  <div>
-	    <input type="text" name="username" placeholder="username...">
+	  <div class="input-group mb-3">
+		  <div class="input-group-append">
+			  <span class="input-group-text"><i class="fas fa-user"></i></span>
+		  </div>
+		  <input type="text" name="username" placeholder="Username...">
 	  </div>
-	  <div>
-	    <input type="email" name="email" placeholder="email...">
+	  <div class="input-group mb-2">
+		  <div class="input-group-append">
+			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+		  </div>
+		  <input type="email" name="email" placeholder="Email...">
 	  </div>
-	  <div>
-	    <input type="password" name="password1" placeholder="password...">
+		<div class="input-group mb-2">
+		  <div class="input-group-append">
+			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+		  </div>
+			<input type="password" name="password1" placeholder="Password...">
 	  </div>
-	  <div>
-	    <input type="password" name="password2" placeholder="Re-enter password...">
+	  <div class="input-group mb-2">
+		  <div class="input-group-append">
+			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+		  </div>
+	    	<input type="password" name="password2" placeholder="Re-enter password...">
 	  </div>
 	  
-	  <div>
+	  <div class="d-flex justify-content-center links">
 	    <input class="btn login_btn" type="submit" value="Register Account">
 	  </div>
 	</form>
