@@ -20,19 +20,20 @@ Login
 
       <div>
 	<form method="POST" action="">
-	  <div class="input-group mb-3">
-		  <div class="input-group-append">
-			  <span class="input-group-text"><i class="fas fa-user"></i></span>
-		  </div>
-	    <input type="text" name="username" placeholder="Username..." class="form-control">
-	  </div>
-	  <div class="input-group mb-3">
+		{% csrf_token %}
+	  	<div class="input-group mb-3">
+		  	<div class="input-group-append">
+				<span class="input-group-text"><i class="fas fa-user"></i></span>
+		  	</div>
+	    	<input type="text" name="username" placeholder="Username..." class="form-control">
+	  	</div>
+	  	<div class="input-group mb-3">
 		  <div class="input-group-append">
 			  <span class="input-group-text"><i class="fas fa-user"></i></span>
 		  </div>
 	    <input type="password" name="password" placeholder="Password..." class="form-control" >
 	    </div>
-	  <div>
+	  <div class="d-flex justify-content-center links">
 	    <input class="btn login_btn" type="submit" value="Login">
 	  </div>
 	</form>
