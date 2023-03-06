@@ -11,6 +11,7 @@ urlpatterns = [
     path('test2/', views.test2, name='test2'),
     path('home/', views.home, name="home"),
     path('frog-in/', views.frogin, name="frog-in"),
+    path('frog-out/', views.frogout, name="frog-out"),
     path('register/', views.register, name="register"),
     path('my-frogs/', views.my_frogs, name="my-frogs"),
     path('my-profile/', views.my_profile, name="my-profile"),

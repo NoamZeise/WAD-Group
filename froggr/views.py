@@ -1,19 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.http import HttpResponse
-#from froggr.models import Category
-#from froggr.models import Page
-#from froggr.forms import CategoryForm
-from django.shortcuts import redirect
-from django.urls import reverse
-#from froggr.forms import PageForm
-from froggr.forms import UserForm, UserProfileForm
-from datetime import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from froggr.models import BlogPost, User
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
+from froggr.forms import UserForm, UserProfileForm
+from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
+from datetime import datetime
 
 # Create your views here.
 
@@ -34,6 +30,10 @@ def home(request):
 def frogin(request):
     return render(request, 'frog_in.html')
 
+def frogout(request):
+    logout(request)
+    return redirect(reverse('froggr:home'))
+
 def register(request):
     form = UserForm()
     if request.method == 'POST':
@@ -46,10 +46,24 @@ def register(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
+@login_required
 def my_frogs(request):
     return render(request, 'my_frogs.html')
 
-def my_profile(request): 
+@login_required
+def my_profile(request):
+    user = request.user
+    profile = None
+    try:
+        profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        profile = None
+    if profile == None:
+        return redirect('/')
+    context_dict["username"] = user.username
+    context_dict["profile_img"] = profile.image
+    context_dict["profile_text"] = profile.text
+    
     return render(request, 'my_profile.html')
 
 def search_results(request):
@@ -58,6 +72,7 @@ def search_results(request):
 def top_frogs(request):
     return render(request, 'top_frogs.html')
 
+@login_required
 def create_frogg(request):
     form = forms.BlogPostForm()
     if request.method == 'POST':
@@ -95,9 +110,3 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'rango/frog-in.html')
-
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('froggr:home'))
-
-
