@@ -3,7 +3,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'froggr_website.settings')
 
 import django
 django.setup()
+from django.core.files import File
 from froggr.models import User, UserProfile, Connection, BlogPost, Comment, Reaction
+from froggr_website import settings
 
 def populate():
     users = [gen_user("John Smith"),
@@ -13,14 +15,17 @@ def populate():
     gen_friends(users[0:3])
 
     blogs = [gen_blog(users[0], "My fav frog",
-                      "My favorite is the brazillia greenback."),
+                      "My favorite is the brazillia greenback.",
+                      "example-posts/Frog.webp"),
              gen_blog(users[2], "Best Burger",
-                      "Had a good burger at the burger shack."),
+                      "Had a good burger at the burger shack.",
+                      "example-posts/Burger.webp"),
              gen_blog(users[2], "Next Best Burger",
                       "Burger at the burger palace was almost as good!"),
              gen_blog(users[3], "Chicken Tutorial",
                       "This chapter is designed to get you"
-                      + "started with CHICKEN programming"),]
+                      + "started with CHICKEN programming",
+                      "example-posts/ChickenScheme.png"),]
     
     gen_comment(users[0], blogs[1], "a Burger!")
     gen_comment(users[3], blogs[3], "This is my post.")
@@ -58,8 +63,11 @@ def gen_friends(users):
                   " -> "                 + u2.username)
 
            
-def gen_blog(user, title, text):
+def gen_blog(user, title, text, image=None):
     p = BlogPost.objects.get_or_create(user=user, title=title, text=text)[0]
+    if image != None:
+        p.image.save(settings.MEDIA_DIR / image,
+                     File(open(image, 'rb')))
     p.save()
     print(f"> Added Post by {user.username} -- title: \"{title}\"")
     return p
