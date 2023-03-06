@@ -66,7 +66,7 @@ def gen_friends(users):
 def gen_blog(user, title, text, image=None):
     p = BlogPost.objects.get_or_create(user=user, title=title, text=text)[0]
     if image != None:
-        p.image.save(settings.MEDIA_DIR / image,
+        p.image.save(os.path.basename(image),
                      File(open(image, 'rb')))
     p.save()
     print(f"> Added Post by {user.username} -- title: \"{title}\"")
