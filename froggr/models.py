@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+from django.utils import timezone
+import datetime
 # Create your models here.
 
 
@@ -58,12 +60,15 @@ class Connection(models.Model):
     def __str__(self):
         return self.user.username + " -> " + self.friend.username
 
+DEFAULT_DATE = datetime.datetime(1900, 1, 1)
+    
 class BlogPost(models.Model):
     """ A post on the website. User who posted, and link to page is stored. """
 
     # delete post if user is deleted
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
+    date = models.DateField(default=DEFAULT_DATE)
     post_slug = models.SlugField(unique=True)
 
     text = models.TextField(default="My Frogg")
@@ -72,6 +77,8 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):
         # make post url based on username and post title
         self.post_slug = slugify(self.user.username + "/" + self.title)
+        if self.date == DEFAULT_DATE.date():
+            self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
 
     class Meta:

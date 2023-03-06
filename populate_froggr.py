@@ -1,6 +1,6 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'froggr_website.settings')
-
+import datetime
 import django
 django.setup()
 from django.core.files import File
@@ -16,16 +16,20 @@ def populate():
 
     blogs = [gen_blog(users[0], "My fav frog",
                       "My favorite is the brazillia greenback.",
-                      "example-posts/Frog.webp"),
+                      "example-posts/Frog.webp",
+                      datetime.datetime(2020, 5, 6)),
              gen_blog(users[2], "Best Burger",
                       "Had a good burger at the burger shack.",
-                      "example-posts/Burger.webp"),
+                      "example-posts/Burger.webp",
+                      datetime.datetime(2021, 1, 5)),
              gen_blog(users[2], "Next Best Burger",
-                      "Burger at the burger palace was almost as good!"),
+                      "Burger at the burger palace was almost as good!",
+                      None,
+                      datetime.datetime(2021, 2, 6)),
              gen_blog(users[3], "Chicken Tutorial",
                       "This chapter is designed to get you"
                       + "started with CHICKEN programming",
-                      "example-posts/ChickenScheme.png"),]
+                      "example-posts/ChickenScheme.png", None),]
     
     gen_comment(users[0], blogs[1], "a Burger!")
     gen_comment(users[3], blogs[3], "This is my post.")
@@ -63,11 +67,13 @@ def gen_friends(users):
                   " -> "                 + u2.username)
 
            
-def gen_blog(user, title, text, image=None):
+def gen_blog(user, title, text, image=None, date=None):
     p = BlogPost.objects.get_or_create(user=user, title=title, text=text)[0]
     if image != None:
         p.image.save(os.path.basename(image),
                      File(open(image, 'rb')))
+    if date != None:
+        p.date = date.date()
     p.save()
     print(f"> Added Post by {user.username} -- title: \"{title}\"")
     return p
