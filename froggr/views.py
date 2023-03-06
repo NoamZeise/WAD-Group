@@ -29,7 +29,9 @@ def test2(request):
     return render(request, 'test_template_2.html')
 
 def home(request):
-    return render(request, 'home.html')
+    posts = BlogPost.objects.all()
+    context_dict = {"posts": posts}
+    return render(request, 'home.html', context=context_dict)
 
 def dog(request):
     return HttpResponse("This is the dog page")

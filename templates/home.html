@@ -7,6 +7,22 @@ Home
 
 
 {% block body_block %}
-<h1>This is an example page</h1>
-<p>This example has a paragraph</p>
+	{% for post in posts %}
+		<h1>{{ post.title }}</h1>
+		<img src= "{{ MEDIA_URL }}{{ post.image }}">
+		<h2>{{ post.user.username }}</h2>
+		<h3>{{ post.text }}</h3>
+	{% endfor %}
+	{% for post in posts %}
+		<h1>{{ post.title }}</h1>
+		<img src= "{{ MEDIA_URL }}{{ post.image }}">
+		<h2>{{ post.user.username }}</h2>
+		<h3>{{ post.text }}</h3>
+	{% endfor %}
+	{% for post in posts %}
+		<h1>{{ post.title }}</h1>
+		<img src= "{{ MEDIA_URL }}{{ post.image }}">
+		<h2>{{ post.user.username }}</h2>
+		<h3>{{ post.text }}</h3>
+	{% endfor %}
 {% endblock %}
