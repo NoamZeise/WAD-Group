@@ -13,6 +13,7 @@ from datetime import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from froggr.models import BlogPost, User
+from froggr import forms
 
 # Create your views here.
 
@@ -56,6 +57,19 @@ def search_results(request):
 
 def top_frogs(request):
     return render(request, 'top_frogs.html')
+
+def create_frogg(request):
+    form = forms.BlogPostForm()
+    if request.method == 'POST':
+        form = forms.BlogPostForm(request.POST)
+
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('')
+        else:
+            print(form.errors)
+    
+    return render(request, 'create_frogg.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
