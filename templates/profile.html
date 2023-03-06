@@ -8,6 +8,9 @@ My profile
 
 {% block body_block %}
 <h1>{{ username }}</h1>
+{% if is_logged_in_profile %}
+<a href="{% url 'froggr:create-profile' %}"> Edit Profile </a>
+{% endif %}
 <img src={{ MEDIA_URL }}{{ profile_img }}/>
 <p>{{ profile_text }}</p>
 {% endblock %}

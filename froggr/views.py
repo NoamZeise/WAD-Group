@@ -43,21 +43,62 @@ def register(request):
 def my_frogs(request):
     return render(request, 'my_frogs.html')
 
-@login_required
-def my_profile(request):
-    user = request.user
+def get_user_profile_or_none(user):
     profile = None
     try:
-        profile = UserProfile.objects.get(user=user)
+       profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = None
-    if profile == None:
-        return redirect('/')
+    return profile
+
+@login_required
+def profile(request):
+    user = None
+    is_logged_in = False
+    if request.path == reverse('froggr:profile'):
+       user = request.user
+       is_logged_in = True
+    else:
+        # TODO get other user's page details
+        pass
+
+    if user == None:
+       redirect('froggr:index')
+       
+    profile = get_user_profile_or_none(user)
+    context_dict = {}
     context_dict["username"] = user.username
-    context_dict["profile_img"] = profile.image
-    context_dict["profile_text"] = profile.text
+    context_dict["is_logged_in_profile"] = is_logged_in
+    if profile != None:
+        context_dict["profile_img"] = profile.image
+        context_dict["profile_text"] = profile.text
     
-    return render(request, 'my_profile.html')
+    return render(request, 'profile.html', context_dict)
+
+# returns the results of form.save() with image and user filled in
+def handle_text_image_form(form, request):
+    if form.is_valid():
+        form.instance.user = request.user
+        if 'image' in request.FILES:
+            form.instance.image = request.FILES['image']
+    else:
+        print(form.errors)
+                
+@login_required
+def create_profile(request):
+    form = None
+    profile = get_user_profile_or_none(request.user)
+    if profile != None:
+        form = forms.UserProfileForm(initial={'text':profile.text,'image':profile.image}, instance=profile)
+    else:
+        form = forms.UserProfileForm()
+    if request.method == 'POST':
+        form = forms.UserProfileForm(request.POST, instance=profile)
+        handle_text_image_form(form, request)
+        form.save()
+        return redirect('froggr:profile')
+        
+    return render(request, "create_profile.html", {'profile_form': form})
 
 def search_results(request):
     return render(request, 'search_results.html')
@@ -70,18 +111,11 @@ def create_frogg(request):
     form = forms.BlogPostForm()
     if request.method == 'POST':
         form = forms.BlogPostForm(request.POST)
-        if form.is_valid():
-            for i in request.FILES:
-                print(request.FILES[i])
-            post = form.save(commit=False)
-            post.user = request.user
-            if 'image' in request.FILES:
-                post.image = request.FILES['image']
-            post.date = datetime.now().date()
-            post.save()
+        handle_text_image_form(form, request)
+        if form != None:
+            form.instance.date = datetime.now().date()
+            form.save()
             return redirect('/')
-        else:
-            print(form.errors)
     
     return render(request, 'create_frogg.html', {'blog_form': form})
 
