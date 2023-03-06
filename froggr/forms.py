@@ -6,11 +6,9 @@ from django import forms
 
 
 class UserForm(UserCreationForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 class UserProfileForm(forms.ModelForm):
