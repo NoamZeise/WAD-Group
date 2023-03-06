@@ -62,14 +62,20 @@ def create_frogg(request):
     form = forms.BlogPostForm()
     if request.method == 'POST':
         form = forms.BlogPostForm(request.POST)
-
         if form.is_valid():
-            form.save(commit=True)
-            return redirect('')
+            for i in request.FILES:
+                print(request.FILES[i])
+            post = form.save(commit=False)
+            post.user = request.user
+            if 'image' in request.FILES:
+                post.image = request.FILES['image']
+            post.date = datetime.now().date()
+            post.save()
+            return redirect('/')
         else:
             print(form.errors)
     
-    return render(request, 'create_frogg.html', {'form': form})
+    return render(request, 'create_frogg.html', {'blog_form': form})
 
 def user_login(request):
     if request.method == 'POST':

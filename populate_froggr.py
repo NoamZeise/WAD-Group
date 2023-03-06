@@ -28,7 +28,7 @@ def populate():
                       datetime.datetime(2021, 2, 6)),
              gen_blog(users[3], "Chicken Tutorial",
                       "This chapter is designed to get you"
-                      + "started with CHICKEN programming",
+                      + " started with CHICKEN programming",
                       "example-posts/ChickenScheme.png", None),]
     
     gen_comment(users[0], blogs[1], "a Burger!")
