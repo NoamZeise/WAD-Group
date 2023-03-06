@@ -15,11 +15,12 @@ Signup
 <div class="container h-100">
   <div class="d-flex justify-content-center h-100">
     <div class="user_card">
+
       <div class="d-flex justify-content-center">
 	<h3 id="form-title">SIGN UP TO FROGGR</h3>
       </div>
-      <div>
-	
+
+      <div>	
 	<form method="POST" action="">
           {% csrf_token %}
 	  <div>
@@ -40,12 +41,15 @@ Signup
 	  </div>
 	</form>
       </div>
+      
       <div class="mt-4">
 	<div>
 	  Already have an account? <a href="{% url 'froggr:frog-in' %}" class="ml-2">Login</a>
 	</div>
       </div>
-    </div>
+
+      
+    </div> <!-- user card end-->
   </div>
 </div>
 

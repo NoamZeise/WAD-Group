@@ -16,9 +16,6 @@ from froggr.models import BlogPost, User
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("This is the froggr blogging site!")
-
 def posts(request):
     return HttpResponse("Posts!")
 
@@ -32,10 +29,6 @@ def home(request):
     posts = BlogPost.objects.all()
     context_dict = {"posts": posts}
     return render(request, 'home.html', context=context_dict)
-
-def dog(request):
-    return HttpResponse("This is the dog page")
-
 
 def frogin(request):
     return render(request, 'frog_in.html')

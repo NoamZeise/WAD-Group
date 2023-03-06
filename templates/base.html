@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 {% load static %}
-<link rel="stylesheet" href="{% static 'bar.css' %}">
 <html>
   <head lang='en'>
     <meta charset="UTF-8" />
     <title>Froggr Base -
       {% block title_block %}
       Default Title
-      {% endblock %}</title>
+      {% endblock %}
+    </title>
+    <link rel="stylesheet"
+	  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	  crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'bar.css' %}">
     {% block head_block %}
     {% endblock %}
   </head>
   <body>
     <div class="topnav">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="{% url 'froggr:index' %}">
         <div class="logo-image">
           <img src="{% static 'frog3.jpg' %}" alt="pic of frog" />
         </div>
       </a>
-      <a class="active" href="#my-profile">Profile</a>
-      <a href="#my-profile">Create a frogg</a>
-      <a href="#frog-in">Frog out</a>
+      <a class="active" href="{% url 'froggr:my-profile' %}">Profile</a>
+      <a href="{% url 'froggr:my-profile' %}">Create a frogg</a>
+      <a href="{% url 'froggr:top-frogs' %}">Top Frogs</a>
+      <a href="{% url 'froggr:search-results' %}">Search Bar</a>
+      <a href="{% url 'froggr:frog-in' %}">Frog out</a>
     </div>
     <br></br><br></br>
-      {% block body_block %}
-      This is body_block's default content
-      {% endblock %}
+
+    
+    {% block body_block %}
+    This is body_block's default content
+    {% endblock %}
+
+    
   </body>
 </html>
