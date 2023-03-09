@@ -7,10 +7,30 @@ Home
 
 
 {% block body_block %}
-	{% for post in posts %}
-		<h1>{{ post.title }}</h1>
-		<img src= "{{ MEDIA_URL }}{{ post.image }}">
-		<h2>by {{ post.user.username }}</h2>
-		<p>{{ post.text }}</p>
-	{% endfor %}
+	<div class="d-flex">
+		<div class="row mx-auto w-75">
+		{% for post in posts %}
+			<div class="col-sm-4 form-group d-flex justify-content-center">
+			 	<div class="card">
+			 		{% if post.image %}
+	    				<img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ post.image }}" alt="Card image cap">
+	    			{% else %}
+	    				<img class="card-img-top img-responsive" src="{% static 'placeholder.png' %}" alt="Card image cap">
+	    			{% endif %}
+			    	<div class="card-body">
+			      		<h5 class="card-title">{{ post.title }}</h5>
+			      		<p class="card-text">
+			        		{{ post.text }}
+			      		</p>
+			      		<p class="card-text">
+			        		<small class="text-muted">By {{ post.user.username }}</small>
+			      		</p>
+			      	</div>
+			    </div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
 {% endblock %}
+
+

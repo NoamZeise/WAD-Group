@@ -29,7 +29,8 @@ def populate():
              gen_blog(users[3], "Chicken Tutorial",
                       "This chapter is designed to get you"
                       + " started with CHICKEN programming",
-                      "example-posts/ChickenScheme.png", None),]
+                      "example-posts/ChickenScheme.png", None),
+             ]
     
     gen_comment(users[0], blogs[1], "a Burger!")
     gen_comment(users[3], blogs[3], "This is my post.")
