@@ -44,3 +44,7 @@
 .form-group {
     margin-bottom: 2rem;
 }
+
+.form-control {
+  width: 200px;
+}

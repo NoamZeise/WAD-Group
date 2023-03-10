@@ -10,6 +10,7 @@ from froggr.forms import UserForm, UserProfileForm
 from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
 from datetime import datetime
+from django.db.models import Q
 
 # Create your views here.
 
@@ -107,7 +108,13 @@ def create_profile(request):
     return render(request, "create_profile.html", {'profile_form': form})
 
 def search_results(request):
-    return render(request, 'search_results.html')
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = BlogPost.objects.filter(Q(text__contains=searched) | Q(title__contains=searched))
+        return render(request, 'search_results.html', {'searched':searched, 'posts': posts})
+    else:
+        return render(request, 'search_results.html')
+
 
 def top_frogs(request):
     return render(request, 'top_frogs.html')

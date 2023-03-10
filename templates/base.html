@@ -35,6 +35,11 @@
       {% else %}
       <a href="{% url 'froggr:frog-in' %}">Frog in</a>
       {% endif %}
+      <form class="d-flex justify-content-end" method=POST action="{% url 'froggr:search-results' %}">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search posts" name="searched">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
     </div>
     <br></br><br></br>
 
