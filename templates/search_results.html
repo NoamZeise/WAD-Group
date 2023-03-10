@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title_block %}
-Search Results
+    Search
 {% endblock %}
 
+{% block body_block%}
+    {% if searched %}
+        <h1> You Searched for {{ searched }} </h1>
+        <br/>
+    {% for posts in posts %}
+        {{ posts }}<br/>
+    {% empty %}
+        <h1> Your search did not match anything... </h1>
+    {% endfor %}
+    {% else %}
+         <h1> You did not search for anything... </h1>
 
-{% block body_block %}
-<h1>Search Results</h1>
-<p>Nothing was found</p>
+
+    {% endif %}
+
+
+
 {% endblock %}
+
