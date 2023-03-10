@@ -23,7 +23,7 @@ class UserProfile(models.Model):
     # link to profile should be unique
     profile_slug = models.SlugField(unique=True)
 
-    text = models.TextField(default="My Profile.")
+    text = models.TextField(blank=True)
     image = models.ImageField(upload_to=user_dir_path, blank=True)
 
     def save(self, *args, **kwargs):

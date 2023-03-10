@@ -155,4 +155,11 @@ def posts(request, post_slug):
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
     context_dict['blog_author'] = post.user.username
+    try:
+        context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
+    except UserProfile.DoesNotExist:
+        # make a blank profile page if the user doesn't have one yet
+        profile = UserProfile.objects.get_or_create(user=post.user)[0]
+        profile.save()
+        context_dict['author_url'] = profile.profile_slug
     return render(request, 'frogg.html', context_dict)

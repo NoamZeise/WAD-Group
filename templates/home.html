@@ -9,8 +9,10 @@ Home
 {% block body_block %}
 	<div class="d-flex">
 		<div class="row mx-auto w-75">
-		{% for post in posts %}
-			<div class="col-sm-4 form-group d-flex justify-content-center">
+		  {% for post in posts %}
+		  <div class="col-sm-4 form-group d-flex justify-content-center">
+		    <!-- post link -->
+		    <a class="dull_link" href="{% url 'froggr:posts' post.post_slug %}">
 			 	<div class="card">
 			 		{% if post.image %}
 	    				<img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ post.image }}" alt="Card image cap">
@@ -26,7 +28,9 @@ Home
 			        		<small class="text-muted">By {{ post.user.username }}</small>
 			      		</p>
 			      	</div>
-			    </div>
+			     </div>
+				
+		           </a> <!-- END POST LINK -->
 			</div>
 		{% endfor %}
 		</div>
