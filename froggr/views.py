@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.urls import reverse
+from django.db import IntegrityError
 from froggr.forms import UserForm, UserProfileForm
 from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
@@ -93,7 +93,9 @@ def create_profile(request):
     form = None
     profile = get_user_profile_or_none(request.user)
     if profile != None:
-        form = forms.UserProfileForm(initial={'text':profile.text,'image':profile.image}, instance=profile)
+        form = forms.UserProfileForm(
+            initial={'text':profile.text,'image':profile.image},
+            instance=profile)
     else:
         form = forms.UserProfileForm()
     if request.method == 'POST':
@@ -111,17 +113,41 @@ def top_frogs(request):
     return render(request, 'top_frogs.html')
 
 @login_required
-def create_frogg(request):
-    form = forms.BlogPostForm()
+def create_frogg(request, post_slug=None):
+    form = None
+    post = None
+
+    try:
+        post = BlogPost.objects.get(post_slug=post_slug)
+    except BlogPost.DoesNotExist:
+        post = None
+        
+    if post != None:
+        form = forms.BlogPostForm(
+            initial={'title':post.title, 'image':post.image, 'text':post.text},
+            instance=post)
+    else:
+        form = forms.BlogPostForm()
+    error_message = None
     if request.method == 'POST':
-        form = forms.BlogPostForm(request.POST)
+        form = forms.BlogPostForm(request.POST, instance=post)
         handle_text_image_form(form, request)
         if form != None:
             form.instance.date = datetime.now().date()
-            form.save()
-            return redirect('/')
+            try:
+                form.save()
+                return redirect('froggr:posts', form.instance.post_slug)
+            except IntegrityError:
+                # this post already exists, save the inputted info and return form again
+                form = forms.BlogPostForm(
+                    initial={
+                        'title':form.instance.title,
+                        'image':form.instance.image,
+                        'text':form.instance.text})
+                error_message = "You already have a post with this title!"
     
-    return render(request, 'create_frogg.html', {'blog_form': form})
+    return render(request, 'create_frogg.html',
+                  {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
 def frogin(request):
     if request.method == 'POST':
@@ -149,7 +175,6 @@ def posts(request, post_slug):
         post = BlogPost.objects.get(post_slug=post_slug)
     except BlogPost.DoesNotExist:
         return render(request, '404.html')
-    print(post.title)
     context_dict = {}
     context_dict['blog_title'] = post.title
     context_dict['blog_img'] = post.image
@@ -162,4 +187,7 @@ def posts(request, post_slug):
         profile = UserProfile.objects.get_or_create(user=post.user)[0]
         profile.save()
         context_dict['author_url'] = profile.profile_slug
+    if post.user == request.user:
+        context_dict['user_owns_post'] = True
+    context_dict['post_url'] = post_slug
     return render(request, 'frogg.html', context_dict)

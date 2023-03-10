@@ -7,9 +7,11 @@ Create Frogg
 
 {% block body_block %}
 <h1> Create a Frogg! </h1>
-
+{% if error_message %}
+<h4> Error: {{ error_message }} </h4>
+{% endif %}
 <div>
-  <form id="blog_post_form" method="post" action="{% url 'froggr:create-frogg' %}"
+  <form id="blog_post_form" method="post" action="{% url 'froggr:create-frogg' post_slug %}"
 	enctype="multipart/form-data">
     {% csrf_token %}
 
