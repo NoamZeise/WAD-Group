@@ -51,20 +51,24 @@ def get_user_profile_or_none(user):
         profile = None
     return profile
 
-@login_required
-def profile(request):
+def profile(request, profile_slug = None):
+    print(profile_slug)
     user = None
     is_logged_in = False
     if request.path == reverse('froggr:profile'):
        user = request.user
-       is_logged_in = True
     else:
-        # TODO get other user's page details
-        pass
-
+        try:
+            user = UserProfile.objects.get(profile_slug=profile_slug)
+            user = user.user
+        except UserProfile.DoesNotExist:
+            user = None
     if user == None:
-       redirect('froggr:index')
-       
+        return render(request, '404.html')
+
+    if user == request.user:
+        is_logged_in = True
+
     profile = get_user_profile_or_none(user)
     context_dict = {}
     context_dict["username"] = user.username

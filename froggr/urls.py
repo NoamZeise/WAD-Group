@@ -15,6 +15,7 @@ urlpatterns = [
     path('register/', views.register, name="register"),
     path('my-frogs/', views.my_frogs, name="my-frogs"),
     path('profile/', views.profile, name="profile"),
+    path('profile/<slug:profile_slug>/', views.profile, name="profile"),
     path('create-profile/', views.create_profile, name="create-profile"),
     path('search-results/', views.search_results, name="search-results"),
     path('top-frogs/', views.top_frogs, name="top-frogs"),
