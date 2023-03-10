@@ -47,7 +47,7 @@ def my_frogs(request):
 def get_user_profile_or_none(user):
     profile = None
     try:
-       profile = UserProfile.objects.get(user=user)
+        profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = None
     return profile
@@ -57,7 +57,7 @@ def profile(request, profile_slug = None):
     user = None
     is_logged_in = False
     if request.path == reverse('froggr:profile'):
-       user = request.user
+        user = request.user
     else:
         try:
             user = UserProfile.objects.get(profile_slug=profile_slug)

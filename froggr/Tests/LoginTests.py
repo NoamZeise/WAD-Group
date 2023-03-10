@@ -1,49 +1,38 @@
 from django.test import TestCase
 from django.urls import reverse
-# import froggr.forms
-# import froggr.models
-# import froggr.views
+from django.contrib import messages
 
-REGISTERED_USER = {'username': 'Jsmith', 'password': 'y36xb9j',}
-UNREGISTERED_USER = {'username': 'Kate', 'password': '7g3ma7sge',}
-FULL_REGISTERED_USER = {'firstname': 'John',
-                        'surname': 'Smith',
-                        'username': 'Jsmith',
-                        'password': 'y36xb9j',
-                        'confirm_password': 'y36xb9j'}
+
+CORRECT_LOGIN = {'username': 'Jsmith', 'password': 'y36xb9jggg',}
+WRONG_PASS = {'username': 'Jsmith', 'password': 'BadPassword',}
+WRONG_USERNAME = {'username': 'Johnsmith',
+                  'password': 'y36xb9jggg' }
+FULL_REGISTERED_USER = {'username': 'Jsmith',
+                        'email': 'jsmith@mail.com',
+                        'password1': 'y36xb9jggg',
+                        'password2': 'y36xb9jggg'}
 
 
 class LoginTests(TestCase):
 
-
-    def test_login_form_exists(self):
+    def create_user():
         import froggr.forms
-        self.assertTrue('LoginForm' in dir(froggr.forms), "The LoginForm class could not be found in forms.py")
-
-    def test_with_invalid_username(self):
-        response = self.client.post(reverse(login), UNREGISTERED_USER)
-        self.assertEqual(response.status_code, 200)
-
-        self.assertEquals(response.context["error"], "Username not recognised. Please try again.")
-        self.assertContains(response, "Username not recognised. Please try again.")
+        froggr.forms.UserForm(FULL_REGISTERED_USER).save()
 
     def test_with_invalid_password(self):
-        create_user()
-        REGISTERED_USER["password"] = "InvalidPassword"
-        response = self.client.post(reverse(login), REGISTERED_USER)
+        LoginTests.create_user()
+        response = self.client.post(reverse('froggr:frog-in'), WRONG_PASS)
+        content = response.content.decode('utf-8')
+        self.assertTrue('<p id="messages">Username OR Password is incorrect</p>' in content)
+        
+    def test_with_invalid_username(self):
+        LoginTests.create_user()
+        response = self.client.post(reverse('froggr:frog-in'), WRONG_USERNAME)
         self.assertEqual(response.status_code, 200)
-
-        error = response.context["error"]
-        self.assertEquals(error, "Password is incorrect. Please try again.")
-        self.assertContains(response, "Password is incorrect. Please try again.")
+        content = response.content.decode('utf-8')
+        self.assertTrue('<p id="messages">Username OR Password is incorrect</p>' in content)
 
     def test_with_correct_data(self):
-        create_user()
-        response = self.client.post(reverse(login), REGISTERED_USER)
-        self.assertRedirects(response, reverse(home))
-
-def create_user():
-    register_form = RegisterForm(FULL_REGISTERED_USER)
-    user = register_form.save(commit=False)
-    user.set_password("y36xb9j")
-    user.save()
+        LoginTests.create_user()
+        response = self.client.post(reverse('froggr:frog-in'), CORRECT_LOGIN)
+        self.assertRedirects(response, reverse('froggr:home'))
