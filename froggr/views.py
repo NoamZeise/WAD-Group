@@ -142,3 +142,17 @@ def frogin(request):
 def frogout(request):
     logout(request)
     return redirect(reverse('froggr:home'))
+
+
+def posts(request, post_slug):
+    try:
+        post = BlogPost.objects.get(post_slug=post_slug)
+    except BlogPost.DoesNotExist:
+        return render(request, '404.html')
+    print(post.title)
+    context_dict = {}
+    context_dict['blog_title'] = post.title
+    context_dict['blog_img'] = post.image
+    context_dict['blog_text'] = post.text
+    context_dict['blog_author'] = post.user.username
+    return render(request, 'frogg.html', context_dict)

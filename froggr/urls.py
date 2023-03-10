@@ -20,4 +20,5 @@ urlpatterns = [
     path('search-results/', views.search_results, name="search-results"),
     path('top-frogs/', views.top_frogs, name="top-frogs"),
     path('create-frogg/', views.create_frogg, name="create-frogg"),
+    path('posts/<slug:post_slug>/', views.posts),
 ]
