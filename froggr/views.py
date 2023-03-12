@@ -72,7 +72,7 @@ def profile(request, profile_slug = None):
     if profile != None:
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
-    
+        context_dict["profile_slug"] = profile.profile_slug
     return render(request, 'profile.html', context_dict)
 
 # returns the results of form.save() with image and user filled in
