@@ -72,6 +72,7 @@ class BlogPost(models.Model):
     post_slug = models.SlugField(unique=True)
     text = models.TextField(default="My Frogg")
     image = models.ImageField(upload_to=post_dir_path, blank=True)
+    score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title
@@ -126,5 +127,15 @@ class Reaction(models.Model):
                 name="only 1 reaction per user, per post")
         ]
 
+    def save(self, *args, **kwargs):
+        self.post.score += self.reaction
+        self.post.save()
+        super(Reaction, self).save(*args, **kwargs)
+
+    def delete(self):
+        self.post.score -= self.reaction
+        self.post.save()
+        super(Reaction, self).delete()
+        
     def __str__(self):
         return self.user.username + "->" + self.post.title + " : " + str(self.reaction)

@@ -211,4 +211,6 @@ def search_results(request):
 
 
 def top_frogs(request):
-    return render(request, 'top_frogs.html')
+    posts = BlogPost.objects.order_by("-score");
+    return render(request, 'home.html', {'posts': posts,
+        'post_view_title': 'Top Posts'})
