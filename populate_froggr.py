@@ -38,7 +38,6 @@ def populate():
     gen_reaction(users[0], blogs[1], 1)
     gen_reaction(users[0], blogs[3], -1)
     gen_reaction(users[3], blogs[2], -1)
-
     gen_reaction(users[1], blogs[1], 1)
     
  
@@ -49,8 +48,8 @@ def gen_user(name):
     u.save()
 
     profile = UserProfile.objects.get_or_create(
-        user=u,
-        text=f"I'm {name} and this is my profile!")[0]
+        user=u)[0]
+    profile.text = f"I'm {name} and this is my profile!"
     profile.save()
   
     print("> Added User: " + u.username)

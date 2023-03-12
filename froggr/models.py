@@ -2,6 +2,8 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 import datetime
 # Create your models here.
 
@@ -33,6 +35,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User)
+def watchlist_create(sender, instance=None, created=False, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 class Connection(models.Model):

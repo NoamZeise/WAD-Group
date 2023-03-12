@@ -69,6 +69,7 @@ def profile(request, profile_slug = None):
     context_dict = {}
     context_dict["username"] = user.username
     context_dict["is_logged_in_profile"] = is_logged_in
+    context_dict["profile_slug"] = "";
     if profile != None:
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
@@ -170,13 +171,7 @@ def posts(request, post_slug):
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
     context_dict['blog_author'] = post.user.username
-    try:
-        context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
-    except UserProfile.DoesNotExist:
-        # make a blank profile page if the user doesn't have one yet
-        profile = UserProfile.objects.get_or_create(user=post.user)[0]
-        profile.save()
-        context_dict['author_url'] = profile.profile_slug
+    context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
         context_dict['user_owns_post'] = True
     context_dict['post_url'] = post_slug
@@ -213,4 +208,4 @@ def search_results(request):
 def top_frogs(request):
     posts = BlogPost.objects.order_by("-score");
     return render(request, 'home.html', {'posts': posts,
-        'post_view_title': 'Top Posts'})
+                                        'post_view_title': 'Top Posts'})
