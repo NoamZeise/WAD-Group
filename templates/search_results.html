@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block body_block%}
+<div style="text-align: center;">
+    <div style="display: inline-block;">
     {% if searched %}
         <h1> You Searched for {{ searched }} </h1>
         <br/>
     {% for posts in posts %}
-        {{ posts }}<br/>
+        <a href="{% url 'froggr:posts' posts.post_slug %}">{{ posts.title }}</a><br/>
     {% empty %}
         <h1> Your search did not match anything... </h1>
     {% endfor %}
@@ -18,7 +20,8 @@
 
 
     {% endif %}
-
+        </div>
+    </div>
 
 
 {% endblock %}

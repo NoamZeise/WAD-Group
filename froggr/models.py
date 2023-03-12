@@ -70,7 +70,6 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     date = models.DateField(default=DEFAULT_DATE)
     post_slug = models.SlugField(unique=True)
-
     text = models.TextField(default="My Frogg")
     image = models.ImageField(upload_to=post_dir_path, blank=True)
 
