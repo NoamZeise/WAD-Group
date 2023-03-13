@@ -1,0 +1,26 @@
+{% load static %}
+<div class="post col-sm-4 form-group d-flex justify-content-center">
+  <!-- post link -->
+  <a class="dull_link" href="{% url 'froggr:posts' post.post_slug %}">
+    <div class="card">
+      {% if post.image %}
+      <img class="card-img-top img-responsive"
+	   src="{{ MEDIA_URL }}{{ post.image }}"
+	   alt="Post Image">
+      {% else %}
+      <img class="card-img-top img-responsive"
+	   src="{% static 'placeholder.png' %}"
+	   alt="Card image cap">
+      {% endif %}
+      <div class="card-body">
+	<h5 class="card-title">{{ post.title }}</h5>
+	<p class="card-text">
+	  {{ post.text }}
+	</p>
+	<p class="card-text">
+	  <small class="text-muted">By {{ post.user.username }}</small>
+	</p>
+      </div>
+    </div>
+  </a> <!-- END POST LINK -->
+</div>
