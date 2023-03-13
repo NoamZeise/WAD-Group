@@ -19,18 +19,19 @@
     {% endblock %}
   </head>
   <body>
-    <div class="topnav">
-      <a class="navbar-brand" href="{% url 'froggr:index' %}">
-        <div class="logo-image">
-          <img src="{% static 'frog3.jpg' %}" alt="pic of frog" />
-        </div>
-      </a>
+      <div class="topnav">
+        <a class="navbar-brand" href="{% url 'froggr:index' %}">
+          <div class="logo-image">
+            <img src="{% static 'frog3.jpg' %}" alt="pic of frog" />
+          </div>
+        </a>
       {% if user.is_authenticated %}
-      <a class="active" href="{% url 'froggr:profile' %}">Profile</a>
+      <a href="{% url 'froggr:home' %}">Home</a>
+      <a href="{% url 'froggr:profile' %}">Profile</a>
       <a href="{% url 'froggr:create-frogg' %}">Create a frogg</a>
       {% endif %}
       <a href="{% url 'froggr:top-frogs' %}">Top Frogs</a>
-      <a href="{% url 'froggr:search-results' %}">Search Bar</a>
+      <a href="{% url 'froggr:search-results' %}">Friends</a>
       {% if user.is_authenticated %}
       <a href="{% url 'froggr:frog-out' %}">Frog out</a>
       {% else %}
