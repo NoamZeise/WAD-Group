@@ -51,7 +51,6 @@ def get_user_profile_or_none(user):
     return profile
 
 def profile(request, profile_slug = None):
-    print(profile_slug)
     user = None
     is_logged_in = False
     if request.path == reverse('froggr:profile'):
@@ -183,14 +182,13 @@ def posts(request, post_slug):
 # ---- views that return lists of posts    
 
 INITIAL_LOAD = 21
-PAGES_PER_LOAD = 3
+PAGES_PER_LOAD = 6
 
 def render_posts_for_ajax(query, count):
     load_size = PAGES_PER_LOAD
     if count == 0:
         load_size = INITIAL_LOAD
     posts = query.all()[count:(count + load_size)];
-    print(posts)
     post_data = ""
     for p in posts:
         post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
@@ -202,7 +200,6 @@ def posts_page(request, query, base_page, base_context):
     try:
         count = int(request.GET['post_count'])
     except KeyError:
-        print("first")
         first_load = True
 
     if first_load:
