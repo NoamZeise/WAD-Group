@@ -7,6 +7,11 @@ Home
 
 
 {% block body_block %}
+
+{% block top_block %}
+<h1 class="d-flex justify-content-center">{{ post_view_title }} </h1>
+<br>
+{% endblock %}
 	<div class="d-flex">
 		<div class="row mx-auto w-75">
 		  {% for post in posts %}

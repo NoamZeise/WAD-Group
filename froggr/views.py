@@ -23,11 +23,6 @@ def test(request):
 def test2(request):
     return render(request, 'test_template_2.html')
 
-def home(request):
-    posts = BlogPost.objects.all()
-    context_dict = {"posts": posts}
-    return render(request, 'home.html', context=context_dict)
-
 def register(request):
     form = UserForm()
     if request.method == 'POST':
@@ -77,7 +72,7 @@ def profile(request, profile_slug = None):
     if profile != None:
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
-    
+        context_dict["profile_slug"] = profile.profile_slug
     return render(request, 'profile.html', context_dict)
 
 # returns the results of form.save() with image and user filled in
@@ -106,18 +101,6 @@ def create_profile(request):
         return redirect('froggr:profile')
         
     return render(request, "create_profile.html", {'profile_form': form})
-
-def search_results(request):
-    if request.method == "POST":
-        searched = request.POST['searched']
-        posts = BlogPost.objects.filter(Q(text__contains=searched) | Q(title__contains=searched))
-        return render(request, 'search_results.html', {'searched':searched, 'posts': posts})
-    else:
-        return render(request, 'search_results.html')
-
-
-def top_frogs(request):
-    return render(request, 'top_frogs.html')
 
 @login_required
 def create_frogg(request, post_slug=None):
@@ -198,3 +181,34 @@ def posts(request, post_slug):
         context_dict['user_owns_post'] = True
     context_dict['post_url'] = post_slug
     return render(request, 'frogg.html', context_dict)
+
+# ---- views that return lists of posts
+
+def home(request):
+    posts = BlogPost.objects.all()
+    context_dict = {"posts": posts}
+    return render(request, 'home.html', context=context_dict)
+
+def list_user_posts(request, profile_slug):
+    user = None
+    try:
+        user = UserProfile.objects.get(profile_slug=profile_slug).user
+    except UserProfile.DoesNotExist:
+        return render(request, "404.html")
+
+    posts = BlogPost.objects.filter(user=user);
+
+    return render(request, 'home.html', {'posts' : posts,
+                                         'post_view_title': "Posts by " + user.username })
+
+def search_results(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        posts = BlogPost.objects.filter(Q(text__contains=searched) | Q(title__contains=searched))
+        return render(request, 'search_results.html', {'searched':searched, 'posts': posts})
+    else:
+        return render(request, 'search_results.html')
+
+
+def top_frogs(request):
+    return render(request, 'top_frogs.html')
