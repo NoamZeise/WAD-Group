@@ -182,10 +182,14 @@ def posts(request, post_slug):
 
 # ---- views that return lists of posts    
 
-PAGES_PER_LOAD = 6
+INITIAL_LOAD = 21
+PAGES_PER_LOAD = 3
 
 def render_posts_for_ajax(query, count):
-    posts = query.all()[count:(count + PAGES_PER_LOAD)];
+    load_size = PAGES_PER_LOAD
+    if count == 0:
+        load_size = INITIAL_LOAD
+    posts = query.all()[count:(count + load_size)];
     print(posts)
     post_data = ""
     for p in posts:
