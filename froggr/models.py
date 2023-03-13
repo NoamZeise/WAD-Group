@@ -2,6 +2,8 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 import datetime
 # Create your models here.
 
@@ -33,6 +35,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User)
+def watchlist_create(sender, instance=None, created=False, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 class Connection(models.Model):
@@ -72,6 +80,7 @@ class BlogPost(models.Model):
     post_slug = models.SlugField(unique=True)
     text = models.TextField(default="My Frogg")
     image = models.ImageField(upload_to=post_dir_path, blank=True)
+    score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title
@@ -126,5 +135,15 @@ class Reaction(models.Model):
                 name="only 1 reaction per user, per post")
         ]
 
+    def save(self, *args, **kwargs):
+        self.post.score += self.reaction
+        self.post.save()
+        super(Reaction, self).save(*args, **kwargs)
+
+    def delete(self):
+        self.post.score -= self.reaction
+        self.post.save()
+        super(Reaction, self).delete()
+        
     def __str__(self):
         return self.user.username + "->" + self.post.title + " : " + str(self.reaction)

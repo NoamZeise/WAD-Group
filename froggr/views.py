@@ -6,6 +6,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from django.db import IntegrityError
+from django.template.loader import render_to_string
+from django.utils.text import slugify
+from froggr_website.settings import MEDIA_URL
 from froggr.forms import UserForm, UserProfileForm
 from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
@@ -69,6 +72,7 @@ def profile(request, profile_slug = None):
     context_dict = {}
     context_dict["username"] = user.username
     context_dict["is_logged_in_profile"] = is_logged_in
+    context_dict["profile_slug"] = "";
     if profile != None:
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
@@ -170,24 +174,45 @@ def posts(request, post_slug):
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
     context_dict['blog_author'] = post.user.username
-    try:
-        context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
-    except UserProfile.DoesNotExist:
-        # make a blank profile page if the user doesn't have one yet
-        profile = UserProfile.objects.get_or_create(user=post.user)[0]
-        profile.save()
-        context_dict['author_url'] = profile.profile_slug
+    context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
         context_dict['user_owns_post'] = True
     context_dict['post_url'] = post_slug
     return render(request, 'frogg.html', context_dict)
 
-# ---- views that return lists of posts
+# ---- views that return lists of posts    
+
+PAGES_PER_LOAD = 6
+
+def render_posts_for_ajax(query, count):
+    posts = query.all()[count:(count + PAGES_PER_LOAD)];
+    print(posts)
+    post_data = ""
+    for p in posts:
+        post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
+    return post_data
+
+def posts_page(request, query, base_page, base_context):
+    count = 0
+    first_load = False
+    try:
+        count = int(request.GET['post_count'])
+    except KeyError:
+        print("first")
+        first_load = True
+
+    if first_load:
+        return render(request, base_page, base_context)
+    else:
+        return HttpResponse(render_posts_for_ajax(query, count))
+
+def top_frogs(request):
+    return posts_page(request, BlogPost.objects.order_by("-score"),
+                      'home.html', {'post_view_title': 'Top Posts'})
 
 def home(request):
-    posts = BlogPost.objects.all()
-    context_dict = {"posts": posts}
-    return render(request, 'home.html', context=context_dict)
+    return posts_page(request, BlogPost.objects,
+                      'home.html', {})
 
 def list_user_posts(request, profile_slug):
     user = None
@@ -198,17 +223,21 @@ def list_user_posts(request, profile_slug):
 
     posts = BlogPost.objects.filter(user=user);
 
-    return render(request, 'home.html', {'posts' : posts,
-                                         'post_view_title': "Posts by " + user.username })
+    return posts_page(request, BlogPost.objects.filter(user=user),
+                      'home.html', {'post_view_title': "Posts by " + user.username })
 
-def search_results(request):
+def search_results(request, search_query=None):
     if request.method == "POST":
         searched = request.POST['searched']
-        posts = BlogPost.objects.filter(Q(text__contains=searched) | Q(title__contains=searched))
-        return render(request, 'search_results.html', {'searched':searched, 'posts': posts})
-    else:
-        return render(request, 'search_results.html')
+        return redirect(reverse('froggr:search-results') + slugify(searched))
+    if search_query == None:
+        return redirect(reverse('froggr:no-results'))
+    search_query = search_query.replace("-", " ")
+    return posts_page(request,
+                      BlogPost.objects.filter(
+                          Q(text__icontains=search_query) | Q(title__icontains=search_query) |
+                      Q(user__username__icontains=search_query)),
+                      'search_results.html', {'searched':search_query})
 
-
-def top_frogs(request):
-    return render(request, 'top_frogs.html')
+def no_results(request):
+    return render(request, "no_results.html")

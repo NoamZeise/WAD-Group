@@ -30,6 +30,9 @@ def populate():
                       "This chapter is designed to get you"
                       + " started with CHICKEN programming",
                       "example-posts/ChickenScheme.png", None),
+             gen_blog(users[3], "Common Lisp Tutorial",
+                      "Common Lisp is a general-purpose, multi-paradigm programming language suited for a wide variety of industry applications. It is frequently referred to as a programmable programming language.",
+                      "example-posts/common-lisp.png", None),
              ]
     
     gen_comment(users[0], blogs[1], "a Burger!")
@@ -38,8 +41,15 @@ def populate():
     gen_reaction(users[0], blogs[1], 1)
     gen_reaction(users[0], blogs[3], -1)
     gen_reaction(users[3], blogs[2], -1)
-
     gen_reaction(users[1], blogs[1], 1)
+
+    # make loads of blogs for testing
+    user = gen_user("TestUser")
+    for i in range(300):
+        gen_blog(user, "Test Post " + str(i),
+                 "TEST TEXT.",
+                 None,
+                 datetime.datetime(2000, 1, 1))
     
  
 def gen_user(name):
@@ -49,8 +59,8 @@ def gen_user(name):
     u.save()
 
     profile = UserProfile.objects.get_or_create(
-        user=u,
-        text=f"I'm {name} and this is my profile!")[0]
+        user=u)[0]
+    profile.text = f"I'm {name} and this is my profile!"
     profile.save()
   
     print("> Added User: " + u.username)
