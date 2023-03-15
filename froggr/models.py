@@ -81,6 +81,7 @@ class BlogPost(models.Model):
     text = models.TextField(default="My Frogg")
     image = models.ImageField(upload_to=post_dir_path, blank=True)
     score = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title

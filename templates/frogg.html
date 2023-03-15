@@ -4,6 +4,9 @@
 {% block title_block %}
 {{ blog_title }}
 {% endblock %}
+{% block head_block %}
+<script src="{% static 'frogg.js' %}"></script>
+{% endblock %}
 
 
 {% block body_block %}
@@ -16,4 +19,20 @@
 <img src={{ MEDIA_URL }}{{ blog_img }}/>
 {% endif %}
 <p>{{ blog_text }}</p>
+
+
+<div>
+    <strong id="like_count">{{ post.score }}</strong> likes
+    {% if user.is_authenticated %}
+    <button id="like_btn"
+            data-postid="{{ post.post_slug }}"
+            class="btn btn-primary btn-sm"
+            type="button">
+        <span data-feather="thumbs-up"></span>
+        Like Post
+    </button>
+    {% endif %}
+</div>
+
+
 {% endblock %}

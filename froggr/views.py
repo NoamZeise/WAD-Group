@@ -14,6 +14,8 @@ from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
 from datetime import datetime
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.generic.base import View
 
 # Create your views here.
 
@@ -242,3 +244,16 @@ def search_results(request, search_query=None):
 
 def no_results(request):
     return render(request, "no_results.html")
+class LikePostView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        post_id = request.GET['post_id']
+        try:
+            post = BlogPost.objects.get(id=int(post_id))
+        except BlogPost.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        post.likes = post.likes + 1
+        post.save()
+        return HttpResponse(post.likes)
