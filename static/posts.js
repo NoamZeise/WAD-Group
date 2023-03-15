@@ -14,7 +14,6 @@ function get_posts() {
 }
 
 $(document).ready(function() {
-    alert("hello"):
     get_posts();
     $(window).scroll(get_posts);
 });
