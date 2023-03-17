@@ -5,6 +5,10 @@ from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 import datetime
+
+# Peter
+from django.db.models import F
+
 # Create your models here.
 
 
@@ -90,6 +94,14 @@ class BlogPost(models.Model):
             self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
 
+    def sort_blogposts(queryset, field_name, order='asc'):
+        if order.lower() == 'asc':
+            return queryset.order_by(F(field_name).asc())
+        elif order.lower() == 'desc':
+            return queryset.order_by(F(field_name).desc())
+        else:
+            raise ValueError(f"Invalid order: {order}. Must be 'asc' or 'desc'.")
+
     class Meta:
         # pair (user, friend) is unique for this entity
         constraints = [
@@ -147,3 +159,4 @@ class Reaction(models.Model):
         
     def __str__(self):
         return self.user.username + "->" + self.post.title + " : " + str(self.reaction)
+

@@ -21,3 +21,4 @@ class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ('title', 'text', 'image')
+

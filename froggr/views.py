@@ -15,6 +15,10 @@ from froggr import forms
 from datetime import datetime
 from django.db.models import Q
 
+# Peter 
+from django.core.paginator import Paginator
+
+
 # Create your views here.
 
 def posts(request):
@@ -194,7 +198,9 @@ def render_posts_for_ajax(query, count):
         post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
     return post_data
 
-def posts_page(request, query, base_page, base_context):
+def posts_page(request, query, base_page, base_context, sort_field, sort_order):
+    sorted_queryset = BlogPost.sort_blogposts(query, sort_field, sort_order)
+
     count = 0
     first_load = False
     try:
@@ -205,7 +211,7 @@ def posts_page(request, query, base_page, base_context):
     if first_load:
         return render(request, base_page, base_context)
     else:
-        return HttpResponse(render_posts_for_ajax(query, count))
+        return HttpResponse(render_posts_for_ajax(sorted_queryset, count))
 
 def top_frogs(request):
     return posts_page(request, BlogPost.objects.order_by("-score"),
@@ -233,12 +239,49 @@ def search_results(request, search_query=None):
         return redirect(reverse('froggr:search-results') + slugify(searched))
     if search_query == None:
         return redirect(reverse('froggr:no-results'))
+    
     search_query = search_query.replace("-", " ")
+
+    sort_field = request.GET.get('sort_field', 'title')  # Default sort field is 'title'
+    sort_order = request.GET.get('sort_order', 'asc')    # Default sort order is 'asc'
+
     return posts_page(request,
                       BlogPost.objects.filter(
                           Q(text__icontains=search_query) | Q(title__icontains=search_query) |
                       Q(user__username__icontains=search_query)),
-                      'search_results.html', {'searched':search_query})
+                      'search_results.html', {'searched':search_query}, sort_field, sort_order)
 
 def no_results(request):
     return render(request, "no_results.html")
+
+# # Peter
+# def search_results(request, search_query=None):
+#     if request.method == "POST":
+#         searched = request.POST['searched']
+#         return redirect(reverse('froggr:search-results', kwargs={'search_query': slugify(searched)}))
+    
+#     if search_query is None:
+#         return redirect(reverse('froggr:no-results'))
+    
+#     search_query = search_query.replace("-", " ")
+#     queryset = BlogPost.objects.filter(
+#         Q(text__icontains=search_query) |
+#         Q(title__icontains=search_query) |
+#         Q(user__username__icontains=search_query)
+#     )
+
+#     # Sort and paginate the queryset
+#     sort_field = request.GET.get('sort_field', 'title')  # Default sort field is 'title'
+#     sort_order = request.GET.get('sort_order', 'asc')    # Default sort order is 'asc'
+
+#     sorted_queryset = BlogPost.sort_blogposts(queryset, sort_field, sort_order)
+
+#     paginator = Paginator(sorted_queryset, 10)  # Show 10 blog posts per page
+#     page = request.GET.get('page')
+#     blogposts = paginator.get_page(page)
+
+#     return render(request, 'search_results.html', {
+#         'searched': search_query,
+#         'search_query': search_query,
+#         'blogposts': blogposts
+#     })
