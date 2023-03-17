@@ -19,15 +19,6 @@ from django.db.models import Q
 
 # Create your views here.
 
-def posts(request):
-    return HttpResponse("Posts!")
-
-def test(request):
-    return render(request, 'test_template.html')
-
-def test2(request):
-    return render(request, 'test_template_2.html')
-
 def register(request):
     form = UserForm()
     if request.method == 'POST':
@@ -108,15 +99,13 @@ def create_profile(request):
     return render(request, "create_profile.html", {'profile_form': form})
 
 @login_required
-def create_frogg(request, post_slug=None):
+def create_frogg(request, post_slug=""):
     form = None
     post = None
-
     try:
         post = BlogPost.objects.get(post_slug=post_slug)
     except BlogPost.DoesNotExist:
         post = None
-        
     if post != None:
         form = forms.BlogPostForm(
             initial={'title':post.title, 'image':post.image, 'text':post.text},
@@ -126,6 +115,7 @@ def create_frogg(request, post_slug=None):
     error_message = None
     if request.method == 'POST':
         form = forms.BlogPostForm(request.POST, instance=post)
+        print(form.instance.post_slug)
         handle_text_image_form(form, request)
         if form != None:
             form.instance.date = datetime.now().date()
@@ -140,7 +130,6 @@ def create_frogg(request, post_slug=None):
                         'image':form.instance.image,
                         'text':form.instance.text})
                 error_message = "You already have a post with this title!"
-    
     return render(request, 'create_frogg.html',
                   {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
@@ -214,10 +203,6 @@ def posts_page(request, query, base_page, base_context):
         return render(request, base_page, base_context)
     else:
         return HttpResponse(render_posts_for_ajax(sorted_queryset, count))
-
-def top_frogs(request):
-    return posts_page(request, BlogPost.objects.order_by("-score"),
-                      'home.html', {'post_view_title': 'Top Posts'})
 
 def home(request):
     return posts_page(request, BlogPost.objects,

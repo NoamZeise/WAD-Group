@@ -11,8 +11,13 @@ Create Frogg
 <h4> Error: {{ error_message }} </h4>
 {% endif %}
 <div>
+  {% if post_slug %}
   <form id="blog_post_form" method="post" action="{% url 'froggr:create-frogg' post_slug %}"
 	enctype="multipart/form-data">
+  {% else %}
+    <form id="blog_post_form" method="post" action="{% url 'froggr:create-frogg' %}"
+	enctype="multipart/form-data">
+  {% endif %}
     {% csrf_token %}
 
     {{ blog_form.as_p }}

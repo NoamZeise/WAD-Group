@@ -30,7 +30,6 @@
       <a href="{% url 'froggr:profile' %}">Profile</a>
       <a href="{% url 'froggr:create-frogg' %}">Create a frogg</a>
       {% endif %}
-      <a href="{% url 'froggr:top-frogs' %}">Top Frogs</a>
       <a href="{% url 'froggr:search-results' %}">Friends</a>
       {% if user.is_authenticated %}
       <a href="{% url 'froggr:frog-out' %}">Frog out</a>

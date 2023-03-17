@@ -82,14 +82,13 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     date = models.DateField(default=DEFAULT_DATE)
     post_slug = models.SlugField(unique=True)
-    text = models.TextField(default="My Frogg")
+    text = models.TextField(blank=True)
     image = models.ImageField(upload_to=post_dir_path, blank=True)
     score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title
         self.post_slug = slugify(self.user.username + '-' + self.title)
-        print(self.post_slug)
         if self.date == DEFAULT_DATE.date():
             self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
@@ -101,14 +100,6 @@ class BlogPost(models.Model):
             return queryset.order_by(F(field_name).desc())
         else:
             raise ValueError(f"Invalid order: {order}. Must be 'asc' or 'desc'.")
-
-    class Meta:
-        # pair (user, friend) is unique for this entity
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'title'],
-                name="only 1 blog with a title per user")
-        ]
         
     def __str__(self):
         return self.user.username + " -- " + self.title
