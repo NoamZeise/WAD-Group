@@ -249,6 +249,6 @@ def like_post(request):
         return HttpResponse(-1)
     except ValueError:
         return HttpResponse(-1)
-    post.likes = post.likes + 1
+    post.score = post.score + 1
     post.save()
-    return HttpResponse(post.likes)
+    return HttpResponse(post.score)
