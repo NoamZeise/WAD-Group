@@ -34,9 +34,22 @@
     {% endif %}
 </div>
 
-<h1> Comments: </h1>
-
 <div id="comments">
+  <br>
+      {% csrf_token %}
+      {% if comment_form %}
+  <h3> write a comment </h3>
+  <form id="comment_form" method="post" action="{% url 'froggr:posts' post.post_slug %}"
+	enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ comment_form.as_p }}
+    <input type="submit" name="submit" value="Create Comment"/>
+  </form>
+      {% endif %}
+      
+  <h1> Comments: </h1>
+
   {% for comment in comments %}
   <hr>
   <h3> {{ comment.user.username }} says... </h3>

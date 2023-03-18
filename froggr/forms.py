@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from froggr.models import UserProfile, BlogPost
+from froggr.models import UserProfile, BlogPost, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
@@ -22,3 +22,7 @@ class BlogPostForm(forms.ModelForm):
         model = BlogPost
         fields = ('title', 'text', 'image')
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment 
+        fields = ('text', )

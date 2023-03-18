@@ -9,7 +9,7 @@ from django.db import IntegrityError
 from django.template.loader import render_to_string
 from django.utils.text import slugify
 from froggr_website.settings import MEDIA_URL
-from froggr.forms import UserForm, UserProfileForm
+from froggr.forms import UserForm, UserProfileForm, CommentForm
 from froggr.models import BlogPost, User, UserProfile, Comment
 from froggr import forms
 from datetime import datetime
@@ -161,7 +161,16 @@ def posts(request, post_slug):
         post = BlogPost.objects.get(post_slug=post_slug)
     except BlogPost.DoesNotExist:
         return render(request, '404.html')
+    form = None
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST)
+        form.instance.user = request.user;
+        form.instance.post = post;
+        form.save();
+    if request.user.is_authenticated:
+        form = CommentForm()
     context_dict = {}
+    context_dict['comment_form'] = form
     context_dict['blog_title'] = post.title
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
