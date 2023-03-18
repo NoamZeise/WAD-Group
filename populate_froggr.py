@@ -36,6 +36,8 @@ def populate():
              ]
     
     gen_comment(users[0], blogs[1], "a Burger!")
+    gen_comment(users[0], blogs[1], "I want one of those Burgers!")
+    gen_comment(users[2], blogs[1], "It was very tasty")
     gen_comment(users[3], blogs[3], "This is my post.")
     gen_comment(users[2], blogs[0], "I prefer the pirenian riceleg!!! :(")
     gen_reaction(users[0], blogs[1], 1)

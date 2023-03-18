@@ -34,5 +34,14 @@
     {% endif %}
 </div>
 
+<h1> Comments: </h1>
+
+<div id="comments">
+  {% for comment in comments %}
+  <hr>
+  <h3> {{ comment.user.username }} says... </h3>
+  <p> {{ comment.text }}</p>
+  {% endfor %}
+</div>
 
 {% endblock %}

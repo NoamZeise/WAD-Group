@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.text import slugify
 from froggr_website.settings import MEDIA_URL
 from froggr.forms import UserForm, UserProfileForm
-from froggr.models import BlogPost, User, UserProfile
+from froggr.models import BlogPost, User, UserProfile, Comment
 from froggr import forms
 from datetime import datetime
 from django.db.models import Q
@@ -171,6 +171,7 @@ def posts(request, post_slug):
     if post.user == request.user:
         context_dict['user_owns_post'] = True
     context_dict['post_url'] = post_slug
+    context_dict['comments'] = Comment.objects.filter(post=post)
     return render(request, 'frogg.html', context_dict)
 
 # ---- views that return lists of posts    
