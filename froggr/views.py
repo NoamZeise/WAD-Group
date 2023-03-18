@@ -14,6 +14,8 @@ from froggr.models import BlogPost, User, UserProfile
 from froggr import forms
 from datetime import datetime
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.generic.base import View
 
 
 
@@ -164,6 +166,7 @@ def posts(request, post_slug):
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
     context_dict['blog_author'] = post.user.username
+    context_dict['post'] = post
     context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
         context_dict['user_owns_post'] = True
@@ -237,3 +240,15 @@ def search_results(request, search_query=None):
 
 def no_results(request):
     return render(request, "no_results.html")
+
+def like_post(request):
+    post_id = request.GET['post_id']
+    try:
+        post = BlogPost.objects.get(post_slug=post_id)
+    except BlogPost.DoesNotExist:
+        return HttpResponse(-1)
+    except ValueError:
+        return HttpResponse(-1)
+    post.likes = post.likes + 1
+    post.save()
+    return HttpResponse(post.likes)
