@@ -4,6 +4,9 @@
 {% block title_block %}
 {{ blog_title }}
 {% endblock %}
+{% block head_block %}
+<script src="{% static 'frogg.js' %}"></script>
+{% endblock %}
 
 
 {% block body_block %}
@@ -16,4 +19,42 @@
 <img src={{ MEDIA_URL }}{{ blog_img }}/>
 {% endif %}
 <p>{{ blog_text }}</p>
+
+
+<div>
+    <strong id="like_count">{{ post.score }}</strong> likes
+    {% if user.is_authenticated %}
+    <button id="like_btn"
+            data-postid="{{ post.post_slug }}"
+            class="btn btn-primary btn-sm"
+            type="button">
+        <span data-feather="thumbs-up"></span>
+        Like Post
+    </button>
+    {% endif %}
+</div>
+
+<div id="comments">
+  <br>
+      {% csrf_token %}
+      {% if comment_form %}
+  <h3> write a comment </h3>
+  <form id="comment_form" method="post" action="{% url 'froggr:posts' post.post_slug %}"
+	enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ comment_form.as_p }}
+    <input type="submit" name="submit" value="Create Comment"/>
+  </form>
+      {% endif %}
+      
+  <h1> Comments: </h1>
+
+  {% for comment in comments %}
+  <hr>
+  <h3> {{ comment.user.username }} says... </h3>
+  <p> {{ comment.text }}</p>
+  {% endfor %}
+</div>
+
 {% endblock %}

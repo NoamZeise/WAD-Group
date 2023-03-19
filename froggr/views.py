@@ -6,27 +6,20 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from django.db import IntegrityError
-from froggr.forms import UserForm, UserProfileForm
-from froggr.models import BlogPost, User, UserProfile
+from django.template.loader import render_to_string
+from django.utils.text import slugify
+from froggr_website.settings import MEDIA_URL
+from froggr.forms import UserForm, UserProfileForm, CommentForm
+from froggr.models import BlogPost, User, UserProfile, Comment
 from froggr import forms
 from datetime import datetime
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.generic.base import View
+
+
 
 # Create your views here.
-
-def posts(request):
-    return HttpResponse("Posts!")
-
-def test(request):
-    return render(request, 'test_template.html')
-
-def test2(request):
-    return render(request, 'test_template_2.html')
-
-def home(request):
-    posts = BlogPost.objects.all()
-    context_dict = {"posts": posts}
-    return render(request, 'home.html', context=context_dict)
 
 def register(request):
     form = UserForm()
@@ -53,7 +46,6 @@ def get_user_profile_or_none(user):
     return profile
 
 def profile(request, profile_slug = None):
-    print(profile_slug)
     user = None
     is_logged_in = False
     if request.path == reverse('froggr:profile'):
@@ -74,10 +66,11 @@ def profile(request, profile_slug = None):
     context_dict = {}
     context_dict["username"] = user.username
     context_dict["is_logged_in_profile"] = is_logged_in
+    context_dict["profile_slug"] = "";
     if profile != None:
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
-    
+        context_dict["profile_slug"] = profile.profile_slug
     return render(request, 'profile.html', context_dict)
 
 # returns the results of form.save() with image and user filled in
@@ -107,28 +100,14 @@ def create_profile(request):
         
     return render(request, "create_profile.html", {'profile_form': form})
 
-def search_results(request):
-    if request.method == "POST":
-        searched = request.POST['searched']
-        posts = BlogPost.objects.filter(Q(text__contains=searched) | Q(title__contains=searched))
-        return render(request, 'search_results.html', {'searched':searched, 'posts': posts})
-    else:
-        return render(request, 'search_results.html')
-
-
-def top_frogs(request):
-    return render(request, 'top_frogs.html')
-
 @login_required
-def create_frogg(request, post_slug=None):
+def create_frogg(request, post_slug=""):
     form = None
     post = None
-
     try:
         post = BlogPost.objects.get(post_slug=post_slug)
     except BlogPost.DoesNotExist:
         post = None
-        
     if post != None:
         form = forms.BlogPostForm(
             initial={'title':post.title, 'image':post.image, 'text':post.text},
@@ -138,6 +117,7 @@ def create_frogg(request, post_slug=None):
     error_message = None
     if request.method == 'POST':
         form = forms.BlogPostForm(request.POST, instance=post)
+        print(form.instance.post_slug)
         handle_text_image_form(form, request)
         if form != None:
             form.instance.date = datetime.now().date()
@@ -152,7 +132,6 @@ def create_frogg(request, post_slug=None):
                         'image':form.instance.image,
                         'text':form.instance.text})
                 error_message = "You already have a post with this title!"
-    
     return render(request, 'create_frogg.html',
                   {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
@@ -182,19 +161,104 @@ def posts(request, post_slug):
         post = BlogPost.objects.get(post_slug=post_slug)
     except BlogPost.DoesNotExist:
         return render(request, '404.html')
+    form = None
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST)
+        form.instance.user = request.user;
+        form.instance.post = post;
+        form.save();
+    if request.user.is_authenticated:
+        form = CommentForm()
     context_dict = {}
+    context_dict['comment_form'] = form
     context_dict['blog_title'] = post.title
     context_dict['blog_img'] = post.image
     context_dict['blog_text'] = post.text
     context_dict['blog_author'] = post.user.username
-    try:
-        context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
-    except UserProfile.DoesNotExist:
-        # make a blank profile page if the user doesn't have one yet
-        profile = UserProfile.objects.get_or_create(user=post.user)[0]
-        profile.save()
-        context_dict['author_url'] = profile.profile_slug
+    context_dict['post'] = post
+    context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
         context_dict['user_owns_post'] = True
     context_dict['post_url'] = post_slug
+    context_dict['comments'] = Comment.objects.filter(post=post)
     return render(request, 'frogg.html', context_dict)
+
+# ---- views that return lists of posts    
+
+INITIAL_LOAD = 21
+PAGES_PER_LOAD = 6
+
+def render_posts_for_ajax(query, count):
+    load_size = PAGES_PER_LOAD
+    if count == 0:
+        load_size = INITIAL_LOAD
+    posts = query.all()[count:(count + load_size)];
+    post_data = ""
+    for p in posts:
+        post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
+    return post_data
+
+def posts_page(request, query, base_page, base_context):
+
+    sort_field = request.GET.get('sort_field', 'title')  # Default sort field is 'title'
+    sort_order = request.GET.get('sort_order', 'asc')    # Default sort order is 'asc'
+
+    sorted_queryset = BlogPost.sort_blogposts(query, sort_field, sort_order)
+
+    count = 0
+    first_load = False
+    try:
+        count = int(request.GET['post_count'])
+    except KeyError:
+        first_load = True
+
+    if first_load:
+        return render(request, base_page, base_context)
+    else:
+        return HttpResponse(render_posts_for_ajax(sorted_queryset, count))
+
+def home(request):
+    return posts_page(request, BlogPost.objects,
+                      'home.html', {})
+
+def list_user_posts(request, profile_slug):
+    user = None
+    try:
+        user = UserProfile.objects.get(profile_slug=profile_slug).user
+    except UserProfile.DoesNotExist:
+        return render(request, "404.html")
+
+    posts = BlogPost.objects.filter(user=user);
+
+    return posts_page(request, BlogPost.objects.filter(user=user),
+                      'home.html', {'post_view_title': "Posts by " + user.username })
+
+def search_results(request, search_query=None):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        return redirect(reverse('froggr:search-results') + slugify(searched))
+    if search_query == None:
+        return redirect(reverse('froggr:no-results'))
+    
+    search_query = search_query.replace("-", " ")
+
+    return posts_page(request,
+                      BlogPost.objects.filter(
+                          Q(text__icontains=search_query) | Q(title__icontains=search_query) |
+                      Q(user__username__icontains=search_query)),
+                      'search_results.html', {'searched':search_query})
+
+def no_results(request):
+    return render(request, "no_results.html")
+
+def like_post(request):
+    post_id = request.GET['post_id']
+    try:
+        post = BlogPost.objects.get(post_slug=post_id)
+    except BlogPost.DoesNotExist:
+        return HttpResponse(-1)
+    except ValueError:
+        return HttpResponse(-1)
+    post.score = post.score + 1
+    post.save()
+    return HttpResponse(post.score)

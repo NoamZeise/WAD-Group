@@ -2,7 +2,13 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 import datetime
+
+# Peter
+from django.db.models import F
+
 # Create your models here.
 
 
@@ -33,6 +39,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User)
+def watchlist_create(sender, instance=None, created=False, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 class Connection(models.Model):
@@ -70,25 +82,24 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=50)
     date = models.DateField(default=DEFAULT_DATE)
     post_slug = models.SlugField(unique=True)
-
-    text = models.TextField(default="My Frogg")
+    text = models.TextField(blank=True)
     image = models.ImageField(upload_to=post_dir_path, blank=True)
+    score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title
         self.post_slug = slugify(self.user.username + '-' + self.title)
-        print(self.post_slug)
         if self.date == DEFAULT_DATE.date():
             self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
 
-    class Meta:
-        # pair (user, friend) is unique for this entity
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'title'],
-                name="only 1 blog with a title per user")
-        ]
+    def sort_blogposts(queryset, field_name, order='asc'):
+        if order.lower() == 'asc':
+            return queryset.order_by(F(field_name).asc())
+        elif order.lower() == 'desc':
+            return queryset.order_by(F(field_name).desc())
+        else:
+            raise ValueError(f"Invalid order: {order}. Must be 'asc' or 'desc'.")
         
     def __str__(self):
         return self.user.username + " -- " + self.title
@@ -127,5 +138,16 @@ class Reaction(models.Model):
                 name="only 1 reaction per user, per post")
         ]
 
+    def save(self, *args, **kwargs):
+        self.post.score += self.reaction
+        self.post.save()
+        super(Reaction, self).save(*args, **kwargs)
+
+    def delete(self):
+        self.post.score -= self.reaction
+        self.post.save()
+        super(Reaction, self).delete()
+        
     def __str__(self):
         return self.user.username + "->" + self.post.title + " : " + str(self.reaction)
+

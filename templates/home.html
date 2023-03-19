@@ -5,36 +5,36 @@
 Home
 {% endblock %}
 
+{% block head_block %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="{% static 'posts.js' %}"></script>
+{% endblock %}
 
 {% block body_block %}
-	<div class="d-flex">
-		<div class="row mx-auto w-75">
-		  {% for post in posts %}
-		  <div class="col-sm-4 form-group d-flex justify-content-center">
-		    <!-- post link -->
-		    <a class="dull_link" href="{% url 'froggr:posts' post.post_slug %}">
-			 	<div class="card">
-			 		{% if post.image %}
-	    				<img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ post.image }}" alt="Card image cap">
-	    			{% else %}
-	    				<img class="card-img-top img-responsive" src="{% static 'placeholder.png' %}" alt="Card image cap">
-	    			{% endif %}
-			    	<div class="card-body">
-			      		<h5 class="card-title">{{ post.title }}</h5>
-			      		<p class="card-text">
-			        		{{ post.text }}
-			      		</p>
-			      		<p class="card-text">
-			        		<small class="text-muted">By {{ post.user.username }}</small>
-			      		</p>
-			      	</div>
-			     </div>
-				
-		           </a> <!-- END POST LINK -->
-			</div>
-		{% endfor %}
-		</div>
-	</div>
+
+{% block top_block %}
+<h1 class="d-flex justify-content-center">{{ post_view_title }} </h1>
+<br>
+{% endblock %}
+<form method="get">
+  <label for="sort_field">Sort by:</label>
+  <select name="sort_field" id="sort_field">
+      <option value="title" {% if request.GET.sort_field == 'title' %}selected{% endif %}>Title</option>
+      <option value="date" {% if request.GET.sort_field == 'date' %}selected{% endif %}>Date</option>
+      <option value="score" {% if request.GET.sort_field == 'score' %}selected{% endif %}>Score</option>
+  </select>
+  <label for="sort_order">Order:</label>
+  <select name="sort_order" id="sort_order">
+      <option value="asc" {% if request.GET.sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+      <option value="desc" {% if request.GET.sort_order == 'desc' %}selected{% endif %}>Descending</option>
+  </select>
+  <input type="submit" value="Sort">
+</form>
+
+<div class="d-flex">
+  <div id="post_list" class="row mx-auto w-75">
+  </div>
+</div>
 {% endblock %}
 
 
