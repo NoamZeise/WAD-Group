@@ -222,18 +222,6 @@ def home(request):
     return posts_page(request, BlogPost.objects,
                       'home.html', {})
 
-def list_user_posts(request, profile_slug):
-    user = None
-    try:
-        user = UserProfile.objects.get(profile_slug=profile_slug).user
-    except UserProfile.DoesNotExist:
-        return render(request, "404.html")
-
-    posts = BlogPost.objects.filter(user=user);
-
-    return posts_page(request, BlogPost.objects.filter(user=user),
-                      'home.html', {'post_view_title': "Posts by " + user.username })
-
 def search_results(request, search_query=None):
     if request.method == "POST":
         searched = request.POST['searched']
