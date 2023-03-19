@@ -71,7 +71,7 @@ def profile(request, profile_slug = None):
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
         context_dict["profile_slug"] = profile.profile_slug
-    return render(request, 'profile.html', context_dict)
+    return posts_page(request, BlogPost.objects.filter(user=user), "profile.html", context_dict)
 
 # returns the results of form.save() with image and user filled in
 def handle_text_image_form(form, request):
