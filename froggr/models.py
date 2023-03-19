@@ -93,13 +93,13 @@ class BlogPost(models.Model):
             self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
 
-    def sort_blogposts(queryset, field_name, order='asc'):
-        if order.lower() == 'asc':
+    def sort_blogposts(queryset, field_name, order='ascending'):
+        if order.lower() == 'ascending':
             return queryset.order_by(F(field_name).asc())
-        elif order.lower() == 'desc':
+        elif order.lower() == 'descending':
             return queryset.order_by(F(field_name).desc())
         else:
-            raise ValueError(f"Invalid order: {order}. Must be 'asc' or 'desc'.")
+            raise ValueError(f"Invalid order: {order}. Must be 'ascending' or 'descending'.")
         
     def __str__(self):
         return self.user.username + " -- " + self.title

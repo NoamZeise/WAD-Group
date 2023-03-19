@@ -200,10 +200,11 @@ def render_posts_for_ajax(query, count):
 
 def posts_page(request, query, base_page, base_context):
 
-    sort_field = request.GET.get('sort_field', 'title')  # Default sort field is 'title'
-    sort_order = request.GET.get('sort_order', 'asc')    # Default sort order is 'asc'
+    
+    sorting_order = request.GET.get('sorting_order', 'ascending')
+    sort_by = request.GET.get('sort_by', 'title')
 
-    sorted_queryset = BlogPost.sort_blogposts(query, sort_field, sort_order)
+    sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
 
     count = 0
     first_load = False
