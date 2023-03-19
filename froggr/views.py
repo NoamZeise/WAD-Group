@@ -71,7 +71,7 @@ def profile(request, profile_slug = None):
         context_dict["profile_img"] = profile.image
         context_dict["profile_text"] = profile.text
         context_dict["profile_slug"] = profile.profile_slug
-    return render(request, 'profile.html', context_dict)
+    return posts_page(request, BlogPost.objects.filter(user=user), "profile.html", context_dict)
 
 # returns the results of form.save() with image and user filled in
 def handle_text_image_form(form, request):
@@ -200,10 +200,11 @@ def render_posts_for_ajax(query, count):
 
 def posts_page(request, query, base_page, base_context):
 
-    sort_field = request.GET.get('sort_field', 'title')  # Default sort field is 'title'
-    sort_order = request.GET.get('sort_order', 'asc')    # Default sort order is 'asc'
+    
+    sorting_order = request.GET.get('sorting_order', 'ascending')
+    sort_by = request.GET.get('sort_by', 'title')
 
-    sorted_queryset = BlogPost.sort_blogposts(query, sort_field, sort_order)
+    sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
 
     count = 0
     first_load = False
@@ -220,18 +221,6 @@ def posts_page(request, query, base_page, base_context):
 def home(request):
     return posts_page(request, BlogPost.objects,
                       'home.html', {})
-
-def list_user_posts(request, profile_slug):
-    user = None
-    try:
-        user = UserProfile.objects.get(profile_slug=profile_slug).user
-    except UserProfile.DoesNotExist:
-        return render(request, "404.html")
-
-    posts = BlogPost.objects.filter(user=user);
-
-    return posts_page(request, BlogPost.objects.filter(user=user),
-                      'home.html', {'post_view_title': "Posts by " + user.username })
 
 def search_results(request, search_query=None):
     if request.method == "POST":

@@ -10,7 +10,6 @@ urlpatterns = [
     path('frog-in/', views.frogin, name="frog-in"),
     path('frog-out/', views.frogout, name="frog-out"),
     path('register/', views.register, name="register"),
-    path('my-frogs/', views.my_frogs, name="my-frogs"),
     path('profile/', views.profile, name="profile"),
     path('profile/<slug:profile_slug>/', views.profile, name="profile"),
     path('create-profile/', views.create_profile, name="create-profile"),
@@ -21,6 +20,5 @@ urlpatterns = [
     path('create-frogg/<slug:post_slug>', views.create_frogg, name="create-frogg"),
     path('posts/', views.posts, name='posts'),
     path('posts/<slug:post_slug>/', views.posts, name='posts'),
-    path('user-posts/<slug:profile_slug>/', views.list_user_posts, name='user-posts'),
     path('like-post/', views.like_post, name='like_post'),
 ]

@@ -8,6 +8,7 @@ Home
 {% block head_block %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="{% static 'posts.js' %}"></script>
+<script src="{% static 'sort.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
@@ -16,25 +17,22 @@ Home
 <h1 class="d-flex justify-content-center">{{ post_view_title }} </h1>
 <br>
 {% endblock %}
-<form method="get">
-  <label for="sort_field">Sort by:</label>
-  <select name="sort_field" id="sort_field">
-      <option value="title" {% if request.GET.sort_field == 'title' %}selected{% endif %}>Title</option>
-      <option value="date" {% if request.GET.sort_field == 'date' %}selected{% endif %}>Date</option>
-      <option value="score" {% if request.GET.sort_field == 'score' %}selected{% endif %}>Score</option>
+
+<form id="sort-form" method="get">
+  <label for="sort_by">Sort by:</label>
+  <select name="sort_by" id="sort_by">
+      <option value="title" {% if request.GET.sort_by == 'title' %}selected{% endif %}>Title</option>
+      <option value="date" {% if request.GET.sort_by == 'date' %}selected{% endif %}>Date</option>
+      <option value="score" {% if request.GET.sort_by == 'score' %}selected{% endif %}>Score</option>
   </select>
-  <label for="sort_order">Order:</label>
-  <select name="sort_order" id="sort_order">
-      <option value="asc" {% if request.GET.sort_order == 'asc' %}selected{% endif %}>Ascending</option>
-      <option value="desc" {% if request.GET.sort_order == 'desc' %}selected{% endif %}>Descending</option>
-  </select>
-  <input type="submit" value="Sort">
+  <input type="hidden" name="sorting_order" id="sorting_order" value="{% if request.GET.sorting_order %}{{ request.GET.sorting_order }}{% else %}ascending{% endif %}">
+  <button type="button" id="order_toggle_button" class="{% if request.GET.sorting_order == 'ascending' or not request.GET.sorting_order %}arrow up{% else %}arrow down{% endif %}">&#9650;</button>
 </form>
+
+
 
 <div class="d-flex">
   <div id="post_list" class="row mx-auto w-75">
   </div>
 </div>
 {% endblock %}
-
-
