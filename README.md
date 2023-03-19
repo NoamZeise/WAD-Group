@@ -39,15 +39,10 @@ Then start the server and use the login on the `/admin/` page.
 # Running tests
 Make sure you are in the froggr virtulenv, if not run `conda activate froggr`.
 
-The outline for running tests is
 
-``` 
-python manage.py test froggr.(test folder).(test name) 
+run the following to run all of froggr's tests
 ```
-
-For example, to run the test in `froggr/Tests/LoginTests.py` you would run 
-```
-python manage.py test froggr.Tests.LoginTests 
+python manage.py test
 ```
 
 
