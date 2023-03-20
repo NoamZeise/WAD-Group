@@ -24,13 +24,12 @@
 <div>
     <strong id="like_count">{{ post.score }}</strong> likes
     {% if user.is_authenticated %}
+    {% if user not in post.users_liked.all %}
     <button id="like_btn"
             data-postid="{{ post.post_slug }}"
             class="btn btn-primary btn-sm"
-            type="button">
-        <span data-feather="thumbs-up"></span>
-        Like Post
-    </button>
+            type="button">Like Post</button>
+    {% endif %}
     {% endif %}
 </div>
 

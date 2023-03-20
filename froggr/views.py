@@ -16,6 +16,7 @@ from datetime import datetime
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
+import json
 
 
 
@@ -249,12 +250,17 @@ def no_results(request):
 
 def like_post(request):
     post_id = request.GET['post_id']
+    user = request.user
     try:
         post = BlogPost.objects.get(post_slug=post_id)
     except BlogPost.DoesNotExist:
         return HttpResponse(-1)
     except ValueError:
         return HttpResponse(-1)
-    post.score = post.score + 1
-    post.save()
-    return HttpResponse(post.score)
+    if user in post.users_liked.all():
+        return HttpResponse(-1)
+    else:
+        post.score = post.score + 1
+        post.users_liked.add(user)
+        post.save()
+        return HttpResponse(post.score)
