@@ -206,8 +206,6 @@ def render_posts_for_ajax(query, count):
     return post_data
 
 def posts_page(request, query, base_page, base_context):
-
-    
     sorting_order = request.GET.get('sorting_order', 'ascending')
     sort_by = request.GET.get('sort_by', 'title')
 
@@ -234,10 +232,10 @@ def search_results(request, search_query=None):
         searched = request.POST['searched']
         return redirect(reverse('froggr:search-results') + slugify(searched))
     if search_query == None:
-        return redirect(reverse('froggr:no-results'))
+        return posts_page(request, BlogPost.objects.all(),
+                   'search_results.html', {'searched':search_query})
     
     search_query = search_query.replace("-", " ")
-
     return posts_page(request,
                       BlogPost.objects.filter(
                           Q(text__icontains=search_query) | Q(title__icontains=search_query) |

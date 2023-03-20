@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'bar.css' %}">
     <link rel="stylesheet" href="{% static 'sitewide.css' %}">
-    <link rel="stylesheet" href="{% static 'search.css' %}">
+    <script src="{% static 'search.js' %}"></script>
     {% block head_block %}
     {% endblock %}
   </head>
@@ -39,8 +39,8 @@
       {% endif %}
       <form class="d-flex justify-content-end" method=POST action="{% url 'froggr:search-results' %}">
         {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search posts" name="searched">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input id="searchbar" class="form-control me-2" type="search" placeholder="Search posts" name="searched">
+        <button id="searchbtn" class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
     <br></br><br></br>
