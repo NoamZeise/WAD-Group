@@ -6,7 +6,7 @@ var to_clear = false;
 function get_posts() {
     // if clear_posts was called, or
     //if posts aren't being retrieved, and the user has scrolled far enough to load more posts
-    if(to_clear || (!getting_posts && $(window).scrollTop() + $(window).height() > $(document).height() - 1000)) 
+    if(to_clear || (!getting_posts && $(window).scrollTop() + $(window).height() > $(document).height() - 1000)) {
 	getting_posts = true;
 	post_count = to_clear ? 0 : document.getElementsByClassName("post").length;
 	current_post_request = $.get(window.location.href,
