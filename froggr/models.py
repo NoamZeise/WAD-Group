@@ -88,6 +88,8 @@ class BlogPost(models.Model):
 
     def save(self, *args, **kwargs):
         # make post url based on username and post title
+        if len(self.title.strip()) == 0:
+            raise ValueError()
         self.post_slug = slugify(self.user.username + '-' + self.title)
         if self.date == DEFAULT_DATE.date():
             self.date = timezone.now()

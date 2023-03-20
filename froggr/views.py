@@ -79,8 +79,8 @@ def handle_text_image_form(form, request):
         form.instance.user = request.user
         if 'image' in request.FILES:
             form.instance.image = request.FILES['image']
-    else:
-        print(form.errors)
+    #else:
+    #    print(form.errors)
                 
 @login_required
 def create_profile(request):
@@ -117,7 +117,6 @@ def create_frogg(request, post_slug=""):
     error_message = None
     if request.method == 'POST':
         form = forms.BlogPostForm(request.POST, instance=post)
-        print(form.instance.post_slug)
         handle_text_image_form(form, request)
         if form != None:
             form.instance.date = datetime.now().date()
@@ -132,6 +131,14 @@ def create_frogg(request, post_slug=""):
                         'image':form.instance.image,
                         'text':form.instance.text})
                 error_message = "You already have a post with this title!"
+            except ValueError:
+                form = forms.BlogPostForm(
+                    initial={
+                        'title':form.instance.title,
+                        'image':form.instance.image,
+                        'text':form.instance.text})
+                error_message = "This title is invalid!"
+                
     return render(request, 'create_frogg.html',
                   {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
