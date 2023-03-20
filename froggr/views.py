@@ -16,7 +16,6 @@ from datetime import datetime
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
-import json
 
 
 
@@ -260,7 +259,6 @@ def like_post(request):
     if user in post.users_liked.all():
         return HttpResponse(-1)
     else:
-        post.score = post.score + 1
         post.users_liked.add(user)
         post.save()
         return HttpResponse(post.score)
