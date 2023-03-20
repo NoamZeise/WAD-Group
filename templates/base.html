@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'bar.css' %}">
     <link rel="stylesheet" href="{% static 'sitewide.css' %}">
-
+    <link rel="stylesheet" href="{% static 'search.css' %}">
     {% block head_block %}
     {% endblock %}
   </head>
@@ -30,8 +30,8 @@
       <a href="{% url 'froggr:home' %}">Home</a>
       <a href="{% url 'froggr:profile' %}">Profile</a>
       <a href="{% url 'froggr:create-frogg' %}">Create a frogg</a>
-      {% endif %}
       <a href="{% url 'froggr:search-results' %}">Friends</a>
+      {% endif %}
       {% if user.is_authenticated %}
       <a href="{% url 'froggr:frog-out' %}">Frog out</a>
       {% else %}
