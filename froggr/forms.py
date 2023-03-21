@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import TextInput
-
 from froggr.models import UserProfile, BlogPost, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
