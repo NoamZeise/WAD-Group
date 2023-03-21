@@ -204,8 +204,8 @@ def render_posts_for_ajax(query, count):
     return post_data
 
 def posts_page(request, query, base_page, base_context):
-    sorting_order = request.GET.get('sorting_order', 'ascending')
-    sort_by = request.GET.get('sort_by', 'title')
+    sorting_order = request.GET.get('sorting_order', 'descending')
+    sort_by = request.GET.get('sort_by', 'date')
     sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
     
     count = 0
