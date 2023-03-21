@@ -100,6 +100,13 @@ def create_profile(request):
         
     return render(request, "create_profile.html", {'profile_form': form})
 
+def new_form_with_old_details(form):
+    return forms.BlogPostForm(
+                    initial={
+                        'title':form.instance.title,
+                        'image':form.instance.image,
+                        'text':form.instance.text})
+
 @login_required
 def create_frogg(request, post_slug=""):
     form = None
@@ -125,18 +132,10 @@ def create_frogg(request, post_slug=""):
                 return redirect('froggr:posts', form.instance.post_slug)
             except IntegrityError:
                 # this post already exists, save the inputted info and return form again
-                form = forms.BlogPostForm(
-                    initial={
-                        'title':form.instance.title,
-                        'image':form.instance.image,
-                        'text':form.instance.text})
+                form = new_form_with_old_details(form)
                 error_message = "You already have a post with this title!"
             except ValueError:
-                form = forms.BlogPostForm(
-                    initial={
-                        'title':form.instance.title,
-                        'image':form.instance.image,
-                        'text':form.instance.text})
+                form = new_form_with_old_details(form)
                 error_message = "This title is invalid!"
                 
     return render(request, 'create_frogg.html',
@@ -148,14 +147,12 @@ def frogin(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             return redirect('froggr:home')
         else:
             messages.info(request, 'Username OR Password is incorrect')
-    context = {}
-    return render(request, 'frog_in.html', context)
+    return render(request, 'frog_in.html')
 
 
 def frogout(request):
@@ -178,10 +175,6 @@ def posts(request, post_slug):
         form = CommentForm()
     context_dict = {}
     context_dict['comment_form'] = form
-    context_dict['blog_title'] = post.title
-    context_dict['blog_img'] = post.image
-    context_dict['blog_text'] = post.text
-    context_dict['blog_author'] = post.user.username
     context_dict['post'] = post
     context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
@@ -192,25 +185,23 @@ def posts(request, post_slug):
 
 # ---- views that return lists of posts    
 
-INITIAL_LOAD = 21
-PAGES_PER_LOAD = 6
+INITIAL_POST_LOAD_COUNT = 21
+POSTS_PER_LOAD = 6
 
 def render_posts_for_ajax(query, count):
-    load_size = PAGES_PER_LOAD
+    load_size = POSTS_PER_LOAD
     if count == 0:
-        load_size = INITIAL_LOAD
-    posts = query.all()[count:(count + load_size)];
+        load_size = INITIAL_POST_LOAD_COUNT
     post_data = ""
-    for p in posts:
+    for p in query.all()[count:(count + load_size)]:
         post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
     return post_data
 
 def posts_page(request, query, base_page, base_context):
     sorting_order = request.GET.get('sorting_order', 'ascending')
     sort_by = request.GET.get('sort_by', 'title')
-
     sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
-
+    
     count = 0
     first_load = False
     try:
