@@ -127,7 +127,6 @@ def create_frogg(request, post_slug=""):
         form = forms.BlogPostForm(request.POST, instance=post)
         handle_text_image_form(form, request)
         if form != None:
-            form.instance.date = datetime.now().date()
             try:
                 form.save()
                 return redirect('froggr:posts', form.instance.post_slug)

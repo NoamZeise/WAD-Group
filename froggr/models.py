@@ -80,7 +80,7 @@ class BlogPost(models.Model):
     # delete post if user is deleted
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    date = models.DateField(default=DEFAULT_DATE)
+    date = models.DateTimeField(default=DEFAULT_DATE)
     post_slug = models.SlugField(unique=True)
     text = models.TextField(blank=True)
     image = models.ImageField(upload_to=post_dir_path, blank=True)
@@ -92,7 +92,8 @@ class BlogPost(models.Model):
         if len(self.title.strip()) == 0:
             raise ValueError()
         self.post_slug = slugify(self.user.username + '-' + self.title)
-        if self.date == DEFAULT_DATE.date():
+        # if time hasn't been set use current time (will be set for population data)
+        if self.date.year == DEFAULT_DATE.date().year:
             self.date = timezone.now()
         super(BlogPost, self).save(*args, **kwargs)
 
