@@ -10,7 +10,8 @@ Create Frogg
 {% if error_message %}
 <h4> Error: {{ error_message }} </h4>
 {% endif %}
-<div>
+<link rel="stylesheet" href="{% static 'createfrog.css' %}">
+<div class="form-group">
   {% if post_slug %}
   <form id="blog_post_form" method="post" action="{% url 'froggr:create-frogg' post_slug %}"
 	enctype="multipart/form-data">

@@ -14,6 +14,7 @@ from froggr.models import BlogPost, User, UserProfile, Comment
 from froggr import forms
 from datetime import datetime
 from django.db.models import Q
+from .forms import BlogPostForm
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 
