@@ -12,7 +12,8 @@ def populate():
              gen_user("Eva_Smith"),
              gen_user("Jean12"),
              gen_user("BadRoyRog"),
-             gen_user("Jack Bean"),]
+             gen_user("Jack Bean"),
+             gen_user("Elyssia-1"),]
     gen_friends(users[0:3])
 
     blogs = [gen_blog_from_txt(users[0], "example-posts/fav-frog.txt"),
@@ -27,6 +28,9 @@ def populate():
              gen_blog_from_txt(users[3], "example-posts/chicken-tut.txt"),
              gen_blog_from_txt(users[3], "example-posts/cl-post.txt"),
              gen_blog_from_txt(users[4], "example-posts/surprise-proof.txt"),
+             gen_blog_from_txt(users[5], "example-posts/emacs-lisp.txt"),
+             gen_blog_from_txt(users[5], "example-posts/gnu-prop.txt"),
+             gen_blog_from_txt(users[5], "example-posts/free-as-in.txt"),
              ]
     
     gen_comment(users[0], blogs[1], "a Burger!")
@@ -34,10 +38,19 @@ def populate():
     gen_comment(users[2], blogs[1], "It was very tasty")
     gen_comment(users[3], blogs[3], "This is my post.")
     gen_comment(users[2], blogs[0], "I prefer the pirenian riceleg!!! :(")
+    gen_comment(users[3], blogs[6], "Chicken Sandwitch")
+    gen_comment(users[3], blogs[6], "Salt and Pepper")
+    gen_comment(users[0], blogs[4], "Common")
+    gen_comment(users[1], blogs[8], "BWOAWOEOAWDOWADOO")
     gen_reaction(users[0], blogs[1], 1)
-    gen_reaction(users[0], blogs[3], -1)
-    gen_reaction(users[3], blogs[2], -1)
+    gen_reaction(users[0], blogs[3], 1)
+    gen_reaction(users[3], blogs[2], 1)
     gen_reaction(users[1], blogs[1], 1)
+    gen_reaction(users[1], blogs[4], 1)
+    gen_reaction(users[0], blogs[5], 1)
+    gen_reaction(users[1], blogs[5], 1)
+    gen_reaction(users[1], blogs[6], 1)
+    gen_reaction(users[0], blogs[8], 1)
 
     # make loads of blogs for testing
     user = gen_user("TestUser")

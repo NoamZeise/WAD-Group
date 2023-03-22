@@ -1,0 +1,1509 @@
+Intro To Emacs Lisp
+2019-4-1
+example-posts/emacs.png
+Preface
+
+Most of the GNU Emacs integrated environment is written in the programming language called Emacs Lisp. The code written in this programming language is the software—the sets of instructions—that tell the computer what to do when you give it commands. Emacs is designed so that you can write new code in Emacs Lisp and easily install it as an extension to the editor.
+
+(GNU Emacs is sometimes called an “extensible editor”, but it does much more than provide editing capabilities. It is better to refer to Emacs as an “extensible computing environment”. However, that phrase is quite a mouthful. It is easier to refer to Emacs simply as an editor. Moreover, everything you do in Emacs—find the Mayan date and phases of the moon, simplify polynomials, debug code, manage files, read letters, write books—all these activities are kinds of editing in the most general sense of the word.)
+
+    Why Study Emacs Lisp?
+    On Reading this Text
+    For Whom This is Written
+    Lisp History
+    A Note for Novices
+    Thank You
+
+Next: On Reading this Text, Up: Preface   [Contents][Index]
+Why Study Emacs Lisp?
+
+Although Emacs Lisp is usually thought of in association only with Emacs, it is a full computer programming language. You can use Emacs Lisp as you would any other programming language.
+
+Perhaps you want to understand programming; perhaps you want to extend Emacs; or perhaps you want to become a programmer. This introduction to Emacs Lisp is designed to get you started: to guide you in learning the fundamentals of programming, and more importantly, to show you how you can teach yourself to go further.
+
+Next: For Whom This is Written, Previous: Why Study Emacs Lisp?, Up: Preface   [Contents][Index]
+On Reading this Text
+
+All through this document, you will see little sample programs you can run inside of Emacs. If you read this document in Info inside of GNU Emacs, you can run the programs as they appear. (This is easy to do and is explained when the examples are presented.) Alternatively, you can read this introduction as a printed book while sitting beside a computer running Emacs. (This is what I like to do; I like printed books.) If you don’t have a running Emacs beside you, you can still read this book, but in this case, it is best to treat it as a novel or as a travel guide to a country not yet visited: interesting, but not the same as being there.
+
+Much of this introduction is dedicated to walkthroughs or guided tours of code used in GNU Emacs. These tours are designed for two purposes: first, to give you familiarity with real, working code (code you use every day); and, second, to give you familiarity with the way Emacs works. It is interesting to see how a working environment is implemented. Also, I hope that you will pick up the habit of browsing through source code. You can learn from it and mine it for ideas. Having GNU Emacs is like having a dragon’s cave of treasures.
+
+In addition to learning about Emacs as an editor and Emacs Lisp as a programming language, the examples and guided tours will give you an opportunity to get acquainted with Emacs as a Lisp programming environment. GNU Emacs supports programming and provides tools that you will want to become comfortable using, such as M-. (the key which invokes the xref-find-definitions command). You will also learn about buffers and other objects that are part of the environment. Learning about these features of Emacs is like learning new routes around your home town.
+
+Finally, I hope to convey some of the skills for using Emacs to learn aspects of programming that you don’t know. You can often use Emacs to help you understand what puzzles you or to find out how to do something new. This self-reliance is not only a pleasure, but an advantage.
+
+Next: Lisp History, Previous: On Reading this Text, Up: Preface   [Contents][Index]
+For Whom This is Written
+
+This text is written as an elementary introduction for people who are not programmers. If you are a programmer, you may not be satisfied with this primer. The reason is that you may have become expert at reading reference manuals and be put off by the way this text is organized.
+
+An expert programmer who reviewed this text said to me:
+
+    I prefer to learn from reference manuals. I “dive into” each paragraph, and “come up for air” between paragraphs.
+
+    When I get to the end of a paragraph, I assume that subject is done, finished, that I know everything I need (with the possible exception of the case when the next paragraph starts talking about it in more detail). I expect that a well written reference manual will not have a lot of redundancy, and that it will have excellent pointers to the (one) place where the information I want is. 
+
+This introduction is not written for this person!
+
+Firstly, I try to say everything at least three times: first, to introduce it; second, to show it in context; and third, to show it in a different context, or to review it.
+
+Secondly, I hardly ever put all the information about a subject in one place, much less in one paragraph. To my way of thinking, that imposes too heavy a burden on the reader. Instead I try to explain only what you need to know at the time. (Sometimes I include a little extra information so you won’t be surprised later when the additional information is formally introduced.)
+
+When you read this text, you are not expected to learn everything the first time. Frequently, you need make only a nodding acquaintance with some of the items mentioned. My hope is that I have structured the text and given you enough hints that you will be alert to what is important, and concentrate on it.
+
+You will need to dive into some paragraphs; there is no other way to read them. But I have tried to keep down the number of such paragraphs. This book is intended as an approachable hill, rather than as a daunting mountain.
+
+This book, An Introduction to Programming in Emacs Lisp, has a companion document, The GNU Emacs Lisp Reference Manual in The GNU Emacs Lisp Reference Manual. The reference manual has more detail than this introduction. In the reference manual, all the information about one topic is concentrated in one place. You should turn to it if you are like the programmer quoted above. And, of course, after you have read this Introduction, you will find the Reference Manual useful when you are writing your own programs.
+
+Next: A Note for Novices, Previous: For Whom This is Written, Up: Preface   [Contents][Index]
+Lisp History
+
+Lisp was first developed in the late 1950s at the Massachusetts Institute of Technology for research in artificial intelligence. The great power of the Lisp language makes it superior for other purposes as well, such as writing editor commands and integrated environments.
+
+GNU Emacs Lisp is largely inspired by Maclisp, which was written at MIT in the 1960s. It is somewhat inspired by Common Lisp, which became a standard in the 1980s. However, Emacs Lisp is much simpler than Common Lisp. (The standard Emacs distribution contains an optional extensions file, cl-lib.el, that adds many Common Lisp features to Emacs Lisp.)
+
+Next: Thank You, Previous: Lisp History, Up: Preface   [Contents][Index]
+A Note for Novices
+
+If you don’t know GNU Emacs, you can still read this document profitably. However, I recommend you learn Emacs, if only to learn to move around your computer screen. You can teach yourself how to use Emacs with the built-in tutorial. To use it, type C-h t. (This means you press and release the CTRL key and the h at the same time, and then press and release t.)
+
+Also, I often refer to one of Emacs’s standard commands by listing the keys which you press to invoke the command and then giving the name of the command in parentheses, like this: M-C-\ (indent-region). What this means is that the indent-region command is customarily invoked by typing M-C-\. (You can, if you wish, change the keys that are typed to invoke the command; this is called rebinding. See Keymaps.) The abbreviation M-C-\ means that you type your META key, CTRL key and \ key all at the same time. (On many modern keyboards the META key is labeled ALT.) Sometimes a combination like this is called a keychord, since it is similar to the way you play a chord on a piano. If your keyboard does not have a META key, the ESC key prefix is used in place of it. In this case, M-C-\ means that you press and release your ESC key and then type the CTRL key and the \ key at the same time. But usually M-C-\ means press the CTRL key along with the key that is labeled ALT and, at the same time, press the \ key.
+
+In addition to typing a lone keychord, you can prefix what you type with C-u, which is called the universal argument. The C-u keychord passes an argument to the subsequent command. Thus, to indent a region of plain text by 6 spaces, mark the region, and then type C-u 6 M-C-\. (If you do not specify a number, Emacs either passes the number 4 to the command or otherwise runs the command differently than it would otherwise.) See Numeric Arguments in The GNU Emacs Manual.
+
+If you are reading this in Info using GNU Emacs, you can read through this whole document just by pressing the space bar, SPC. (To learn about Info, type C-h i and then select Info.)
+
+A note on terminology: when I use the word Lisp alone, I often am referring to the various dialects of Lisp in general, but when I speak of Emacs Lisp, I am referring to GNU Emacs Lisp in particular.
+
+Previous: A Note for Novices, Up: Preface   [Contents][Index]
+Thank You
+
+My thanks to all who helped me with this book. My especial thanks to Jim Blandy, Noah Friedman, Jim Kingdon, Roland McGrath, Frank Ritter, Randy Smith, Richard M. Stallman, and Melissa Weisshaus. My thanks also go to both Philip Johnson and David Stampe for their patient encouragement. My mistakes are my own.
+
+Robert J. Chassell bob@gnu.org
+
+Next: Practicing Evaluation, Previous: Preface, Up: An Introduction to Programming in Emacs Lisp   [Contents][Index]
+1 List Processing
+
+To the untutored eye, Lisp is a strange programming language. In Lisp code there are parentheses everywhere. Some people even claim that the name stands for “Lots of Isolated Silly Parentheses”. But the claim is unwarranted. Lisp stands for LISt Processing, and the programming language handles lists (and lists of lists) by putting them between parentheses. The parentheses mark the boundaries of the list. Sometimes a list is preceded by an apostrophe ‘'’, called a single-quote in Lisp.1 Lists are the basis of Lisp.
+
+    Lisp Lists
+    Run a Program
+    Generate an Error Message
+    Symbol Names and Function Definitions
+    The Lisp Interpreter
+    Evaluation
+    Variables
+    Arguments
+    Setting the Value of a Variable
+    Summary
+    Exercises
+
+Next: Run a Program, Up: List Processing   [Contents][Index]
+1.1 Lisp Lists
+
+In Lisp, a list looks like this: '(rose violet daisy buttercup). This list is preceded by a single apostrophe. It could just as well be written as follows, which looks more like the kind of list you are likely to be familiar with:
+
+'(rose
+  violet
+  daisy
+  buttercup)
+
+The elements of this list are the names of the four different flowers, separated from each other by whitespace and surrounded by parentheses, like flowers in a field with a stone wall around them.
+
+    Numbers, Lists inside of Lists
+    Lisp Atoms
+    Whitespace in Lists
+    GNU Emacs Helps You Type Lists
+
+Next: Lisp Atoms, Up: Lisp Lists   [Contents][Index]
+Numbers, Lists inside of Lists
+
+Lists can also have numbers in them, as in this list: (+ 2 2). This list has a plus-sign, ‘+’, followed by two ‘2’s, each separated by whitespace.
+
+In Lisp, both data and programs are represented the same way; that is, they are both lists of words, numbers, or other lists, separated by whitespace and surrounded by parentheses. (Since a program looks like data, one program may easily serve as data for another; this is a very powerful feature of Lisp.) (Incidentally, these two parenthetical remarks are not Lisp lists, because they contain ‘;’ and ‘.’ as punctuation marks.)
+
+Here is another list, this time with a list inside of it:
+
+'(this list has (a list inside of it))
+
+The components of this list are the words ‘this’, ‘list’, ‘has’, and the list ‘(a list inside of it)’. The interior list is made up of the words ‘a’, ‘list’, ‘inside’, ‘of’, ‘it’.
+
+Next: Whitespace in Lists, Previous: Numbers, Lists inside of Lists, Up: Lisp Lists   [Contents][Index]
+1.1.1 Lisp Atoms
+
+In Lisp, what we have been calling words are called atoms. This term comes from the historical meaning of the word atom, which means “indivisible”. As far as Lisp is concerned, the words we have been using in the lists cannot be divided into any smaller parts and still mean the same thing as part of a program; likewise with numbers and single character symbols like ‘+’. On the other hand, unlike an ancient atom, a list can be split into parts. (See car cdr & cons Fundamental Functions.)
+
+In a list, atoms are separated from each other by whitespace. They can be right next to a parenthesis.
+
+Technically speaking, a list in Lisp consists of parentheses surrounding atoms separated by whitespace or surrounding other lists or surrounding both atoms and other lists. A list can have just one atom in it or have nothing in it at all. A list with nothing in it looks like this: (), and is called the empty list. Unlike anything else, an empty list is considered both an atom and a list at the same time.
+
+The printed representation of both atoms and lists are called symbolic expressions or, more concisely, s-expressions. The word expression by itself can refer to either the printed representation, or to the atom or list as it is held internally in the computer. Often, people use the term expression indiscriminately. (Also, in many texts, the word form is used as a synonym for expression.)
+
+Incidentally, the atoms that make up our universe were named such when they were thought to be indivisible; but it has been found that physical atoms are not indivisible. Parts can split off an atom or it can fission into two parts of roughly equal size. Physical atoms were named prematurely, before their truer nature was found. In Lisp, certain kinds of atom, such as an array, can be separated into parts; but the mechanism for doing this is different from the mechanism for splitting a list. As far as list operations are concerned, the atoms of a list are unsplittable.
+
+As in English, the meanings of the component letters of a Lisp atom are different from the meaning the letters make as a word. For example, the word for the South American sloth, the ‘ai’, is completely different from the two words, ‘a’, and ‘i’.
+
+There are many kinds of atom in nature but only a few in Lisp: for example, numbers, such as 37, 511, or 1729, and symbols, such as ‘+’, ‘foo’, or ‘forward-line’. The words we have listed in the examples above are all symbols. In everyday Lisp conversation, the word “atom” is not often used, because programmers usually try to be more specific about what kind of atom they are dealing with. Lisp programming is mostly about symbols (and sometimes numbers) within lists. (Incidentally, the preceding three word parenthetical remark is a proper list in Lisp, since it consists of atoms, which in this case are symbols, separated by whitespace and enclosed by parentheses, without any non-Lisp punctuation.)
+
+Text between double quotation marks—even sentences or paragraphs—is also an atom. Here is an example:
+
+'(this list includes "text between quotation marks.")
+
+In Lisp, all of the quoted text including the punctuation mark and the blank spaces is a single atom. This kind of atom is called a string (for “string of characters”) and is the sort of thing that is used for messages that a computer can print for a human to read. Strings are a different kind of atom than numbers or symbols and are used differently.
+
+Next: GNU Emacs Helps You Type Lists, Previous: Lisp Atoms, Up: Lisp Lists   [Contents][Index]
+1.1.2 Whitespace in Lists
+
+The amount of whitespace in a list does not matter. From the point of view of the Lisp language,
+
+'(this list
+   looks like this)
+
+is exactly the same as this:
+
+'(this list looks like this)
+
+Both examples show what to Lisp is the same list, the list made up of the symbols ‘this’, ‘list’, ‘looks’, ‘like’, and ‘this’ in that order.
+
+Extra whitespace and newlines are designed to make a list more readable by humans. When Lisp reads the expression, it gets rid of all the extra whitespace (but it needs to have at least one space between atoms in order to tell them apart.)
+
+Odd as it seems, the examples we have seen cover almost all of what Lisp lists look like! Every other list in Lisp looks more or less like one of these examples, except that the list may be longer and more complex. In brief, a list is between parentheses, a string is between quotation marks, a symbol looks like a word, and a number looks like a number. (For certain situations, square brackets, dots and a few other special characters may be used; however, we will go quite far without them.)
+
+Previous: Whitespace in Lists, Up: Lisp Lists   [Contents][Index]
+1.1.3 GNU Emacs Helps You Type Lists
+
+When you type a Lisp expression in GNU Emacs using either Lisp Interaction mode or Emacs Lisp mode, you have available to you several commands to format the Lisp expression so it is easy to read. For example, pressing the TAB key automatically indents the line the cursor is on by the right amount. A command to properly indent the code in a region is customarily bound to M-C-\. Indentation is designed so that you can see which elements of a list belong to which list—elements of a sub-list are indented more than the elements of the enclosing list.
+
+In addition, when you type a closing parenthesis, Emacs momentarily jumps the cursor back to the matching opening parenthesis, so you can see which one it is. This is very useful, since every list you type in Lisp must have its closing parenthesis match its opening parenthesis. (See Major Modes in The GNU Emacs Manual, for more information about Emacs’s modes.)
+
+Next: Generate an Error Message, Previous: Lisp Lists, Up: List Processing   [Contents][Index]
+1.2 Run a Program
+
+A list in Lisp—any list—is a program ready to run. If you run it (for which the Lisp jargon is evaluate), the computer will do one of three things: do nothing except return to you the list itself; send you an error message; or, treat the first symbol in the list as a command to do something. (Usually, of course, it is the last of these three things that you really want!)
+
+The single apostrophe, ', that I put in front of some of the example lists in preceding sections is called a quote; when it precedes a list, it tells Lisp to do nothing with the list, other than take it as it is written. But if there is no quote preceding a list, the first item of the list is special: it is a command for the computer to obey. (In Lisp, these commands are called functions.) The list (+ 2 2) shown above did not have a quote in front of it, so Lisp understands that the + is an instruction to do something with the rest of the list: add the numbers that follow.
+
+If you are reading this inside of GNU Emacs in Info, here is how you can evaluate such a list: place your cursor immediately after the right hand parenthesis of the following list and then type C-x C-e:
+
+(+ 2 2)
+
+You will see the number 4 appear in the echo area2. (What you have just done is evaluate the list. The echo area is the line at the bottom of the screen that displays or echoes text.) Now try the same thing with a quoted list: place the cursor right after the following list and type C-x C-e:
+
+'(this is a quoted list)
+
+You will see (this is a quoted list) appear in the echo area.
+
+In both cases, what you are doing is giving a command to the program inside of GNU Emacs called the Lisp interpreter—giving the interpreter a command to evaluate the expression. The name of the Lisp interpreter comes from the word for the task done by a human who comes up with the meaning of an expression—who interprets it.
+
+You can also evaluate an atom that is not part of a list—one that is not surrounded by parentheses; again, the Lisp interpreter translates from the humanly readable expression to the language of the computer. But before discussing this (see Variables), we will discuss what the Lisp interpreter does when you make an error.
+
+Next: Symbol Names and Function Definitions, Previous: Run a Program, Up: List Processing   [Contents][Index]
+1.3 Generate an Error Message
+
+Partly so you won’t worry if you do it accidentally, we will now give a command to the Lisp interpreter that generates an error message. This is a harmless activity; and indeed, we will often try to generate error messages intentionally. Once you understand the jargon, error messages can be informative. Instead of being called “error” messages, they should be called “help” messages. They are like signposts to a traveler in a strange country; deciphering them can be hard, but once understood, they can point the way.
+
+The error message is generated by a built-in GNU Emacs debugger. We will enter the debugger. You get out of the debugger by typing q.
+
+What we will do is evaluate a list that is not quoted and does not have a meaningful command as its first element. Here is a list almost exactly the same as the one we just used, but without the single-quote in front of it. Position the cursor right after it and type C-x C-e:
+
+(this is an unquoted list)
+
+A *Backtrace* window will open up and you should see the following in it:
+
+---------- Buffer: *Backtrace* ----------
+Debugger entered--Lisp error: (void-function this)
+  (this is an unquoted list)
+  eval((this is an unquoted list) nil)
+  elisp--eval-last-sexp(nil)
+  eval-last-sexp(nil)
+  funcall-interactively(eval-last-sexp nil)
+  call-interactively(eval-last-sexp nil nil)
+  command-execute(eval-last-sexp)
+---------- Buffer: *Backtrace* ----------
+
+Your cursor will be in this window (you may have to wait a few seconds before it becomes visible). To quit the debugger and make the debugger window go away, type:
+
+q
+
+Please type q right now, so you become confident that you can get out of the debugger. Then, type C-x C-e again to re-enter it.
+
+Based on what we already know, we can almost read this error message.
+
+You read the *Backtrace* buffer from the bottom up; it tells you what Emacs did. When you typed C-x C-e, you made an interactive call to the command eval-last-sexp. eval is an abbreviation for “evaluate” and sexp is an abbreviation for “symbolic expression”. The command means “evaluate last symbolic expression”, which is the expression just before your cursor.
+
+Each line above tells you what the Lisp interpreter evaluated next. The most recent action is at the top. The buffer is called the *Backtrace* buffer because it enables you to track Emacs backwards.
+
+At the top of the *Backtrace* buffer, you see the line:
+
+Debugger entered--Lisp error: (void-function this)
+
+The Lisp interpreter tried to evaluate the first atom of the list, the word ‘this’. It is this action that generated the error message ‘void-function this’.
+
+The message contains the words ‘void-function’ and ‘this’.
+
+The word ‘function’ was mentioned once before. It is a very important word. For our purposes, we can define it by saying that a function is a set of instructions to the computer that tell the computer to do something.
+
+Now we can begin to understand the error message: ‘void-function this’. The function (that is, the word ‘this’) does not have a definition of any set of instructions for the computer to carry out.
+
+The slightly odd word, ‘void-function’, is designed to cover the way Emacs Lisp is implemented, which is that when a symbol does not have a function definition attached to it, the place that should contain the instructions is void.
+
+On the other hand, since we were able to add 2 plus 2 successfully, by evaluating (+ 2 2), we can infer that the symbol + must have a set of instructions for the computer to obey and those instructions must be to add the numbers that follow the +.
+
+It is possible to prevent Emacs entering the debugger in cases like this. We do not explain how to do that here, but we will mention what the result looks like, because you may encounter a similar situation if there is a bug in some Emacs code that you are using. In such cases, you will see only one line of error message; it will appear in the echo area and look like this:
+
+Symbol's function definition is void: this
+
+The message goes away as soon as you type a key, even just to move the cursor.
+
+We know the meaning of the word ‘Symbol’. It refers to the first atom of the list, the word ‘this’. The word ‘function’ refers to the instructions that tell the computer what to do. (Technically, the symbol tells the computer where to find the instructions, but this is a complication we can ignore for the moment.)
+
+The error message can be understood: ‘Symbol's function definition is void: this’. The symbol (that is, the word ‘this’) lacks instructions for the computer to carry out.
+
+Next: The Lisp Interpreter, Previous: Generate an Error Message, Up: List Processing   [Contents][Index]
+1.4 Symbol Names and Function Definitions
+
+We can articulate another characteristic of Lisp based on what we have discussed so far—an important characteristic: a symbol, like +, is not itself the set of instructions for the computer to carry out. Instead, the symbol is used, perhaps temporarily, as a way of locating the definition or set of instructions. What we see is the name through which the instructions can be found. Names of people work the same way. I can be referred to as ‘Bob’; however, I am not the letters ‘B’, ‘o’, ‘b’ but am, or was, the consciousness consistently associated with a particular life-form. The name is not me, but it can be used to refer to me.
+
+In Lisp, one set of instructions can be attached to several names. For example, the computer instructions for adding numbers can be linked to the symbol plus as well as to the symbol + (and are in some dialects of Lisp). Among humans, I can be referred to as ‘Robert’ as well as ‘Bob’ and by other words as well.
+
+On the other hand, a symbol can have only one function definition attached to it at a time. Otherwise, the computer would be confused as to which definition to use. If this were the case among people, only one person in the world could be named ‘Bob’. However, the function definition to which the name refers can be changed readily. (See Install a Function Definition.)
+
+Since Emacs Lisp is large, it is customary to name symbols in a way that identifies the part of Emacs to which the function belongs. Thus, all the names for functions that deal with Texinfo start with ‘texinfo-’ and those for functions that deal with reading mail start with ‘rmail-’.
+
+Next: Evaluation, Previous: Symbol Names and Function Definitions, Up: List Processing   [Contents][Index]
+1.5 The Lisp Interpreter
+
+Based on what we have seen, we can now start to figure out what the Lisp interpreter does when we command it to evaluate a list. First, it looks to see whether there is a quote before the list; if there is, the interpreter just gives us the list. On the other hand, if there is no quote, the interpreter looks at the first element in the list and sees whether it has a function definition. If it does, the interpreter carries out the instructions in the function definition. Otherwise, the interpreter prints an error message.
+
+This is how Lisp works. Simple. There are added complications which we will get to in a minute, but these are the fundamentals. Of course, to write Lisp programs, you need to know how to write function definitions and attach them to names, and how to do this without confusing either yourself or the computer.
+
+    Complications
+    Byte Compiling
+
+Next: Byte Compiling, Up: The Lisp Interpreter   [Contents][Index]
+Complications
+
+Now, for the first complication. In addition to lists, the Lisp interpreter can evaluate a symbol that is not quoted and does not have parentheses around it. The Lisp interpreter will attempt to determine the symbol’s value as a variable. This situation is described in the section on variables. (See Variables.)
+
+The second complication occurs because some functions are unusual and do not work in the usual manner. Those that don’t are called special forms. They are used for special jobs, like defining a function, and there are not many of them. In the next few chapters, you will be introduced to several of the more important special forms.
+
+As well as special forms, there are also macros. A macro is a construct defined in Lisp, which differs from a function in that it translates a Lisp expression into another expression that is to be evaluated in place of the original expression. (See Lisp macro.)
+
+For the purposes of this introduction, you do not need to worry too much about whether something is a special form, macro, or ordinary function. For example, if is a special form (see The if Special Form), but when is a macro (see Lisp macro). In earlier versions of Emacs, defun was a special form, but now it is a macro (see The defun Macro). It still behaves in the same way.
+
+The final complication is this: if the function that the Lisp interpreter is looking at is not a special form, and if it is part of a list, the Lisp interpreter looks to see whether the list has a list inside of it. If there is an inner list, the Lisp interpreter first figures out what it should do with the inside list, and then it works on the outside list. If there is yet another list embedded inside the inner list, it works on that one first, and so on. It always works on the innermost list first. The interpreter works on the innermost list first, to evaluate the result of that list. The result may be used by the enclosing expression.
+
+Otherwise, the interpreter works left to right, from one expression to the next.
+
+Previous: Complications, Up: The Lisp Interpreter   [Contents][Index]
+1.5.1 Byte Compiling
+
+One other aspect of interpreting: the Lisp interpreter is able to interpret two kinds of entity: humanly readable code, on which we will focus exclusively, and specially processed code, called byte compiled code, which is not humanly readable. Byte compiled code runs faster than humanly readable code.
+
+You can transform humanly readable code into byte compiled code by running one of the compile commands such as byte-compile-file. Byte compiled code is usually stored in a file that ends with a .elc extension rather than a .el extension. You will see both kinds of file in the emacs/lisp directory; the files to read are those with .el extensions.
+
+As a practical matter, for most things you might do to customize or extend Emacs, you do not need to byte compile; and I will not discuss the topic here. See Byte Compilation in The GNU Emacs Lisp Reference Manual, for a full description of byte compilation.
+
+Next: Variables, Previous: The Lisp Interpreter, Up: List Processing   [Contents][Index]
+1.6 Evaluation
+
+When the Lisp interpreter works on an expression, the term for the activity is called evaluation. We say that the interpreter “evaluates the expression”. I’ve used this term several times before. The word comes from its use in everyday language, “to ascertain the value or amount of; to appraise”, according to Webster’s New Collegiate Dictionary.
+
+    How the Lisp Interpreter Acts
+    Evaluating Inner Lists
+
+Next: Evaluating Inner Lists, Up: Evaluation   [Contents][Index]
+How the Lisp Interpreter Acts
+
+After evaluating an expression, the Lisp interpreter will most likely return the value that the computer produces by carrying out the instructions it found in the function definition, or perhaps it will give up on that function and produce an error message. (The interpreter may also find itself tossed, so to speak, to a different function or it may attempt to repeat continually what it is doing for ever and ever in an infinite loop. These actions are less common; and we can ignore them.) Most frequently, the interpreter returns a value.
+
+At the same time the interpreter returns a value, it may do something else as well, such as move a cursor or copy a file; this other kind of action is called a side effect. Actions that we humans think are important, such as printing results, are often side effects to the Lisp interpreter. It is fairly easy to learn to use side effects.
+
+In summary, evaluating a symbolic expression most commonly causes the Lisp interpreter to return a value and perhaps carry out a side effect; or else produce an error.
+
+Previous: How the Lisp Interpreter Acts, Up: Evaluation   [Contents][Index]
+1.6.1 Evaluating Inner Lists
+
+If evaluation applies to a list that is inside another list, the outer list may use the value returned by the first evaluation as information when the outer list is evaluated. This explains why inner expressions are evaluated first: the values they return are used by the outer expressions.
+
+We can investigate this process by evaluating another addition example. Place your cursor after the following expression and type C-x C-e:
+
+(+ 2 (+ 3 3))
+
+The number 8 will appear in the echo area.
+
+What happens is that the Lisp interpreter first evaluates the inner expression, (+ 3 3), for which the value 6 is returned; then it evaluates the outer expression as if it were written (+ 2 6), which returns the value 8. Since there are no more enclosing expressions to evaluate, the interpreter prints that value in the echo area.
+
+Now it is easy to understand the name of the command invoked by the keystrokes C-x C-e: the name is eval-last-sexp. The letters sexp are an abbreviation for “symbolic expression”, and eval is an abbreviation for “evaluate”. The command evaluates the last symbolic expression.
+
+As an experiment, you can try evaluating the expression by putting the cursor at the beginning of the next line immediately following the expression, or inside the expression.
+
+Here is another copy of the expression:
+
+(+ 2 (+ 3 3))
+
+If you place the cursor at the beginning of the blank line that immediately follows the expression and type C-x C-e, you will still get the value 8 printed in the echo area. Now try putting the cursor inside the expression. If you put it right after the next to last parenthesis (so it appears to sit on top of the last parenthesis), you will get a 6 printed in the echo area! This is because the command evaluates the expression (+ 3 3).
+
+Now put the cursor immediately after a number. Type C-x C-e and you will get the number itself. In Lisp, if you evaluate a number, you get the number itself—this is how numbers differ from symbols. If you evaluate a list starting with a symbol like +, you will get a value returned that is the result of the computer carrying out the instructions in the function definition attached to that name. If a symbol by itself is evaluated, something different happens, as we will see in the next section.
+
+Next: Arguments, Previous: Evaluation, Up: List Processing   [Contents][Index]
+1.7 Variables
+
+In Emacs Lisp, a symbol can have a value attached to it just as it can have a function definition attached to it. The two are different. The function definition is a set of instructions that a computer will obey. A value, on the other hand, is something, such as number or a name, that can vary (which is why such a symbol is called a variable). The value of a symbol can be any expression in Lisp, such as a symbol, number, list, or string. A symbol that has a value is often called a variable.
+
+A symbol can have both a function definition and a value attached to it at the same time. Or it can have just one or the other. The two are separate. This is somewhat similar to the way the name Cambridge can refer to the city in Massachusetts and have some information attached to the name as well, such as “great programming center”.
+
+Another way to think about this is to imagine a symbol as being a chest of drawers. The function definition is put in one drawer, the value in another, and so on. What is put in the drawer holding the value can be changed without affecting the contents of the drawer holding the function definition, and vice versa.
+
+    fill-column, an Example Variable
+    Error Message for a Symbol Without a Function
+    Error Message for a Symbol Without a Value
+
+Next: Error Message for a Symbol Without a Function, Up: Variables   [Contents][Index]
+fill-column, an Example Variable
+
+The variable fill-column illustrates a symbol with a value attached to it: in every GNU Emacs buffer, this symbol is set to some value, usually 72 or 70, but sometimes to some other value. To find the value of this symbol, evaluate it by itself. If you are reading this in Info inside of GNU Emacs, you can do this by putting the cursor after the symbol and typing C-x C-e:
+
+fill-column
+
+After I typed C-x C-e, Emacs printed the number 72 in my echo area. This is the value for which fill-column is set for me as I write this. It may be different for you in your Info buffer. Notice that the value returned as a variable is printed in exactly the same way as the value returned by a function carrying out its instructions. From the point of view of the Lisp interpreter, a value returned is a value returned. What kind of expression it came from ceases to matter once the value is known.
+
+A symbol can have any value attached to it or, to use the jargon, we can bind the variable to a value: to a number, such as 72; to a string, "such as this"; to a list, such as (spruce pine oak); we can even bind a variable to a function definition.
+
+A symbol can be bound to a value in several ways. See Setting the Value of a Variable, for information about one way to do this.
+
+Next: Error Message for a Symbol Without a Value, Previous: fill-column, an Example Variable, Up: Variables   [Contents][Index]
+1.7.1 Error Message for a Symbol Without a Function
+
+When we evaluated fill-column to find its value as a variable, we did not place parentheses around the word. This is because we did not intend to use it as a function name.
+
+If fill-column were the first or only element of a list, the Lisp interpreter would attempt to find the function definition attached to it. But fill-column has no function definition. Try evaluating this:
+
+(fill-column)
+
+You will create a *Backtrace* buffer that says:
+
+---------- Buffer: *Backtrace* ----------
+Debugger entered--Lisp error: (void-function fill-column)
+  (fill-column)
+  eval((fill-column) nil)
+  elisp--eval-last-sexp(nil)
+  eval-last-sexp(nil)
+  funcall-interactively(eval-last-sexp nil)
+  call-interactively(eval-last-sexp nil nil)
+  command-execute(eval-last-sexp)
+---------- Buffer: *Backtrace* ----------
+
+(Remember, to quit the debugger and make the debugger window go away, type q in the *Backtrace* buffer.)
+
+Previous: Error Message for a Symbol Without a Function, Up: Variables   [Contents][Index]
+1.7.2 Error Message for a Symbol Without a Value
+
+If you attempt to evaluate a symbol that does not have a value bound to it, you will receive an error message. You can see this by experimenting with our 2 plus 2 addition. In the following expression, put your cursor right after the +, before the first number 2, type C-x C-e:
+
+(+ 2 2)
+
+In GNU Emacs 22, you will create a *Backtrace* buffer that says:
+
+---------- Buffer: *Backtrace* ----------
+Debugger entered--Lisp error: (void-variable +)
+  eval(+)
+  elisp--eval-last-sexp(nil)
+  eval-last-sexp(nil)
+  funcall-interactively(eval-last-sexp nil)
+  call-interactively(eval-last-sexp nil nil)
+  command-execute(eval-last-sexp)
+---------- Buffer: *Backtrace* ----------
+
+(Again, you can quit the debugger by typing q in the *Backtrace* buffer.)
+
+This backtrace is different from the very first error message we saw, which said, ‘Debugger entered--Lisp error: (void-function this)’. In this case, the function does not have a value as a variable; while in the other error message, the function (the word ‘this’) did not have a definition.
+
+In this experiment with the +, what we did was cause the Lisp interpreter to evaluate the + and look for the value of the variable instead of the function definition. We did this by placing the cursor right after the symbol rather than after the parenthesis of the enclosing list as we did before. As a consequence, the Lisp interpreter evaluated the preceding s-expression, which in this case was + by itself.
+
+Since + does not have a value bound to it, just the function definition, the error message reported that the symbol’s value as a variable was void.
+
+Next: Setting the Value of a Variable, Previous: Variables, Up: List Processing   [Contents][Index]
+1.8 Arguments
+
+To see how information is passed to functions, let’s look again at our old standby, the addition of two plus two. In Lisp, this is written as follows:
+
+(+ 2 2)
+
+If you evaluate this expression, the number 4 will appear in your echo area. What the Lisp interpreter does is add the numbers that follow the +.
+
+The numbers added by + are called the arguments of the function +. These numbers are the information that is given to or passed to the function.
+
+The word “argument” comes from the way it is used in mathematics and does not refer to a disputation between two people; instead it refers to the information presented to the function, in this case, to the +. In Lisp, the arguments to a function are the atoms or lists that follow the function. The values returned by the evaluation of these atoms or lists are passed to the function. Different functions require different numbers of arguments; some functions require none at all.3
+
+    Arguments’ Data Types
+    An Argument as the Value of a Variable or List
+    Variable Number of Arguments
+    Using the Wrong Type Object as an Argument
+    The message Function
+
+Next: An Argument as the Value of a Variable or List, Up: Arguments   [Contents][Index]
+1.8.1 Arguments’ Data Types
+
+The type of data that should be passed to a function depends on what kind of information it uses. The arguments to a function such as + must have values that are numbers, since + adds numbers. Other functions use different kinds of data for their arguments.
+
+For example, the concat function links together or unites two or more strings of text to produce a string. The arguments are strings. Concatenating the two character strings abc, def produces the single string abcdef. This can be seen by evaluating the following:
+
+(concat "abc" "def")
+
+The value produced by evaluating this expression is "abcdef".
+
+A function such as substring uses both a string and numbers as arguments. The function returns a part of the string, a substring of the first argument. This function takes three arguments. Its first argument is the string of characters, the second and third arguments are numbers that indicate the beginning (inclusive) and end (exclusive) of the substring. The numbers are a count of the number of characters (including spaces and punctuation) from the beginning of the string. Note that the characters in a string are numbered from zero, not one.
+
+For example, if you evaluate the following:
+
+(substring "The quick brown fox jumped." 16 19)
+
+you will see "fox" appear in the echo area. The arguments are the string and the two numbers.
+
+Note that the string passed to substring is a single atom even though it is made up of several words separated by spaces. Lisp counts everything between the two quotation marks as part of the string, including the spaces. You can think of the substring function as a kind of atom smasher since it takes an otherwise indivisible atom and extracts a part. However, substring is only able to extract a substring from an argument that is a string, not from another type of atom such as a number or symbol.
+
+Next: Variable Number of Arguments, Previous: Arguments’ Data Types, Up: Arguments   [Contents][Index]
+1.8.2 An Argument as the Value of a Variable or List
+
+An argument can be a symbol that returns a value when it is evaluated. For example, when the symbol fill-column by itself is evaluated, it returns a number. This number can be used in an addition.
+
+Position the cursor after the following expression and type C-x C-e:
+
+(+ 2 fill-column)
+
+The value will be a number two more than what you get by evaluating fill-column alone. For me, this is 74, because my value of fill-column is 72.
+
+As we have just seen, an argument can be a symbol that returns a value when evaluated. In addition, an argument can be a list that returns a value when it is evaluated. For example, in the following expression, the arguments to the function concat are the strings "The " and " red foxes." and the list (number-to-string (+ 2 fill-column)).
+
+(concat "The " (number-to-string (+ 2 fill-column)) " red foxes.")
+
+If you evaluate this expression—and if, as with my Emacs, fill-column evaluates to 72—"The 74 red foxes." will appear in the echo area. (Note that you must put spaces after the word ‘The’ and before the word ‘red’ so they will appear in the final string. The function number-to-string converts the integer that the addition function returns to a string. number-to-string is also known as int-to-string.)
+
+Next: Using the Wrong Type Object as an Argument, Previous: An Argument as the Value of a Variable or List, Up: Arguments   [Contents][Index]
+1.8.3 Variable Number of Arguments
+
+Some functions, such as concat, + or *, take any number of arguments. (The * is the symbol for multiplication.) This can be seen by evaluating each of the following expressions in the usual way. What you will see in the echo area is printed in this text after ‘⇒’, which you may read as “evaluates to”.
+
+In the first set, the functions have no arguments:
+
+(+)       ⇒ 0
+
+(*)       ⇒ 1
+
+In this set, the functions have one argument each:
+
+(+ 3)     ⇒ 3
+
+(* 3)     ⇒ 3
+
+In this set, the functions have three arguments each:
+
+(+ 3 4 5) ⇒ 12
+
+(* 3 4 5) ⇒ 60
+
+Next: The message Function, Previous: Variable Number of Arguments, Up: Arguments   [Contents][Index]
+1.8.4 Using the Wrong Type Object as an Argument
+
+When a function is passed an argument of the wrong type, the Lisp interpreter produces an error message. For example, the + function expects the values of its arguments to be numbers. As an experiment we can pass it the quoted symbol hello instead of a number. Position the cursor after the following expression and type C-x C-e:
+
+(+ 2 'hello)
+
+When you do this you will generate an error message. What has happened is that + has tried to add the 2 to the value returned by 'hello, but the value returned by 'hello is the symbol hello, not a number. Only numbers can be added. So + could not carry out its addition.
+
+You will create and enter a *Backtrace* buffer that says:
+
+---------- Buffer: *Backtrace* ----------
+Debugger entered--Lisp error:
+         (wrong-type-argument number-or-marker-p hello)
+  +(2 hello)
+  eval((+ 2 'hello) nil)
+  elisp--eval-last-sexp(t)
+  eval-last-sexp(nil)
+  funcall-interactively(eval-print-last-sexp nil)
+  call-interactively(eval-print-last-sexp nil nil)
+  command-execute(eval-print-last-sexp)
+---------- Buffer: *Backtrace* ----------
+
+As usual, the error message tries to be helpful and makes sense after you learn how to read it.4
+
+The first part of the error message is straightforward; it says ‘wrong type argument’. Next comes the mysterious jargon word ‘number-or-marker-p’. This word is trying to tell you what kind of argument the + expected.
+
+The symbol number-or-marker-p says that the Lisp interpreter is trying to determine whether the information presented it (the value of the argument) is a number or a marker (a special object representing a buffer position). What it does is test to see whether the + is being given numbers to add. It also tests to see whether the argument is something called a marker, which is a specific feature of Emacs Lisp. (In Emacs, locations in a buffer are recorded as markers. When the mark is set with the C-@ or C-SPC command, its position is kept as a marker. The mark can be considered a number—the number of characters the location is from the beginning of the buffer.) In Emacs Lisp, + can be used to add the numeric value of marker positions as numbers.
+
+The ‘p’ of number-or-marker-p is the embodiment of a practice started in the early days of Lisp programming. The ‘p’ stands for predicate. In the jargon used by the early Lisp researchers, a predicate refers to a function to determine whether some property is true or false. So the ‘p’ tells us that number-or-marker-p is the name of a function that determines whether it is true or false that the argument supplied is a number or a marker. Other Lisp symbols that end in ‘p’ include zerop, a function that tests whether its argument has the value of zero, and listp, a function that tests whether its argument is a list.
+
+Finally, the last part of the error message is the symbol hello. This is the value of the argument that was passed to +. If the addition had been passed the correct type of object, the value passed would have been a number, such as 37, rather than a symbol like hello. But then you would not have got the error message.
+
+Previous: Using the Wrong Type Object as an Argument, Up: Arguments   [Contents][Index]
+1.8.5 The message Function
+
+Like +, the message function takes a variable number of arguments. It is used to send messages to the user and is so useful that we will describe it here.
+
+A message is printed in the echo area. For example, you can print a message in your echo area by evaluating the following list:
+
+(message "This message appears in the echo area!")
+
+The whole string between double quotation marks is a single argument and is printed in toto. (Note that in this example, the message itself will appear in the echo area within double quotes; that is because you see the value returned by the message function. In most uses of message in programs that you write, the text will be printed in the echo area as a side-effect, without the quotes. See multiply-by-seven in detail, for an example of this.)
+
+However, if there is a ‘%s’ in the quoted string of characters, the message function does not print the ‘%s’ as such, but looks to the argument that follows the string. It evaluates the second argument and prints the value at the location in the string where the ‘%s’ is.
+
+You can see this by positioning the cursor after the following expression and typing C-x C-e:
+
+(message "The name of this buffer is: %s." (buffer-name))
+
+In Info, "The name of this buffer is: *info*." will appear in the echo area. The function buffer-name returns the name of the buffer as a string, which the message function inserts in place of %s.
+
+To print a value as an integer, use ‘%d’ in the same way as ‘%s’. For example, to print a message in the echo area that states the value of the fill-column, evaluate the following:
+
+(message "The value of fill-column is %d." fill-column)
+
+On my system, when I evaluate this list, "The value of fill-column is 72." appears in my echo area5.
+
+If there is more than one ‘%s’ in the quoted string, the value of the first argument following the quoted string is printed at the location of the first ‘%s’ and the value of the second argument is printed at the location of the second ‘%s’, and so on.
+
+For example, if you evaluate the following,
+
+(message "There are %d %s in the office!"
+         (- fill-column 14) "pink elephants")
+
+a rather whimsical message will appear in your echo area. On my system it says, "There are 58 pink elephants in the office!".
+
+The expression (- fill-column 14) is evaluated and the resulting number is inserted in place of the ‘%d’; and the string in double quotes, "pink elephants", is treated as a single argument and inserted in place of the ‘%s’. (That is to say, a string between double quotes evaluates to itself, like a number.)
+
+Finally, here is a somewhat complex example that not only illustrates the computation of a number, but also shows how you can use an expression within an expression to generate the text that is substituted for ‘%s’:
+
+(message "He saw %d %s"
+         (- fill-column 32)
+         (concat "red "
+                 (substring
+                  "The quick brown foxes jumped." 16 21)
+                 " leaping."))
+
+In this example, message has three arguments: the string, "He saw %d %s", the expression, (- fill-column 32), and the expression beginning with the function concat. The value resulting from the evaluation of (- fill-column 32) is inserted in place of the ‘%d’; and the value returned by the expression beginning with concat is inserted in place of the ‘%s’.
+
+When your fill column is 70 and you evaluate the expression, the message "He saw 38 red foxes leaping." appears in your echo area.
+
+Next: Summary, Previous: Arguments, Up: List Processing   [Contents][Index]
+1.9 Setting the Value of a Variable
+
+There are several ways by which a variable can be given a value. One of the ways is to use either the function set or the special form setq. Another way is to use let (see let). (The jargon for this process is to bind a variable to a value.)
+
+The following sections not only describe how set and setq work but also illustrate how arguments are passed.
+
+    Using set
+    Using setq
+    Counting
+
+Next: Using setq, Up: Setting the Value of a Variable   [Contents][Index]
+1.9.1 Using set
+
+To set the value of the symbol flowers to the list '(rose violet daisy buttercup), evaluate the following expression by positioning the cursor after the expression and typing C-x C-e.
+
+(set 'flowers '(rose violet daisy buttercup))
+
+The list (rose violet daisy buttercup) will appear in the echo area. This is what is returned by the set function. As a side effect, the symbol flowers is bound to the list; that is, the symbol flowers, which can be viewed as a variable, is given the list as its value. (This process, by the way, illustrates how a side effect to the Lisp interpreter, setting the value, can be the primary effect that we humans are interested in. This is because every Lisp function must return a value if it does not get an error, but it will only have a side effect if it is designed to have one.)
+
+After evaluating the set expression, you can evaluate the symbol flowers and it will return the value you just set. Here is the symbol. Place your cursor after it and type C-x C-e.
+
+flowers
+
+When you evaluate flowers, the list (rose violet daisy buttercup) appears in the echo area.
+
+Incidentally, if you evaluate 'flowers, the variable with a quote in front of it, what you will see in the echo area is the symbol itself, flowers. Here is the quoted symbol, so you can try this:
+
+'flowers
+
+Note also, that when you use set, you need to quote both arguments to set, unless you want them evaluated. Since we do not want either argument evaluated, neither the variable flowers nor the list (rose violet daisy buttercup), both are quoted. (When you use set without quoting its first argument, the first argument is evaluated before anything else is done. If you did this and flowers did not have a value already, you would get an error message that the ‘Symbol's value as variable is void’; on the other hand, if flowers did return a value after it was evaluated, the set would attempt to set the value that was returned. There are situations where this is the right thing for the function to do; but such situations are rare.)
+
+Next: Counting, Previous: Using set, Up: Setting the Value of a Variable   [Contents][Index]
+1.9.2 Using setq
+
+As a practical matter, you almost always quote the first argument to set. The combination of set and a quoted first argument is so common that it has its own name: the special form setq. This special form is just like set except that the first argument is quoted automatically, so you don’t need to type the quote mark yourself. Also, as an added convenience, setq permits you to set several different variables to different values, all in one expression.
+
+To set the value of the variable carnivores to the list '(lion tiger leopard) using setq, the following expression is used:
+
+(setq carnivores '(lion tiger leopard))
+
+This is exactly the same as using set except the first argument is automatically quoted by setq. (The ‘q’ in setq means quote.)
+
+With set, the expression would look like this:
+
+(set 'carnivores '(lion tiger leopard))
+
+Also, setq can be used to assign different values to different variables. The first argument is bound to the value of the second argument, the third argument is bound to the value of the fourth argument, and so on. For example, you could use the following to assign a list of trees to the symbol trees and a list of herbivores to the symbol herbivores:
+
+(setq trees '(pine fir oak maple)
+      herbivores '(gazelle antelope zebra))
+
+(The expression could just as well have been on one line, but it might not have fit on a page; and humans find it easier to read nicely formatted lists.)
+
+Although I have been using the term “assign”, there is another way of thinking about the workings of set and setq; and that is to say that set and setq make the symbol point to the list. This latter way of thinking is very common and in forthcoming chapters we shall come upon at least one symbol that has “pointer” as part of its name. The name is chosen because the symbol has a value, specifically a list, attached to it; or, expressed another way, the symbol is set to point to the list.
+
+Previous: Using setq, Up: Setting the Value of a Variable   [Contents][Index]
+1.9.3 Counting
+
+Here is an example that shows how to use setq in a counter. You might use this to count how many times a part of your program repeats itself. First set a variable to zero; then add one to the number each time the program repeats itself. To do this, you need a variable that serves as a counter, and two expressions: an initial setq expression that sets the counter variable to zero; and a second setq expression that increments the counter each time it is evaluated.
+
+(setq counter 0)                ; Let’s call this the initializer.
+
+(setq counter (+ counter 1))    ; This is the incrementer.
+
+counter                         ; This is the counter.
+
+(The text following the ‘;’ are comments. See Change a Function Definition.)
+
+If you evaluate the first of these expressions, the initializer, (setq counter 0), and then evaluate the third expression, counter, the number 0 will appear in the echo area. If you then evaluate the second expression, the incrementer, (setq counter (+ counter 1)), the counter will get the value 1. So if you again evaluate counter, the number 1 will appear in the echo area. Each time you evaluate the second expression, the value of the counter will be incremented.
+
+When you evaluate the incrementer, (setq counter (+ counter 1)), the Lisp interpreter first evaluates the innermost list; this is the addition. In order to evaluate this list, it must evaluate the variable counter and the number 1. When it evaluates the variable counter, it receives its current value. It passes this value and the number 1 to the + which adds them together. The sum is then returned as the value of the inner list and passed to the setq which sets the variable counter to this new value. Thus, the value of the variable, counter, is changed.
+
+Next: Exercises, Previous: Setting the Value of a Variable, Up: List Processing   [Contents][Index]
+1.10 Summary
+
+Learning Lisp is like climbing a hill in which the first part is the steepest. You have now climbed the most difficult part; what remains becomes easier as you progress onwards.
+
+In summary,
+Lisp programs are made up of expressions, which are lists or single atoms.
+Lists are made up of zero or more atoms or inner lists, separated by whitespace and surrounded by parentheses. A list can be empty.
+Atoms are multi-character symbols, like forward-paragraph, single character symbols like +, strings of characters between double quotation marks, or numbers.
+A number evaluates to itself.
+A string between double quotes also evaluates to itself.
+When you evaluate a symbol by itself, its value is returned.
+When you evaluate a list, the Lisp interpreter looks at the first symbol in the list and then at the function definition bound to that symbol. Then the instructions in the function definition are carried out.
+A single-quote ‘'’ tells the Lisp interpreter that it should return the following expression as written, and not evaluate it as it would if the quote were not there.
+Arguments are the information passed to a function. The arguments to a function are computed by evaluating the rest of the elements of the list of which the function is the first element.
+A function always returns a value when it is evaluated (unless it gets an error); in addition, it may also carry out some action that is a side effect. In many cases, a function’s primary purpose is to create a side effect.
+
+Previous: Summary, Up: List Processing   [Contents][Index]
+1.11 Exercises
+
+A few simple exercises:
+
+    Generate an error message by evaluating an appropriate symbol that is not within parentheses.
+    Generate an error message by evaluating an appropriate symbol that is between parentheses.
+    Create a counter that increments by two rather than one.
+    Write an expression that prints a message in the echo area when evaluated. 
+
+Next: How To Write Function Definitions, Previous: List Processing, Up: An Introduction to Programming in Emacs Lisp   [Contents][Index]
+2 Practicing Evaluation
+
+Before learning how to write a function definition in Emacs Lisp, it is useful to spend a little time evaluating various expressions that have already been written. These expressions will be lists with the functions as their first (and often only) element. Since some of the functions associated with buffers are both simple and interesting, we will start with those. In this section, we will evaluate a few of these. In another section, we will study the code of several other buffer-related functions, to see how they were written.
+
+    How to Evaluate
+    Buffer Names
+    Getting Buffers
+    Switching Buffers
+    Buffer Size and the Location of Point
+    Exercise
+
+Next: Buffer Names, Up: Practicing Evaluation   [Contents][Index]
+How to Evaluate
+
+Whenever you give an editing command to Emacs Lisp, such as the command to move the cursor or to scroll the screen, you are evaluating an expression, the first element of which is a function. This is how Emacs works.
+
+When you type keys, you cause the Lisp interpreter to evaluate an expression and that is how you get your results. Even typing plain text involves evaluating an Emacs Lisp function, in this case, one that uses self-insert-command, which simply inserts the character you typed. The functions you evaluate by typing keystrokes are called interactive functions, or commands; how you make a function interactive will be illustrated in the chapter on how to write function definitions. See Making a Function Interactive.
+
+In addition to typing keyboard commands, we have seen a second way to evaluate an expression: by positioning the cursor after a list and typing C-x C-e. This is what we will do in the rest of this section. There are other ways to evaluate an expression as well; these will be described as we come to them.
+
+Besides being used for practicing evaluation, the functions shown in the next few sections are important in their own right. A study of these functions makes clear the distinction between buffers and files, how to switch to a buffer, and how to determine a location within it.
+
+Next: Getting Buffers, Previous: How to Evaluate, Up: Practicing Evaluation   [Contents][Index]
+2.1 Buffer Names
+
+The two functions, buffer-name and buffer-file-name, show the difference between a file and a buffer. When you evaluate the following expression, (buffer-name), the name of the buffer appears in the echo area. When you evaluate (buffer-file-name), the name of the file to which the buffer refers appears in the echo area. Usually, the name returned by (buffer-name) is the same as the name of the file to which it refers, and the name returned by (buffer-file-name) is the full path-name of the file.
+
+A file and a buffer are two different entities. A file is information recorded permanently in the computer (unless you delete it). A buffer, on the other hand, is information inside of Emacs that will vanish at the end of the editing session (or when you kill the buffer). Usually, a buffer contains information that you have copied from a file; we say the buffer is visiting that file. This copy is what you work on and modify. Changes to the buffer do not change the file, until you save the buffer. When you save the buffer, the buffer is copied to the file and is thus saved permanently.
+
+If you are reading this in Info inside of GNU Emacs, you can evaluate each of the following expressions by positioning the cursor after it and typing C-x C-e.
+
+(buffer-name)
+
+(buffer-file-name)
+
+When I do this in Info, the value returned by evaluating (buffer-name) is "*info*", and the value returned by evaluating (buffer-file-name) is nil.
+
+On the other hand, while I am writing this document, the value returned by evaluating (buffer-name) is "introduction.texinfo", and the value returned by evaluating (buffer-file-name) is "/gnu/work/intro/introduction.texinfo".
+
+The former is the name of the buffer and the latter is the name of the file. In Info, the buffer name is "*info*". Info does not point to any file, so the result of evaluating (buffer-file-name) is nil. The symbol nil is from the Latin word for “nothing”; in this case, it means that the buffer is not associated with any file. (In Lisp, nil is also used to mean “false” and is a synonym for the empty list, ().)
+
+When I am writing, the name of my buffer is "introduction.texinfo". The name of the file to which it points is "/gnu/work/intro/introduction.texinfo".
+
+(In the expressions, the parentheses tell the Lisp interpreter to treat buffer-name and buffer-file-name as functions; without the parentheses, the interpreter would attempt to evaluate the symbols as variables. See Variables.)
+
+In spite of the distinction between files and buffers, you will often find that people refer to a file when they mean a buffer and vice versa. Indeed, most people say, “I am editing a file,” rather than saying, “I am editing a buffer which I will soon save to a file.” It is almost always clear from context what people mean. When dealing with computer programs, however, it is important to keep the distinction in mind, since the computer is not as smart as a person.
+
+The word “buffer”, by the way, comes from the meaning of the word as a cushion that deadens the force of a collision. In early computers, a buffer cushioned the interaction between files and the computer’s central processing unit. The drums or tapes that held a file and the central processing unit were pieces of equipment that were very different from each other, working at their own speeds, in spurts. The buffer made it possible for them to work together effectively. Eventually, the buffer grew from being an intermediary, a temporary holding place, to being the place where work is done. This transformation is rather like that of a small seaport that grew into a great city: once it was merely the place where cargo was warehoused temporarily before being loaded onto ships; then it became a business and cultural center in its own right.
+
+Not all buffers are associated with files. For example, a *scratch* buffer does not visit any file. Similarly, a *Help* buffer is not associated with any file.
+
+In the old days, when you lacked a ~/.emacs file and started an Emacs session by typing the command emacs alone, without naming any files, Emacs started with the *scratch* buffer visible. Nowadays, you will see a splash screen. You can follow one of the commands suggested on the splash screen, visit a file, or press q to quit the splash screen and reach the *scratch* buffer.
+
+If you switch to the *scratch* buffer, type (buffer-name), position the cursor after it, and then type C-x C-e to evaluate the expression. The name "*scratch*" will be returned and will appear in the echo area. "*scratch*" is the name of the buffer. When you type (buffer-file-name) in the *scratch* buffer and evaluate that, nil will appear in the echo area, just as it does when you evaluate (buffer-file-name) in Info.
+
+Incidentally, if you are in the *scratch* buffer and want the value returned by an expression to appear in the *scratch* buffer itself rather than in the echo area, type C-u C-x C-e instead of C-x C-e. This causes the value returned to appear after the expression. The buffer will look like this:
+
+(buffer-name)"*scratch*"
+
+You cannot do this in Info since Info is read-only and it will not allow you to change the contents of the buffer. But you can do this in any buffer you can edit; and when you write code or documentation (such as this book), this feature is very useful.
+
+Next: Switching Buffers, Previous: Buffer Names, Up: Practicing Evaluation   [Contents][Index]
+2.2 Getting Buffers
+
+The buffer-name function returns the name of the buffer; to get the buffer itself, a different function is needed: the current-buffer function. If you use this function in code, what you get is the buffer itself.
+
+A name and the object or entity to which the name refers are different from each other. You are not your name. You are a person to whom others refer by name. If you ask to speak to George and someone hands you a card with the letters ‘G’, ‘e’, ‘o’, ‘r’, ‘g’, and ‘e’ written on it, you might be amused, but you would not be satisfied. You do not want to speak to the name, but to the person to whom the name refers. A buffer is similar: the name of the scratch buffer is *scratch*, but the name is not the buffer. To get a buffer itself, you need to use a function such as current-buffer.
+
+However, there is a slight complication: if you evaluate current-buffer in an expression on its own, as we will do here, what you see is a printed representation of the name of the buffer without the contents of the buffer. Emacs works this way for two reasons: the buffer may be thousands of lines long—too long to be conveniently displayed; and, another buffer may have the same contents but a different name, and it is important to distinguish between them.
+
+Here is an expression containing the function:
+
+(current-buffer)
+
+If you evaluate this expression in Info in Emacs in the usual way, #<buffer *info*> will appear in the echo area. The special format indicates that the buffer itself is being returned, rather than just its name.
+
+Incidentally, while you can type a number or symbol into a program, you cannot do that with the printed representation of a buffer: the only way to get a buffer itself is with a function such as current-buffer.
+
+A related function is other-buffer. This returns the most recently selected buffer other than the one you are in currently, not a printed representation of its name. If you have recently switched back and forth from the *scratch* buffer, other-buffer will return that buffer.
+
+You can see this by evaluating the expression:
+
+(other-buffer)
+
+You should see #<buffer *scratch*> appear in the echo area, or the name of whatever other buffer you switched back from most recently6.
+
+Next: Buffer Size and the Location of Point, Previous: Getting Buffers, Up: Practicing Evaluation   [Contents][Index]
+2.3 Switching Buffers
+
+The other-buffer function actually provides a buffer when it is used as an argument to a function that requires one. We can see this by using other-buffer and switch-to-buffer to switch to a different buffer.
+
+But first, a brief introduction to the switch-to-buffer function. When you switched back and forth from Info to the *scratch* buffer to evaluate (buffer-name), you most likely typed C-x b and then typed *scratch*7 when prompted in the minibuffer for the name of the buffer to which you wanted to switch. The keystrokes, C-x b, cause the Lisp interpreter to evaluate the interactive function switch-to-buffer. As we said before, this is how Emacs works: different keystrokes call or run different functions. For example, C-f calls forward-char, M-e calls forward-sentence, and so on.
+
+By writing switch-to-buffer in an expression, and giving it a buffer to switch to, we can switch buffers just the way C-x b does:
+
+(switch-to-buffer (other-buffer))
+
+The symbol switch-to-buffer is the first element of the list, so the Lisp interpreter will treat it as a function and carry out the instructions that are attached to it. But before doing that, the interpreter will note that other-buffer is inside parentheses and work on that symbol first. other-buffer is the first (and in this case, the only) element of this list, so the Lisp interpreter calls or runs the function. It returns another buffer. Next, the interpreter runs switch-to-buffer, passing to it, as an argument, the other buffer, which is what Emacs will switch to. If you are reading this in Info, try this now. Evaluate the expression. (To get back, type C-x b RET.)8
+
+In the programming examples in later sections of this document, you will see the function set-buffer more often than switch-to-buffer. This is because of a difference between computer programs and humans: humans have eyes and expect to see the buffer on which they are working on their computer terminals. This is so obvious, it almost goes without saying. However, programs do not have eyes. When a computer program works on a buffer, that buffer does not need to be visible on the screen.
+
+switch-to-buffer is designed for humans and does two different things: it switches the buffer to which Emacs’s attention is directed; and it switches the buffer displayed in the window to the new buffer. set-buffer, on the other hand, does only one thing: it switches the attention of the computer program to a different buffer. The buffer on the screen remains unchanged (of course, normally nothing happens there until the command finishes running).
+
+Also, we have just introduced another jargon term, the word call. When you evaluate a list in which the first symbol is a function, you are calling that function. The use of the term comes from the notion of the function as an entity that can do something for you if you call it—just as a plumber is an entity who can fix a leak if you call him or her.
+
+Next: Exercise, Previous: Switching Buffers, Up: Practicing Evaluation   [Contents][Index]
+2.4 Buffer Size and the Location of Point
+
+Finally, let’s look at several rather simple functions, buffer-size, point, point-min, and point-max. These give information about the size of a buffer and the location of point within it.
+
+The function buffer-size tells you the size of the current buffer; that is, the function returns a count of the number of characters in the buffer.
+
+(buffer-size)
+
+You can evaluate this in the usual way, by positioning the cursor after the expression and typing C-x C-e.
+
+In Emacs, the current position of the cursor is called point. The expression (point) returns a number that tells you where the cursor is located as a count of the number of characters from the beginning of the buffer up to point.
+
+You can see the character count for point in this buffer by evaluating the following expression in the usual way:
+
+(point)
+
+As I write this, the value of point is 65724. The point function is frequently used in some of the examples later in this book.
+
+The value of point depends, of course, on its location within the buffer. If you evaluate point in this spot, the number will be larger:
+
+(point)
+
+For me, the value of point in this location is 66043, which means that there are 319 characters (including spaces) between the two expressions. (Doubtless, you will see different numbers, since I will have edited this since I first evaluated point.)
+
+The function point-min is somewhat similar to point, but it returns the value of the minimum permissible value of point in the current buffer. This is the number 1 unless narrowing is in effect. (Narrowing is a mechanism whereby you can restrict yourself, or a program, to operations on just a part of a buffer. See Narrowing and Widening.) Likewise, the function point-max returns the value of the maximum permissible value of point in the current buffer.
+
+Previous: Buffer Size and the Location of Point, Up: Practicing Evaluation   [Contents][Index]
+2.5 Exercise
+
+Find a file with which you are working and move towards its middle. Find its buffer name, file name, length, and your position in the file.
+
+Next: A Few Buffer-Related Functions, Previous: Practicing Evaluation, Up: An Introduction to Programming in Emacs Lisp   [Contents][Index]
+3 How To Write Function Definitions
+
+When the Lisp interpreter evaluates a list, it looks to see whether the first symbol on the list has a function definition attached to it; or, put another way, whether the symbol points to a function definition. If it does, the computer carries out the instructions in the definition. A symbol that has a function definition is called, simply, a function (although, properly speaking, the definition is the function and the symbol refers to it.)
+
+    An Aside about Primitive Functions
+    The defun Macro
+    Install a Function Definition
+    Make a Function Interactive
+    Different Options for interactive
+    Install Code Permanently
+    let
+    The if Special Form
+    If–then–else Expressions
+    Truth and Falsehood in Emacs Lisp
+    save-excursion
+    Review
+    Exercises
+
+Next: The defun Macro, Up: How To Write Function Definitions   [Contents][Index]
+An Aside about Primitive Functions
+
+All functions are defined in terms of other functions, except for a few primitive functions that are written in the C programming language. When you write functions’ definitions, you will write them in Emacs Lisp and use other functions as your building blocks. Some of the functions you will use will themselves be written in Emacs Lisp (perhaps by you) and some will be primitives written in C. The primitive functions are used exactly like those written in Emacs Lisp and behave like them. They are written in C so we can easily run GNU Emacs on any computer that has sufficient power and can run C.
+
+Let me re-emphasize this: when you write code in Emacs Lisp, you do not distinguish between the use of functions written in C and the use of functions written in Emacs Lisp. The difference is irrelevant. I mention the distinction only because it is interesting to know. Indeed, unless you investigate, you won’t know whether an already-written function is written in Emacs Lisp or C.
+
+Next: Install a Function Definition, Previous: An Aside about Primitive Functions, Up: How To Write Function Definitions   [Contents][Index]
+3.1 The defun Macro
+
+In Lisp, a symbol such as mark-whole-buffer has code attached to it that tells the computer what to do when the function is called. This code is called the function definition and is created by evaluating a Lisp expression that starts with the symbol defun (which is an abbreviation for define function).
+
+In subsequent sections, we will look at function definitions from the Emacs source code, such as mark-whole-buffer. In this section, we will describe a simple function definition so you can see how it looks. This function definition uses arithmetic because it makes for a simple example. Some people dislike examples using arithmetic; however, if you are such a person, do not despair. Hardly any of the code we will study in the remainder of this introduction involves arithmetic or mathematics. The examples mostly involve text in one way or another.
+
+A function definition has up to five parts following the word defun:
+
+    The name of the symbol to which the function definition should be attached.
+    A list of the arguments that will be passed to the function. If no arguments will be passed to the function, this is an empty list, ().
+    Documentation describing the function. (Technically optional, but strongly recommended.)
+    Optionally, an expression to make the function interactive so you can use it by typing M-x and then the name of the function; or by typing an appropriate key or keychord.
+    The code that instructs the computer what to do: the body of the function definition. 
+
+It is helpful to think of the five parts of a function definition as being organized in a template, with slots for each part:
+
+(defun function-name (arguments…)
+  "optional-documentation…"
+  (interactive argument-passing-info)     ; optional
+  body…)
+
+As an example, here is the code for a function that multiplies its argument by 7. (This example is not interactive. See Making a Function Interactive, for that information.)
+
+(defun multiply-by-seven (number)
+  "Multiply NUMBER by seven."
+  (* 7 number))
+
+This definition begins with a parenthesis and the symbol defun, followed by the name of the function.
+
+The name of the function is followed by a list that contains the arguments that will be passed to the function. This list is called the argument list. In this example, the list has only one element, the symbol, number. When the function is used, the symbol will be bound to the value that is used as the argument to the function.
+
+Instead of choosing the word number for the name of the argument, I could have picked any other name. For example, I could have chosen the word multiplicand. I picked the word “number” because it tells what kind of value is intended for this slot; but I could just as well have chosen the word “multiplicand” to indicate the role that the value placed in this slot will play in the workings of the function. I could have called it foogle, but that would have been a bad choice because it would not tell humans what it means. The choice of name is up to the programmer and should be chosen to make the meaning of the function clear.
+
+Indeed, you can choose any name you wish for a symbol in an argument list, even the name of a symbol used in some other function: the name you use in an argument list is private to that particular definition. In that definition, the name refers to a different entity than any use of the same name outside the function definition. Suppose you have a nick-name “Shorty” in your family; when your family members refer to “Shorty”, they mean you. But outside your family, in a movie, for example, the name “Shorty” refers to someone else. Because a name in an argument list is private to the function definition, you can change the value of such a symbol inside the body of a function without changing its value outside the function. The effect is similar to that produced by a let expression. (See let.)
+
+The argument list is followed by the documentation string that describes the function. This is what you see when you type C-h f and the name of a function. Incidentally, when you write a documentation string like this, you should make the first line a complete sentence since some commands, such as apropos, print only the first line of a multi-line documentation string. Also, you should not indent the second line of a documentation string, if you have one, because that looks odd when you use C-h f (describe-function). The documentation string is optional, but it is so useful, it should be included in almost every function you write.
+
+The third line of the example consists of the body of the function definition. (Most functions’ definitions, of course, are longer than this.) In this function, the body is the list, (* 7 number), which says to multiply the value of number by 7. (In Emacs Lisp, * is the function for multiplication, just as + is the function for addition.)
+
+When you use the multiply-by-seven function, the argument number evaluates to the actual number you want used. Here is an example that shows how multiply-by-seven is used; but don’t try to evaluate this yet!
+
+(multiply-by-seven 3)
+
+The symbol number, specified in the function definition in the next section, is bound to the value 3 in the actual use of the function. Note that although number was inside parentheses in the function definition, the argument passed to the multiply-by-seven function is not in parentheses. The parentheses are written in the function definition so the computer can figure out where the argument list ends and the rest of the function definition begins.
+
+If you evaluate this example, you are likely to get an error message. (Go ahead, try it!) This is because we have written the function definition, but not yet told the computer about the definition—we have not yet loaded the function definition in Emacs. Installing a function is the process that tells the Lisp interpreter the definition of the function. Installation is described in the next section.
+
+Next: Make a Function Interactive, Previous: The defun Macro, Up: How To Write Function Definitions   [Contents][Index]
+3.2 Install a Function Definition
+
+If you are reading this inside of Info in Emacs, you can try out the multiply-by-seven function by first evaluating the function definition and then evaluating (multiply-by-seven 3). A copy of the function definition follows. Place the cursor after the last parenthesis of the function definition and type C-x C-e. When you do this, multiply-by-seven will appear in the echo area. (What this means is that when a function definition is evaluated, the value it returns is the name of the defined function.) At the same time, this action installs the function definition.
+
+(defun multiply-by-seven (number)
+  "Multiply NUMBER by seven."
+  (* 7 number))
+
+By evaluating this defun, you have just installed multiply-by-seven in Emacs. The function is now just as much a part of Emacs as forward-word or any other editing function you use. (multiply-by-seven will stay installed until you quit Emacs. To reload code automatically whenever you start Emacs, see Installing Code Permanently.)
+
+    The effect of installation
+    Change a Function Definition
+
+Next: Change a Function Definition, Up: Install a Function Definition   [Contents][Index]
+The effect of installation
+
+You can see the effect of installing multiply-by-seven by evaluating the following sample. Place the cursor after the following expression and type C-x C-e. The number 21 will appear in the echo area.
+
+(multiply-by-seven 3)
+
+If you wish, you can read the documentation for the function by typing C-h f (describe-function) and then the name of the function, multiply-by-seven. When you do this, a *Help* window will appear on your screen that says:
+
+multiply-by-seven is a Lisp function.
+
+(multiply-by-seven NUMBER)
+
+Multiply NUMBER by seven.
+
+(To return to a single window on your screen, type C-x 1.)
+
+Previous: The effect of installation, Up: Install a Function Definition   [Contents][Index]
+3.2.1 Change a Function Definition
+
+If you want to change the code in multiply-by-seven, just rewrite it. To install the new version in place of the old one, evaluate the function definition again. This is how you modify code in Emacs. It is very simple.
+
+As an example, you can change the multiply-by-seven function to add the number to itself seven times instead of multiplying the number by seven. It produces the same answer, but by a different path. At the same time, we will add a comment to the code; a comment is text that the Lisp interpreter ignores, but that a human reader may find useful or enlightening. The comment is that this is the second version.
+
+(defun multiply-by-seven (number)       ; Second version.
+  "Multiply NUMBER by seven."
+  (+ number number number number number number number))
+
+The comment follows a semicolon, ‘;’. In Lisp, everything on a line that follows a semicolon is a comment. The end of the line is the end of the comment. To stretch a comment over two or more lines, begin each line with a semicolon.
+
+See Beginning a .emacs File, and Comments in The GNU Emacs Lisp Reference Manual, for more about comments.
+
+You can install this version of the multiply-by-seven function by evaluating it in the same way you evaluated the first function: place the cursor after the last parenthesis and type C-x C-e.
+
+In summary, this is how you write code in Emacs Lisp: you write a function; install it; test it; and then make fixes or enhancements and install it again.
+
+Next: Different Options for interactive, Previous: Install a Function Definition, Up: How To Write Function Definitions   [Contents][Index]
+3.3 Make a Function Interactive
+
+You make a function interactive by placing a list that begins with the special form interactive immediately after the documentation. A user can invoke an interactive function by typing M-x and then the name of the function; or by typing the keys to which it is bound, for example, by typing C-n for next-line or C-x h for mark-whole-buffer.
+
+Interestingly, when you call an interactive function interactively, the value returned is not automatically displayed in the echo area. This is because you often call an interactive function for its side effects, such as moving forward by a word or line, and not for the value returned. If the returned value were displayed in the echo area each time you typed a key, it would be very distracting.
+
+    An Interactive multiply-by-seven, An Overview
+    An Interactive multiply-by-seven
+
+Next: An Interactive multiply-by-seven, Up: Make a Function Interactive   [Contents][Index]
+An Interactive multiply-by-seven, An Overview
+
+Both the use of the special form interactive and one way to display a value in the echo area can be illustrated by creating an interactive version of multiply-by-seven.
+
+Here is the code:
+
+(defun multiply-by-seven (number)       ; Interactive version.
+  "Multiply NUMBER by seven."
+  (interactive "p")
+  (message "The result is %d" (* 7 number)))
+
+You can install this code by placing your cursor after it and typing C-x C-e. The name of the function will appear in your echo area. Then, you can use this code by typing C-u and a number and then typing M-x multiply-by-seven and pressing RET. The phrase ‘The result is …’ followed by the product will appear in the echo area.
+
+Speaking more generally, you invoke a function like this in either of two ways:
+
+    By typing a prefix argument that contains the number to be passed, and then typing M-x and the name of the function, as with C-u 3 M-x forward-sentence; or,
+    By typing whatever key or keychord the function is bound to, as with C-u 3 M-e. 
+
+Both the examples just mentioned work identically to move point forward three sentences. (Since multiply-by-seven is not bound to a key, it could not be used as an example of key binding.)
+
+(See Some Keybindings, to learn how to bind a command to a key.)
+
+A prefix argument is passed to an interactive function by typing the META key followed by a number, for example, M-3 M-e, or by typing C-u and then a number, for example, C-u 3 M-e (if you type C-u without a number, it defaults to 4).
+
+Previous: An Interactive multiply-by-seven, An Overview, Up: Make a Function Interactive   [Contents][Index]
+3.3.1 An Interactive multiply-by-seven
+
+Let’s look at the use of the special form interactive and then at the function message in the interactive version of multiply-by-seven. You will recall that the function definition looks like this:
+
+(defun multiply-by-seven (number)       ; Interactive version.
+  "Multiply NUMBER by seven."
+  (interactive "p")
+  (message "The result is %d" (* 7 number)))
+
+In this function, the expression, (interactive "p"), is a list of two elements. The "p" tells Emacs to pass the prefix argument to the function and use its value for the argument of the function.
+
+The argument will be a number. This means that the symbol number will be bound to a number in the line:
+
+(message "The result is %d" (* 7 number))
+
+For example, if your prefix argument is 5, the Lisp interpreter will evaluate the line as if it were:
+
+(message "The result is %d" (* 7 5))
+
+(If you are reading this in GNU Emacs, you can evaluate this expression yourself.) First, the interpreter will evaluate the inner list, which is (* 7 5). This returns a value of 35. Next, it will evaluate the outer list, passing the values of the second and subsequent elements of the list to the function message.
+
+As we have seen, message is an Emacs Lisp function especially designed for sending a one line message to a user. (See The message function.) In summary, the message function prints its first argument in the echo area as is, except for occurrences of ‘%d’ or ‘%s’ (and various other %-sequences which we have not mentioned). When it sees a control sequence, the function looks to the second or subsequent arguments and prints the value of the argument in the location in the string where the control sequence is located.
+
+In the interactive multiply-by-seven function, the control string is ‘%d’, which requires a number, and the value returned by evaluating (* 7 5) is the number 35. Consequently, the number 35 is printed in place of the ‘%d’ and the message is ‘The result is 35’.
+
+(Note that when you call the function multiply-by-seven, the message is printed without quotes, but when you call message, the text is printed in double quotes. This is because the value returned by message is what appears in the echo area when you evaluate an expression whose first element is message; but when embedded in a function, message prints the text as a side effect without quotes.)
+
+Next: Install Code Permanently, Previous: Make a Function Interactive, Up: How To Write Function Definitions   [Contents][Index]
+3.4 Different Options for interactive
+
+In the example, multiply-by-seven used "p" as the argument to interactive. This argument told Emacs to interpret your typing either C-u followed by a number or META followed by a number as a command to pass that number to the function as its argument. Emacs has more than twenty characters predefined for use with interactive. In almost every case, one of these options will enable you to pass the right information interactively to a function. (See Code Characters for interactive in The GNU Emacs Lisp Reference Manual.)
+
+Consider the function zap-to-char. Its interactive expression is
+
+(interactive "p\ncZap to char: ")
+
+The first part of the argument to interactive is ‘p’, with which you are already familiar. This argument tells Emacs to interpret a prefix, as a number to be passed to the function. You can specify a prefix either by typing C-u followed by a number or by typing META followed by a number. The prefix is the number of specified characters. Thus, if your prefix is three and the specified character is ‘x’, then you will delete all the text up to and including the third next ‘x’. If you do not set a prefix, then you delete all the text up to and including the specified character, but no more.
+
+The ‘c’ tells the function the name of the character to which to delete.
+
+More formally, a function with two or more arguments can have information passed to each argument by adding parts to the string that follows interactive. When you do this, the information is passed to each argument in the same order it is specified in the interactive list. In the string, each part is separated from the next part by a ‘\n’, which is a newline. For example, you can follow ‘p’ with a ‘\n’ and an ‘cZap to char: ’. This causes Emacs to pass the value of the prefix argument (if there is one) and the character.
+
+In this case, the function definition looks like the following, where arg and char are the symbols to which interactive binds the prefix argument and the specified character:
+
+(defun name-of-function (arg char)
+  "documentation…"
+  (interactive "p\ncZap to char: ")
+  body-of-function…)
+
+(The space after the colon in the prompt makes it look better when you are prompted. See The Definition of copy-to-buffer, for an example.)
+
+When a function does not take arguments, interactive does not require any. Such a function contains the simple expression (interactive). The mark-whole-buffer function is like this.
+
+Alternatively, if the special letter-codes are not right for your application, you can pass your own arguments to interactive as a list.
+
+See The Definition of append-to-buffer, for an example. See Using Interactive in The GNU Emacs Lisp Reference Manual, for a more complete explanation about this technique.
+
+Next: let, Previous: Different Options for interactive, Up: How To Write Function Definitions   [Contents][Index]
+3.5 Install Code Permanently
+
+When you install a function definition by evaluating it, it will stay installed until you quit Emacs. The next time you start a new session of Emacs, the function will not be installed unless you evaluate the function definition again.
+
+At some point, you may want to have code installed automatically whenever you start a new session of Emacs. There are several ways of doing this:
+
+    If you have code that is just for yourself, you can put the code for the function definition in your .emacs initialization file. When you start Emacs, your .emacs file is automatically evaluated and all the function definitions within it are installed. See Your .emacs File.
+    Alternatively, you can put the function definitions that you want installed in one or more files of their own and use the load function to cause Emacs to evaluate and thereby install each of the functions in the files. See Loading Files.
+    Thirdly, if you have code that your whole site will use, it is usual to put it in a file called site-init.el that is loaded when Emacs is built. This makes the code available to everyone who uses your machine. (See the INSTALL file that is part of the Emacs distribution.) 
+
+Finally, if you have code that everyone who uses Emacs may want, you can post it on a computer network or send a copy to the Free Software Foundation. (When you do this, please license the code and its documentation under a license that permits other people to run, copy, study, modify, and redistribute the code and which protects you from having your work taken from you.) If you send a copy of your code to the Free Software Foundation, and properly protect yourself and others, it may be included in the next release of Emacs. In large part, this is how Emacs has grown over the past years, by donations.
+
+Next: The if Special Form, Previous: Install Code Permanently, Up: How To Write Function Definitions   [Contents][Index]
+3.6 let
+
+The let expression is a special form in Lisp that you will need to use in most function definitions.
+
+let is used to attach or bind a symbol to a value in such a way that the Lisp interpreter will not confuse the variable with a variable of the same name that is not part of the function.
+
+To understand why the let special form is necessary, consider the situation in which you own a home that you generally refer to as “the house”, as in the sentence, “The house needs painting.” If you are visiting a friend and your host refers to “the house”, he is likely to be referring to his house, not yours, that is, to a different house.
+
+If your friend is referring to his house and you think he is referring to your house, you may be in for some confusion. The same thing could happen in Lisp if a variable that is used inside of one function has the same name as a variable that is used inside of another function, and the two are not intended to refer to the same value. The let special form prevents this kind of confusion.
+
+    let Prevents Confusion
+    The Parts of a let Expression
+    Sample let Expression
+    Uninitialized Variables in a let Statement
+
+Next: The Parts of a let Expression, Up: let   [Contents][Index]
+let Prevents Confusion
+
+The let special form prevents confusion. let creates a name for a local variable that overshadows any use of the same name outside the let expression. This is like understanding that whenever your host refers to “the house”, he means his house, not yours. (Symbols used in argument lists work the same way. See The defun Macro.)
+
+Local variables created by a let expression retain their value only within the let expression itself (and within expressions called within the let expression); the local variables have no effect outside the let expression.
+
+Another way to think about let is that it is like a setq that is temporary and local. The values set by let are automatically undone when the let is finished. The setting only affects expressions that are inside the bounds of the let expression. In computer science jargon, we would say the binding of a symbol is visible only in functions called in the let form; in Emacs Lisp, the default scoping is dynamic, not lexical. (The non-default lexical binding is not discussed in this manual.)
+
+let can create more than one variable at once. Also, let gives each variable it creates an initial value, either a value specified by you, or nil. (In the jargon, this is binding the variable to the value.) After let has created and bound the variables, it executes the code in the body of the let, and returns the value of the last expression in the body, as the value of the whole let expression. (“Execute” is a jargon term that means to evaluate a list; it comes from the use of the word meaning “to give practical effect to” (Oxford English Dictionary). Since you evaluate an expression to perform an action, “execute” has evolved as a synonym to “evaluate”.)
+
+Next: Sample let Expression, Previous: let Prevents Confusion, Up: let   [Contents][Index]
+3.6.1 The Parts of a let Expression
+
+A let expression is a list of three parts. The first part is the symbol let. The second part is a list, called a varlist, each element of which is either a symbol by itself or a two-element list, the first element of which is a symbol. The third part of the let expression is the body of the let. The body usually consists of one or more lists.
+
+A template for a let expression looks like this:
+
+(let varlist body…)
+
+The symbols in the varlist are the variables that are given initial values by the let special form. Symbols by themselves are given the initial value of nil; and each symbol that is the first element of a two-element list is bound to the value that is returned when the Lisp interpreter evaluates the second element.
+
+Thus, a varlist might look like this: (thread (needles 3)). In this case, in a let expression, Emacs binds the symbol thread to an initial value of nil, and binds the symbol needles to an initial value of 3.
+
+When you write a let expression, what you do is put the appropriate expressions in the slots of the let expression template.
+
+If the varlist is composed of two-element lists, as is often the case, the template for the let expression looks like this:
+
+(let ((variable value)
+      (variable value)
+      …)
+  body…)
+
+Next: Uninitialized Variables in a let Statement, Previous: The Parts of a let Expression, Up: let   [Contents][Index]
+3.6.2 Sample let Expression
+
+The following expression creates and gives initial values to the two variables zebra and tiger. The body of the let expression is a list which calls the message function.
+
+(let ((zebra "stripes")
+      (tiger "fierce"))
+  (message "One kind of animal has %s and another is %s."
+           zebra tiger))
+
+Here, the varlist is ((zebra "stripes") (tiger "fierce")).
+
+The two variables are zebra and tiger. Each variable is the first element of a two-element list and each value is the second element of its two-element list. In the varlist, Emacs binds the variable zebra to the value "stripes"9, and binds the variable tiger to the value "fierce". In this example, both values are strings. The values could just as well have been another list or a symbol. The body of the let follows after the list holding the variables. In this example, the body is a list that uses the message function to print a string in the echo area.
+
+You may evaluate the example in the usual fashion, by placing the cursor after the last parenthesis and typing C-x C-e. When you do this, the following will appear in the echo area:
+
+"One kind of animal has stripes and another is fierce."
+
+As we have seen before, the message function prints its first argument, except for ‘%s’. In this example, the value of the variable zebra is printed at the location of the first ‘%s’ and the value of the variable tiger is printed at the location of the second ‘%s’.
+
+Previous: Sample let Expression, Up: let   [Contents][Index]
+3.6.3 Uninitialized Variables in a let Statement
+
+If you do not bind the variables in a let statement to specific initial values, they will automatically be bound to an initial value of nil, as in the following expression:
+
+(let ((birch 3)
+      pine
+      fir
+      (oak 'some))
+  (message
+   "Here are %d variables with %s, %s, and %s value."
+   birch pine fir oak))
+
+Here, the varlist is ((birch 3) pine fir (oak 'some)).
+
+If you evaluate this expression in the usual way, the following will appear in your echo area:
+
+"Here are 3 variables with nil, nil, and some value."
+
+In this example, Emacs binds the symbol birch to the number 3, binds the symbols pine and fir to nil, and binds the symbol oak to the value some.
+
+Note that in the first part of the let, the variables pine and fir stand alone as atoms that are not surrounded by parentheses; this is because they are being bound to nil, the empty list. But oak is bound to some and so is a part of the list (oak 'some). Similarly, birch is bound to the number 3 and so is in a list with that number. (Since a number evaluates to itself, the number does not need to be quoted. Also, the number is printed in the message using a ‘%d’ rather than a ‘%s’.) The four variables as a group are put into a list to delimit them from the body of the let.
+
+Next: If–then–else Expressions, Previous: let, Up: How To Write Function Definitions   [Contents][Index]
+3.7 The if Special Form
+
+Another special form is the conditional if. This form is used to instruct the computer to make decisions. You can write function definitions without using if, but it is used often enough, and is important enough, to be included here. It is used, for example, in the code for the function beginning-of-buffer.
+
+The basic idea behind an if, is that if a test is true, then an expression is evaluated. If the test is not true, the expression is not evaluated. For example, you might make a decision such as, “if it is warm and sunny, then go to the beach!”
+
+    if in more detail
+    The type-of-animal Function in Detail
+
+Next: The type-of-animal Function in Detail, Up: The if Special Form   [Contents][Index]
+if in more detail
+
+An if expression written in Lisp does not use the word “then”; the test and the action are the second and third elements of the list whose first element is if. Nonetheless, the test part of an if expression is often called the if-part and the second argument is often called the then-part.
+
+Also, when an if expression is written, the true-or-false-test is usually written on the same line as the symbol if, but the action to carry out if the test is true, the then-part, is written on the second and subsequent lines. This makes the if expression easier to read.
+
+(if true-or-false-test
+    action-to-carry-out-if-test-is-true)
+
+The true-or-false-test will be an expression that is evaluated by the Lisp interpreter.
+
+Here is an example that you can evaluate in the usual manner. The test is whether the number 5 is greater than the number 4. Since it is, the message ‘5 is greater than 4!’ will be printed.
+
+(if (> 5 4)                             ; if-part
+    (message "5 is greater than 4!"))   ; then-part
+
+(The function > tests whether its first argument is greater than its second argument and returns true if it is.)
+
+Of course, in actual use, the test in an if expression will not be fixed for all time as it is by the expression (> 5 4). Instead, at least one of the variables used in the test will be bound to a value that is not known ahead of time. (If the value were known ahead of time, we would not need to run the test!)
+
+For example, the value may be bound to an argument of a function definition. In the following function definition, the character of the animal is a value that is passed to the function. If the value bound to characteristic is "fierce", then the message, ‘It is a tiger!’ will be printed; otherwise, nil will be returned.
+
+(defun type-of-animal (characteristic)
+  "Print message in echo area depending on CHARACTERISTIC.
+If the CHARACTERISTIC is the string \"fierce\",
+then warn of a tiger."
+  (if (equal characteristic "fierce")
+      (message "It is a tiger!")))
+
+If you are reading this inside of GNU Emacs, you can evaluate the function definition in the usual way to install it in Emacs, and then you can evaluate the following two expressions to see the results:
+
+(type-of-animal "fierce")
+
+(type-of-animal "striped")
+
+When you evaluate (type-of-animal "fierce"), you will see the following message printed in the echo area: "It is a tiger!"; and when you evaluate (type-of-animal "striped") you will see nil printed in the echo area.
+
+Previous: if in more detail, Up: The if Special Form   [Contents][Index]
+3.7.1 The type-of-animal Function in Detail
+
+Let’s look at the type-of-animal function in detail.
+
+The function definition for type-of-animal was written by filling the slots of two templates, one for a function definition as a whole, and a second for an if expression.
+
+The template for every function that is not interactive is:
+
+(defun name-of-function (argument-list)
+  "documentation…"
+  body…)
+
+The parts of the function that match this template look like this:
+
+(defun type-of-animal (characteristic)
+  "Print message in echo area depending on CHARACTERISTIC.
+If the CHARACTERISTIC is the string \"fierce\",
+then warn of a tiger."
+  body: the if expression)
+
+The name of function is type-of-animal; it is passed the value of one argument. The argument list is followed by a multi-line documentation string. The documentation string is included in the example because it is a good habit to write documentation string for every function definition. The body of the function definition consists of the if expression.
+
+The template for an if expression looks like this:
+
+(if true-or-false-test
+    action-to-carry-out-if-the-test-returns-true)
+
+In the type-of-animal function, the code for the if looks like this:
+
+(if (equal characteristic "fierce")
+    (message "It is a tiger!"))
+
+Here, the true-or-false-test is the expression:
+
+(equal characteristic "fierce")
+
+In Lisp, equal is a function that determines whether its first argument is equal to its second argument. The second argument is the string "fierce" and the first argument is the value of the symbol characteristic—in other words, the argument passed to this function.
+
+In the first exercise of type-of-animal, the argument "fierce" is passed to type-of-animal. Since "fierce" is equal to "fierce", the expression, (equal characteristic "fierce"), returns a value of true. When this happens, the if evaluates the second argument or then-part of the if: (message "It is a tiger!").
+
+On the other hand, in the second exercise of type-of-animal, the argument "striped" is passed to type-of-animal. "striped" is not equal to "fierce", so the then-part is not evaluated and nil is returned by the if expression.
+
+Next: Truth and Falsehood in Emacs Lisp, Previous: The if Special Form, Up: How To Write Function Definitions   [Contents][Index]
+3.8 If–then–else Expressions
+
+An if expression may have an optional third argument, called the else-part, for the case when the true-or-false-test returns false. When this happens, the second argument or then-part of the overall if expression is not evaluated, but the third or else-part is evaluated. You might think of this as the cloudy day alternative for the decision “if it is warm and sunny, then go to the beach, else read a book!”.
+
+The word “else” is not written in the Lisp code; the else-part of an if expression comes after the then-part. In the written Lisp, the else-part is usually written to start on a line of its own and is indented less than the then-part:
+
+(if true-or-false-test
+    action-to-carry-out-if-the-test-returns-true
+  action-to-carry-out-if-the-test-returns-false)
+
+For example, the following if expression prints the message ‘4 is not greater than 5!’ when you evaluate it in the usual way:
+
+(if (> 4 5)                               ; if-part
+    (message "4 falsely greater than 5!") ; then-part
+  (message "4 is not greater than 5!"))   ; else-part
+
+Note that the different levels of indentation make it easy to distinguish the then-part from the else-part. (GNU Emacs has several commands that automatically indent if expressions correctly. See GNU Emacs Helps You Type Lists.)
+
+We can extend the type-of-animal function to include an else-part by simply incorporating an additional part to the if expression.
+
+You can see the consequences of doing this if you evaluate the following version of the type-of-animal function definition to install it and then evaluate the two subsequent expressions to pass different arguments to the function.
+
+(defun type-of-animal (characteristic)  ; Second version.
+  "Print message in echo area depending on CHARACTERISTIC.
+If the CHARACTERISTIC is the string \"fierce\",
+then warn of a tiger; else say it is not fierce."
+  (if (equal characteristic "fierce")
+      (message "It is a tiger!")
+    (message "It is not fierce!")))
+
+
+(type-of-animal "fierce")
+
+(type-of-animal "striped")
+
+When you evaluate (type-of-animal "fierce"), you will see the following message printed in the echo area: "It is a tiger!"; but when you evaluate (type-of-animal "striped"), you will see "It is not fierce!".
+
+(Of course, if the characteristic were "ferocious", the message "It is not fierce!" would be printed; and it would be misleading! When you write code, you need to take into account the possibility that some such argument will be tested by the if and write your program accordingly.)
+
+Next: save-excursion, Previous: If–then–else Expressions, Up: How To Write Function Definitions   [Contents][Index]
+3.9 Truth and Falsehood in Emacs Lisp
+
+There is an important aspect to the truth test in an if expression. So far, we have spoken of “true” and “false” as values of predicates as if they were new kinds of Emacs Lisp objects. In fact, “false” is just our old friend nil. Anything else—anything at all—is “true”.
+
+The expression that tests for truth is interpreted as true if the result of evaluating it is a value that is not nil. In other words, the result of the test is considered true if the value returned is a number such as 47, a string such as "hello", or a symbol (other than nil) such as flowers, or a list (so long as it is not empty), or even a buffer!
+
+    An explanation of nil
+
+Up: Truth and Falsehood in Emacs Lisp   [Contents][Index]
+An explanation of nil
+
+Before illustrating a test for truth, we need an explanation of nil.
+
+In Emacs Lisp, the symbol nil has two meanings. First, it means the empty list. Second, it means false and is the value returned when a true-or-false-test tests false. nil can be written as an empty list, (), or as nil. As far as the Lisp interpreter is concerned, () and nil are the same. Humans, however, tend to use nil for false and () for the empty list.
+
+In Emacs Lisp, any value that is not nil—is not the empty list—is considered true. This means that if an evaluation returns something that is not an empty list, an if expression will test true. For example, if a number is put in the slot for the test, it will be evaluated and will return itself, since that is what numbers do when evaluated. In this conditional, the if expression will test true. The expression tests false only when nil, an empty list, is returned by evaluating the expression.
+
+You can see this by evaluating the two expressions in the following examples.
+
+In the first example, the number 4 is evaluated as the test in the if expression and returns itself; consequently, the then-part of the expression is evaluated and returned: ‘true’ appears in the echo area. In the second example, the nil indicates false; consequently, the else-part of the expression is evaluated and returned: ‘false’ appears in the echo area.
+
+(if 4
+    'true
+  'false)
+
+
+(if nil
+    'true
+  'false)
+
+Incidentally, if some other useful value is not available for a test that returns true, then the Lisp interpreter will return the symbol t for true. For example, the expression (> 5 4) returns t when evaluated, as you can see by evaluating it in the usual way:
+
+(> 5 4)
+
+On the other hand, this function returns nil if the test is false.
+
+(> 4 5)
+
+Next: Review, Previous: Truth and Falsehood in Emacs Lisp, Up: How To Write Function Definitions   [Contents][Index]
+3.10 save-excursion
+
+The save-excursion function is the final special form that we will discuss in this chapter.
+
+In Emacs Lisp programs used for editing, the save-excursion function is very common. It saves the location of point, executes the body of the function, and then restores point to its previous position if its location was changed. Its primary purpose is to keep the user from being surprised and disturbed by unexpected movement of point.
+
+    Point and Mark
+    Template for a save-excursion Expression
+
+Next: Template for a save-excursion Expression, Up: save-excursion   [Contents][Index]
+Point and Mark
+
+Before discussing save-excursion, however, it may be useful first to review what point and mark are in GNU Emacs. Point is the current location of the cursor. Wherever the cursor is, that is point. More precisely, on terminals where the cursor appears to be on top of a character, point is immediately before the character. In Emacs Lisp, point is an integer. The first character in a buffer is number one, the second is number two, and so on. The function point returns the current position of the cursor as a number. Each buffer has its own value for point.
+
+The mark is another position in the buffer; its value can be set with a command such as C-SPC (set-mark-command). If a mark has been set, you can use the command C-x C-x (exchange-point-and-mark) to cause the cursor to jump to the mark and set the mark to be the previous position of point. In addition, if you set another mark, the position of the previous mark is saved in the mark ring. Many mark positions can be saved this way. You can jump the cursor to a saved mark by typing C-u C-SPC one or more times.
+
+The part of the buffer between point and mark is called the region. Numerous commands work on the region, including center-region, count-words-region, kill-region, and print-region.
+
+The save-excursion special form saves the location of point and restores this position after the code within the body of the special form is evaluated by the Lisp interpreter. Thus, if point were in the beginning of a piece of text and some code moved point to the end of the buffer, the save-excursion would put point back to where it was before, after the expressions in the body of the function were evaluated.
+
+In Emacs, a function frequently moves point as part of its internal workings even though a user would not expect this. For example, count-words-region moves point. To prevent the user from being bothered by jumps that are both unexpected and (from the user’s point of view) unnecessary, save-excursion is often used to keep point in the location expected by the user. The use of save-excursion is good housekeeping.
+
+To make sure the house stays clean, save-excursion restores the value of point even if something goes wrong in the code inside of it (or, to be more precise and to use the proper jargon, “in case of abnormal exit”). This feature is very helpful.
+
+In addition to recording the value of point, save-excursion keeps track of the current buffer, and restores it, too. This means you can write code that will change the buffer and have save-excursion switch you back to the original buffer. This is how save-excursion is used in append-to-buffer. (See The Definition of append-to-buffer.)
+
+Previous: Point and Mark, Up: save-excursion   [Contents][Index]
+3.10.1 Template for a save-excursion Expression
+
+The template for code using save-excursion is simple:
+
+(save-excursion
+  body…)
+
+The body of the function is one or more expressions that will be evaluated in sequence by the Lisp interpreter. If there is more than one expression in the body, the value of the last one will be returned as the value of the save-excursion function. The other expressions in the body are evaluated only for their side effects; and save-excursion itself is used only for its side effect (which is restoring the position of point).
+
+In more detail, the template for a save-excursion expression looks like this:
+
+(save-excursion
+  first-expression-in-body
+  second-expression-in-body
+  third-expression-in-body
+   …
+  last-expression-in-body)
+
+An expression, of course, may be a symbol on its own or a list.
+
+In Emacs Lisp code, a save-excursion expression often occurs within the body of a let expression. It looks like this:
+
+(let varlist
+  (save-excursion
+    body…))
+
+Next: Exercises, Previous: save-excursion, Up: How To Write Function Definitions   [Contents][Index]
+3.11 Review
+
+In the last few chapters we have introduced a macro and a fair number of functions and special forms. Here they are described in brief, along with a few similar functions that have not been mentioned yet.
+
+eval-last-sexp
+
+    Evaluate the last symbolic expression before the current location of point. The value is printed in the echo area unless the function is invoked with an argument; in that case, the output is printed in the current buffer. This command is normally bound to C-x C-e.
+defun
+
+    Define function. This macro has up to five parts: the name, a template for the arguments that will be passed to the function, documentation, an optional interactive declaration, and the body of the definition.
+
+    For example, in Emacs the function definition of dired-unmark-all-marks is as follows.
+
+    (defun dired-unmark-all-marks ()
+      "Remove all marks from all files in the Dired buffer."
+      (interactive)
+      (dired-unmark-all-files ?\r))
+
+interactive
+
+    Declare to the interpreter that the function can be used interactively. This special form may be followed by a string with one or more parts that pass the information to the arguments of the function, in sequence. These parts may also tell the interpreter to prompt for information. Parts of the string are separated by newlines, ‘\n’.
+
+    Common code characters are:
+
+    b
+
+        The name of an existing buffer.
+    f
+
+        The name of an existing file.
+    p
+
+        The numeric prefix argument. (Note that this p is lower case.)
+    r
+
+        Point and the mark, as two numeric arguments, smallest first. This is the only code letter that specifies two successive arguments rather than one. 
+
+    See Code Characters for ‘interactive’ in The GNU Emacs Lisp Reference Manual, for a complete list of code characters.
+let
+
+    Declare that a list of variables is for use within the body of the let and give them an initial value, either nil or a specified value; then evaluate the rest of the expressions in the body of the let and return the value of the last one. Inside the body of the let, the Lisp interpreter does not see the values of the variables of the same names that are bound outside of the let.
+
+    For example,
+
+    (let ((foo (buffer-name))
+          (bar (buffer-size)))
+      (message
+       "This buffer is %s and has %d characters."
+       foo bar))
+
+save-excursion
+
+    Record the values of point and the current buffer before evaluating the body of this special form. Restore the value of point and buffer afterward.
+
+    For example,
+
+    (message "We are %d characters into this buffer."
+             (- (point)
+                (save-excursion
+                  (goto-char (point-min)) (point))))
+
+if
+
+    Evaluate the first argument to the function; if it is true, evaluate the second argument; else evaluate the third argument, if there is one.
+
+    The if special form is called a conditional. There are other conditionals in Emacs Lisp, but if is perhaps the most commonly used.
+
+    For example,
+
+    (if (= 22 emacs-major-version)
+        (message "This is version 22 Emacs")
+      (message "This is not version 22 Emacs"))
+
+<
+>
+<=
+>=
+
+    The < function tests whether its first argument is smaller than its second argument. A corresponding function, >, tests whether the first argument is greater than the second. Likewise, <= tests whether the first argument is less than or equal to the second and >= tests whether the first argument is greater than or equal to the second. In all cases, both arguments must be numbers or markers (markers indicate positions in buffers).
+=
+
+    The = function tests whether two arguments, both numbers or markers, are equal.
+equal
+eq
+
+    Test whether two objects are the same. equal uses one meaning of the word “same” and eq uses another: equal returns true if the two objects have a similar structure and contents, such as two copies of the same book. On the other hand, eq, returns true if both arguments are actually the same object.
+string<
+string-lessp
+string=
+string-equal
+
+    The string-lessp function tests whether its first argument is smaller than the second argument. A shorter, alternative name for the same function (a defalias) is string<.
+
+    The arguments to string-lessp must be strings or symbols; the ordering is lexicographic, so case is significant. The print names of symbols are used instead of the symbols themselves.
+
+    An empty string, ‘""’, a string with no characters in it, is smaller than any string of characters.
+
+    string-equal provides the corresponding test for equality. Its shorter, alternative name is string=. There are no string test functions that correspond to >, >=, or <=.
+message
+
+    Print a message in the echo area. The first argument is a string that can contain ‘%s’, ‘%d’, or ‘%c’ to print the value of arguments that follow the string. The argument used by ‘%s’ must be a string or a symbol; the argument used by ‘%d’ must be a number. The argument used by ‘%c’ must be an ASCII code number; it will be printed as the character with that ASCII code. (Various other %-sequences have not been mentioned.)
+setq
+set
+
+    The setq special form sets the value of its first argument to the value of the second argument. The first argument is automatically quoted by setq. It does the same for succeeding pairs of arguments. Another function, set, takes only two arguments and evaluates both of them before setting the value returned by its first argument to the value returned by its second argument.
+buffer-name
+
+    Without an argument, return the name of the buffer, as a string.
+buffer-file-name
+
+    Without an argument, return the name of the file the buffer is visiting.
+current-buffer
+
+    Return the buffer in which Emacs is active; it may not be the buffer that is visible on the screen.
+other-buffer
+
+    Return the most recently selected buffer (other than the buffer passed to other-buffer as an argument and other than the current buffer).
+switch-to-buffer
+
+    Select a buffer for Emacs to be active in and display it in the current window so users can look at it. Usually bound to C-x b.
+set-buffer
+
+    Switch Emacs’s attention to a buffer on which programs will run. Don’t alter what the window is showing.
+buffer-size
+
+    Return the number of characters in the current buffer.
+point
+
+    Return the value of the current position of the cursor, as an integer counting the number of characters from the beginning of the buffer.
+point-min
+
+    Return the minimum permissible value of point in the current buffer. This is 1, unless narrowing is in effect.
+point-max
+
+    Return the value of the maximum permissible value of point in the current buffer. This is the end of the buffer, unless narrowing is in effect. 
+
