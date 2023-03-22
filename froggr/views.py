@@ -27,21 +27,30 @@ def missing_page(request, *args, **argv):
     response.status_code = 404;
     return response
 
+def new_register_form_old_details(form):
+    return forms.UserForm(
+                    initial={
+                        'username':form.instance.username,
+                        'email':form.instance.email})
+                        
+    
+
 def register(request):
     form = UserForm()
+    context = {}
     if request.method == 'POST':
         form = UserForm(request.POST)
-        print("username: " + form.data.get("username"))
-        user_slug = slugify(form.data.get("username"))
-        if len(user_slug) == 0:
-            print("user slug:" + user_slug)
+        if len(slugify(form.data.get("username"))) == 0:
             form.add_error("username", "Username must contain more valid characters url")
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get("username")
-            messages.success(request, 'Account created for: ' + username)
-            return redirect('froggr:frog-in')
-    context = {'form': form}
+            login(request, user)
+            return redirect('froggr:home')
+        else:
+            context['username'] = form.instance.username
+            context['email'] = form.instance.email
+    context['form'] =  form
     return render(request, 'register.html', context)
 
 @login_required
@@ -90,9 +99,8 @@ def handle_text_image_form(form, request):
         form.instance.user = request.user
         if 'image' in request.FILES:
             form.instance.image = request.FILES['image']
-    #else:
-    #    print(form.errors)
-                
+            
+
 @login_required
 def create_profile(request):
     form = None
@@ -111,7 +119,7 @@ def create_profile(request):
         
     return render(request, "create_profile.html", {'profile_form': form})
 
-def new_form_with_old_details(form):
+def new_blogpost_form_old_details(form):
     return forms.BlogPostForm(
                     initial={
                         'title':form.instance.title,
@@ -142,10 +150,10 @@ def create_frogg(request, post_slug=""):
                 return redirect('froggr:posts', form.instance.post_slug)
             except IntegrityError:
                 # this post already exists, save the inputted info and return form again
-                form = new_form_with_old_details(form)
+                form = new_blogpost_form_old_details(form)
                 error_message = "You already have a post with this title!"
             except ValueError:
-                form = new_form_with_old_details(form)
+                form = new_blogpost_form_old_details(form)
                 error_message = "This title is invalid!"
                 
     return render(request, 'create_frogg.html',
