@@ -1,0 +1,115 @@
+Surprise Computer Science Proof Stuns Mathematicians
+2021-1-3
+example-posts/surprise-proof.webp
+On Sunday, February 5, Olof Sisask and Thomas Bloom received an email containing a stunning breakthrough on the biggest unsolved problem in their field. Zander Kelley, a graduate student at the University of Illinois, Urbana-Champaign, had sent Sisask and Bloom a paper he’d written with Raghu Meka of the University of California, Los Angeles. Both Kelley and Meka were computer scientists, an intellectual world apart from the additive combinatorics that Sisask and Bloom study.
+
+“My mind was just blown. Like, wait, have they really done this?” said Sisask, a lecturer at Stockholm University. Kelley and Meka, outsiders to the field of combinatorics, said they had found a new — and dramatically lower — limit on the size of a set of integers in which no three of them are evenly spaced (ruling out combinations like 3, 8 and 13 or 101, 201 and 301).
+
+Kelley and Meka’s claim smashed the previous record, attained in 2020 by Sisask and Bloom, who is a research fellow at the University of Oxford. “The work of Bloom and Sisask — very strong work that that was — it really gave the impression of being super difficult to improve upon,” said Ben Green, a colleague of Bloom’s at Oxford. “It looked very stuck at where it was.”
+
+Though both Bloom and Sisask had other pressing matters to attend to at the time they received the email — Bloom had just adopted a puppy, while Sisask was in the middle of moving — they quickly set to work verifying the new paper.
+
+Within days, Bloom and Sisask were convinced the new proof was correct. Sisask called it “the biggest result in the area for 20 years.” Eager for others to appreciate Kelley and Meka’s ideas, they drafted a report explaining the proof in terms more familiar to mathematicians.
+
+Meka said the response from the community has “been more positive than I thought. It’s amazing to see all the feedback.”
+Protracted Progress
+
+The sequences of evenly spaced numbers that Kelley and Meka sought to avoid are called arithmetic progressions. They can go on forever or contain only a few terms. Kelley and Meka were focused on progressions made up of just three numbers, following a line of research often traced to a 1936 paper by Paul Erdős and Paul Turán.
+Share this article
+Copied!
+ 
+ 
+ 
+Newsletter
+
+Get Quanta Magazine delivered to your inbox
+Recent newsletters
+Portraits of mathematicians Paul Erdős and Paul Turán.
+In 1936, Paul Erdős (left) and Paul Turán published a paper that sparked nearly a century of research into the size of integer sets that avoid arithmetic progressions.
+
+Bundesarchiv, Bild 183-33149-0001 / CC-BY-SA 3.0
+Introduction
+
+Erdős and Turán wanted to know how many numbers smaller than some ceiling N can be put into a set without creating any three-term arithmetic progressions. N might be 1,000, 1 million, or some unimaginably huge number. They conjectured that as N grew larger, a set without three-term progressions would have to become incredibly sparse. Creating such a set would be like collecting shoes while insisting that no two pairs be the same color. Perhaps you could continue forever, but as your collection got bigger, you’d find yourself adding to it at a slower and slower rate.
+
+“There is some structure that’s going to pop into the set, no matter how you chose the set,” Meka explained. “How large a set do you really need to guarantee that you have this structure in there?”
+Meka and Kelley have sort of leapfrogged all this incremental progress.
+
+Terence Tao
+
+In 1946, Felix Behrend found a way to construct sets of numbers between 1 and N without producing any three-term progressions. His method resulted in sets that got bigger as N did, but achingly slowly. When N is 100,000, Behrend’s set contains just 171 elements. When N is 1 million, his set has 586 numbers — less than 0.06% of the numbers between 1 and 1 million.
+
+Behrend’s sets gave mathematicians a floor to work with: The biggest set without a three-term progression would have to be at least as big as Behrend’s. In 1953, Klaus Roth provided a ceiling, finding a threshold past which a set must inevitably contain a three-term progression.
+
+Roth had proved Erdős and Turán’s conjecture by showing that as N gets bigger, a set without three-term progressions will comprise an ever-tinier fraction of the numbers between 1 and N. But Roth’s ceiling was a long way from Behrend’s floor. Behrend had shown that 0.06% of the elements between 1 and 1 million could fit inside a progression-free set.  Though Roth’s formula is hard to compute precisely, it’s nowhere near that low — one rough estimate has it capping the percentage at about 40%.
+
+“I have no shortage of hopes and dreams on lots of different problems that I would consider at least spiritually related to this,” said Zander Kelley.
+
+Courtesy of Zander Kelley
+Introduction
+
+But more salient than that particular gap was the overall behavior of the two formulas. Plot the fraction of elements between 1 and N that each formula represents, and you’ll see Behrend’s number rapidly shrink to zero as N grows. Roth’s fraction, on the other hand, slides toward zero, but slowly and gently. The two curves are very different shapes, and the true proportion of elements lying in a set without arithmetic progressions could, so far as mathematicians knew, lie anywhere between them.
+
+Beginning in the 1980s, “there was a long sequence of, in hindsight, fairly incremental improvements by a large number of really famous mathematicians,” Green said. Every once in a while, someone would nudge Roth’s upper limit down by a hair or two, and eventually it got considerably lower. Behrend’s lower bound, by contrast, didn’t budge for decades. Mathematicians began to think that Behrend might not have been far from the true answer, Bloom said.
+number theory
+Landmark Math Proof Clears Hurdle in Top Erdős Conjecture
+August 3, 2020
+Read Later
+
+Until Kelley and Meka’s paper arrived in early 2023, the maximum size of a progression-free set was penned in from below by Behrend’s formula, and from above by Bloom and Sisask’s. Bloom and Sisask’s paper from July 2020 had crossed the critical “logarithmic” threshold by showing that a progression-free set must have substantially fewer than N/(log N) elements. But their result still sat high above Behrend’s. Kelley and Meka’s new upper bound is drastically closer to the floor set by Behrend.
+
+“Meka and Kelley have sort of leapfrogged all this incremental progress,” said Terence Tao, a prominent mathematician at UCLA.
+
+Their formula is almost the same as Behrend’s, with only a few parameters tweaked. As N approaches infinity, a plot of Kelley and Meka’s formula will eventually settle into a curve that resembles the Behrend curve. “Any bound of that shape just seemed like an impossible dream before,” Bloom said.
+
+“I was really just quite staggered that they had made such an improvement,” Green said.
+A Different Tack
+
+ Though Kelley and Meka had never fully ventured into pure mathematics research before, arithmetic progressions were familiar to them when they started. In general, computer scientists “are hungrily looking outward for techniques that would work to solve our problems,” Kelley said. The tools historically used to study the size of a progression-free set have become widely used in the computer science subfield of complexity theory. The problem of narrowing down the size of such a set is well-known to complexity theorists as a quintessential example of applying techniques that probe the inner structure of sets.
+A portrait of mathematician Raghu Meka.
+
+Together with Zander Kelley, Raghu Meka found a new — dramatically smaller — upper bound to the size of progression-free sets.
+
+Courtesy of Raghu Meka
+
+In late 2021, Kelley and Meka were analyzing the chances that a team of players in a certain cooperative game would be able to win, a standard type of computer science problem. It occurred to them that techniques from research on the size of progression-free sets might be helpful. But they found it easier to directly study those techniques than to apply them to the cooperative game. “My best idea for how to make progress on this problem [was] to actually improve the tool itself, not to use it in a more clever way,” Kelley said.
+
+“At some point, we just decided to work on this question directly,” Meka recalled. Six months later, the two researchers had figured out their strategy and just needed to iron out how to apply their method to the problem at hand.
+
+To see how they arrived at their new upper limit, take any set of numbers between 1 and N. Call it A. The density of A is the percentage of the numbers between 1 and N that it includes. Since there are a lot of possible arithmetic progressions between 1 and N, if you don’t choose the elements of A carefully, any A with high density will likely contain lots of arithmetic progressions.
+
+In their proof, Kelley and Meka imagined that A had few or no arithmetic progressions, and they attempted to trace out the consequences. If A was dense enough, they showed that an absence of progressions necessitated a level of structure within A that would inevitably result in a contradiction, meaning that A must, after all, contain at least one progression.
+
+To understand that structure, they considered the set A + A, which consists of all the numbers made by adding two elements of A. They noticed that if A contains comparatively few arithmetic progressions, this implies a redundancy among the elements of A + A: Different pairs of numbers from A often add up to the same number.
+Portraits of mathematicians Olof Sisask and Thomas Bloom.
+Until February, the lowest upper bound to the size of a progression-free set came from a 2020 paper by Thomas Bloom (left) and Olof Sisask (right).
+
+Courtesy of Thomas Bloom and Olof Sisask
+Introduction
+
+Density can be defined not only in comparison to all the integers between 1 and N but in comparison to some subset — say only the even integers in that interval, or only the multiples of 3. Kelley and Meka used the redundancies in A + A to find a subset of the integers where elements of A were particularly common.
+
+If A contained disproportionately many multiples of 3, for example, Kelley and Meka would then focus on the part that included multiples of 3. They repeated this strategy again and again. Each time they found smaller and smaller subsets of the integers, over which A’s density would continue to grow and grow. For example, A might contain 10% of the integers between 1 and N, 15% of the multiples of 3 in that interval, and 25% of the even multiples of 3.
+
+Something interesting happens when A is large. If the procedure is repeated, the density of A over some subset exceeds 100%. That, of course, is impossible. A could contain, say, all the multiples of 24, but it can’t contain more than all of them. This paradox only arises if A is big enough to begin with, but when it does, it means the assumption that A doesn’t contain any arithmetic progressions must have been wrong.
+We have to go back and revisit everything.
+
+Thomas Bloom
+
+It’s a “win-win argument,” when A is large, Meka said. Either A includes lots of arithmetic progressions, or there is a lot of redundancy in A + A — in which case they could use the subset-finding procedure (called the “density increment strategy”) to show that a progression must appear in A. Though the density increment strategy is a well-worn blueprint in the field, Kelley and Meka managed to make it work for smaller A’s than ever before. With that, they uncovered a new ceiling for the size of a progression-free set.
+
+Kelley and Meka built a unique combination of ideas from the density increment blueprint. Rather than coming up with a brand-new framework, they rethought the way they found their dense subset. For this, they used a technique they called “sifting,” which consists of shifting their set by a constant amount, intersecting it with itself, and repeating the process many, many times. What remains, after many rounds of intersection, is a highly structured set with predictable properties. Though sifting has been used in other papers, it had never been tried on the three-term progression problem.
+Looking Backward
+
+Kelley and Meka pulled down the size limit of a progression-free set by a shocking amount by injecting neglected tools like sifting into traditional methods. “Kelley and Meka have shown us that somehow these techniques, which were sitting out there in the open, were just far more powerful than we suspected,” Bloom said. In light of the newfound efficacy of these tools, he added, “we have to go back and revisit everything.”
+Related:
+
+    Coloring by Numbers Reveals Arithmetic Patterns in Fractions
+    From Systems in Motion, Infinite Patterns Appear
+    Mathematician Hurls Structure and Disorder Into Century-Old Problem
+
+The density increment strategy first appeared in Roth’s paper 70 years ago and has been used in most papers on arithmetic progressions since. Green was surprised that the framework could be used to prove a bound as low as Kelley and Meka’s. “I thought something completely, radically different would be needed,” he said.
+
+Kelley is excited to continue his foray into mathematics. “I have no shortage of hopes and dreams on lots of different problems that I would consider at least spiritually related to this,” he said.
+
+That Kelley and Meka managed to spot the strength of once-overlooked ideas shows the often fitful nature of mathematical progress — a quality that to Tao is more of a blessing than a curse. “It’s not always the case that math just gets harder and harder and harder,” he said. “Thank God.”
