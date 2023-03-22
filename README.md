@@ -3,6 +3,12 @@
 A social media when people can post froggs(bloggs) that can be commented on and reacted to. 
 People can maintain friends lists, search for froggs, and see the top froggs by reactions.
 
+# Dependancies
+
+* [jquery and ajax from google apis](https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js)
+* [bootstrap](https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css)
+
+
 # Project Layout
 
 `froggr` is an app that is part of the `froggr_website` project.
