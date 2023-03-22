@@ -197,7 +197,7 @@ def posts(request, post_slug):
 
 INITIAL_POST_LOAD_COUNT = 21
 POSTS_PER_LOAD = 6
-POST_BOX_CHAR_LIMIT = 100
+POST_BOX_CHAR_LIMIT = 102
 
 def render_posts_for_ajax(query, count):
     load_size = POSTS_PER_LOAD
@@ -207,7 +207,8 @@ def render_posts_for_ajax(query, count):
     for p in query.all()[count:(count + load_size)]:
         text = p.text[:POST_BOX_CHAR_LIMIT] + '[...]' if len(p.text) > POST_BOX_CHAR_LIMIT else p.text
         # insert space so that for very long words the text will not run on past the post box
-        text = text[:int(POST_BOX_CHAR_LIMIT/2)] + ' ' + text[int(POST_BOX_CHAR_LIMIT/2):]
+        halfway = int(POST_BOX_CHAR_LIMIT/2)
+        text = text[:halfway] + ' ' + text[halfway:]
         post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL,
                                                          'post_text': text})
     return post_data
