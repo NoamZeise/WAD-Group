@@ -17,6 +17,7 @@ from django.db.models import Q
 from .forms import BlogPostForm
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
+from django.template.defaultfilters import slugify
 
 
 
@@ -26,6 +27,11 @@ def register(request):
     form = UserForm()
     if request.method == 'POST':
         form = UserForm(request.POST)
+        print("username: " + form.data.get("username"))
+        user_slug = slugify(form.data.get("username"))
+        if len(user_slug) == 0:
+            print("user slug:" + user_slug)
+            form.add_error("username", "Username must contain more valid characters url")
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
