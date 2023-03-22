@@ -27,14 +27,6 @@ def missing_page(request, *args, **argv):
     response.status_code = 404;
     return response
 
-def new_register_form_old_details(form):
-    return forms.UserForm(
-                    initial={
-                        'username':form.instance.username,
-                        'email':form.instance.email})
-                        
-    
-
 def register(request):
     form = UserForm()
     context = {}
@@ -160,6 +152,7 @@ def create_frogg(request, post_slug=""):
                   {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
 def frogin(request):
+    context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -169,8 +162,13 @@ def frogin(request):
             login(request, user)
             return redirect('froggr:home')
         else:
-            messages.info(request, 'Username OR Password is incorrect')
-    return render(request, 'frog_in.html')
+            try:
+                User.objects.get(username=username)
+                messages.info(request, 'Password was incorrect')
+            except User.DoesNotExist:
+                messages.info(request, 'Username does not exist')
+            context['username'] = username
+    return render(request, 'frog_in.html', context)
 
 
 def frogout(request):
