@@ -8,20 +8,24 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.template.loader import render_to_string
 from django.utils.text import slugify
-from froggr_website.settings import MEDIA_URL
-from froggr.forms import UserForm, UserProfileForm, CommentForm
-from froggr.models import BlogPost, User, UserProfile, Comment
-from froggr import forms
-from datetime import datetime
 from django.db.models import Q
-from .forms import BlogPostForm
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 from django.template.defaultfilters import slugify
+from froggr_website.settings import MEDIA_URL
+from froggr.forms import UserForm, UserProfileForm, CommentForm, BlogPostForm
+from froggr.models import BlogPost, User, UserProfile, Comment
+from froggr import forms
+from datetime import datetime
 
 
 
 # Create your views here.
+
+def missing_page(request, *args, **argv):
+    response =  render(request, '404.html')
+    response.status_code = 404;
+    return response
 
 def register(request):
     form = UserForm()

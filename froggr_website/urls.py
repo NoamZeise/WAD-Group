@@ -19,6 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from froggr import views
 
+handler404 = 'froggr.views.missing_page'
+
 urlpatterns = [
     path('', include('froggr.urls')),
     path('admin/', admin.site.urls),
