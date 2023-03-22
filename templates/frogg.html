@@ -15,8 +15,8 @@
 {% if user_owns_post %}
 <a href="{% url 'froggr:create-frogg' post_url %}"> Edit Post </a>
 {% endif %}
-{% if blog_img %}
-<img src={{ MEDIA_URL }}{{ post.imgage }}/>
+{% if post.image %}
+<img src={{ MEDIA_URL }}{{ post.image }}/>
 {% endif %}
 <p>{{ post.text }}</p>
 
