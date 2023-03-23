@@ -8,7 +8,7 @@ const slugify = str =>
     .replace(/[\s_-]+/g, '-')
       .replace(/^-+|-+$/g, '');
 $(document).ready(function() {
-    $("#searchbtn").css("visibility", "hidden")
+    //    $("#searchbtn").css("visibility", "hidden")
     if(window.location.href.includes(search_page)) {
 	var query = window.location.href;
 	var end = query.indexOf('?');
