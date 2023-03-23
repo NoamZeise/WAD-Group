@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/<slug:profile_slug>/', views.profile, name="profile"),
     path('create-profile/', views.create_profile, name="create-profile"),
     path('search-results/', views.search_results, name="search-results"),
+    path('follow/', views.follow.as_view(), name="follow"),
     path('search-results/<slug:search_query>', views.search_results, name="search-results"),
     path('no-results/', views.no_results, name="no-results"),
     path('create-frogg/', views.create_frogg, name="create-frogg"),

@@ -14,7 +14,7 @@ from django.views.generic.base import View
 from django.template.defaultfilters import slugify
 from froggr_website.settings import MEDIA_URL
 from froggr.forms import UserForm, UserProfileForm, CommentForm, BlogPostForm
-from froggr.models import BlogPost, User, UserProfile, Comment
+from froggr.models import BlogPost, User, UserProfile, Comment, Connection
 from froggr import forms
 from datetime import datetime
 
@@ -57,6 +57,10 @@ def get_user_profile_or_none(user):
         profile = None
     return profile
 
+def checkConnection(user1, user2):
+    existing_connection = Connection.objects.filter(user=user1).filter(friend=user2)
+    return (len(existing_connection) > 0)
+
 def profile(request, profile_slug = None):
     user = None
     is_logged_in = False
@@ -77,6 +81,7 @@ def profile(request, profile_slug = None):
     profile = get_user_profile_or_none(user)
     context_dict = {}
     context_dict["username"] = user.username
+    context_dict["following"] = checkConnection(request.user, user)
     context_dict["is_logged_in_profile"] = is_logged_in
     context_dict["profile_slug"] = "";
     if profile != None:
@@ -265,6 +270,26 @@ def like_post(request):
     except BlogPost.DoesNotExist:
         return HttpResponse(-1)
     except ValueError:
-        return HttpResponse(-1)
+        return HttpResponse(-1) 
     post.toggle_like(user)
     return HttpResponse(post.score)
+
+class follow(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            followname = request.GET['followname']
+            try:
+                foundFriend = User.objects.get(username=followname)
+            except User.DoesNotExist:
+                return HttpResponse("error")
+            except ValueError:
+                return HttpResponse("error")
+            existing_connection = Connection.objects.filter(user=request.user).filter(friend=foundFriend)
+            if len(existing_connection) == 0:
+                new_connection = Connection.objects.create(user=request.user, friend=foundFriend)
+                new_connection.save()
+                return HttpResponse("Unfollow")
+            else:
+                existing_connection[0].delete()
+                return HttpResponse("Follow")
+        return HttpResponse("error")

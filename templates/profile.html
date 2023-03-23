@@ -13,6 +13,13 @@
 {% block top_block %}
 <div class="frogg-post">
 <h1>{{ username }}</h1>
+{% if not is_logged_in_profile %}
+	{% if following %}
+		<button class="btn btn-primary" use="follow" user="{{ username }}" type="submit">Unfollow</button>
+	{% else %}
+		<button class="btn btn-primary" use="follow" user="{{ username }}" type="submit">Follow</button>
+	{% endif %}
+{% endif %}
 {% if is_logged_in_profile %}
 <a href="{% url 'froggr:create-profile' %}"> Edit Profile </a>
 {% endif %}
@@ -24,4 +31,5 @@
 <br> <br>
 <hr>
 </div>
+<script src="{% static "follow.js" %}" crossorigin="anonymous"></script>
 {% endblock %}
