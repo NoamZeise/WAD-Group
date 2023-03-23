@@ -16,6 +16,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('text', 'image')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'min-width: 90%'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'style': 'min-width: 90%'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'btn'}),
+        }
 
 
 class BlogPostForm(forms.ModelForm):
@@ -26,6 +31,7 @@ class BlogPostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'min-width: 90%'}),
             'text': forms.Textarea(attrs={'class': 'form-control', 'style': 'min-width: 90%'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'btn'}),
         }
 
 class CommentForm(forms.ModelForm):
