@@ -28,7 +28,7 @@
 </div>
 <br><br><br>
 <div id="post-comment-section" class="form-group">
-  <h3 id="like_count"><strong>{{ post.score }}</strong> likes 
+  <h3 id="like_block"><strong id="like_count">{{ post.score }}</strong> likes 
   {% csrf_token %}
   {% if user.is_authenticated %}
     {% if user not in post.users_liked.all %}
@@ -43,7 +43,7 @@
               data-action="dislike"
               class="btn btn-primary btn-sm like_btn{{post.post.slug}}"
               type="button">Dislike Post</button>
-    {% endif %}
+      {% endif %}
       {% endif %}
       </h3>
 <br><br>

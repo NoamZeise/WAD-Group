@@ -88,13 +88,13 @@ class BlogPost(models.Model):
     users_liked = models.ManyToManyField(User, blank=True, related_name='posts_liked')
 
     def toggle_like(self, user):
-        if user in post.users_liked.all():
-            post.score = post.score - 1
-            post.users_liked.remove(user)
+        if user in self.users_liked.all():
+            self.score -= 1
+            self.users_liked.remove(user)
         else:
-            post.score = post.score + 1
-            post.users_liked.add(user)
-        post.save()
+            self.score = self.score + 1
+            self.users_liked.add(user)
+        self.save()
 
 
     def save(self, *args, **kwargs):
