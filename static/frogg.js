@@ -7,7 +7,7 @@ $(document).ready(function() {
       {'post_id': postid, 'action': action},
       function(data) {
         if (action == 'like') {
-          $('#like_btn').text('Dislike Post');
+          $('#like_btn').text('Unlike Post');
           $('#like_btn').attr('data-action', 'dislike');
           $('#like_count').text(parseInt($('#like_count').text()) + 1);
         } else {
