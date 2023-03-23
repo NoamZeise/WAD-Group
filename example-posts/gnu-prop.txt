@@ -1,0 +1,22 @@
+Proprietary Software Is Malware
+2008-1-4
+example-posts/mware.webp
+Proprietary software, also called nonfree software, means software that doesn't respect users' freedom and community. A proprietary program puts its developer or owner in a position of power over its users. This power is in itself an injustice.
+
+The point of this directory is to show by examples that the initial injustice of proprietary software often leads to further injustices: malicious functionalities.
+
+Power corrupts; the proprietary program's developer is tempted to design the program to mistreat its users. (Software designed to function in a way that mistreats the user is called malware.) Of course, the developer usually does not do this out of malice, but rather to profit more at the users' expense. That does not make it any less nasty or more legitimate.
+
+Yielding to that temptation has become ever more frequent; nowadays it is standard practice. Modern proprietary software is typically an opportunity to be tricked, harmed, bullied or swindled.
+
+Online services are not released software, but in regard to all the bad aspects, using a service is equivalent to using a copy of released software. In particular, a service can be designed to mistreat the user, and many services do that. However, we do not list instances of malicious dis-services here, for two reasons. First, a service (whether malicious or not) is not a program that one could install a copy of, and there is no way at all for users to change it. Second, it is so obvious that a service can mistreat users if the owner wishes that we hardly need to prove it.
+
+However, most online services require the user to run a nonfree app. The app is released software, so we do list malicious functionalities of these apps. Mistreatment by the service itself is imposed by use of the app, so sometimes we mention those mistreatments too—but we try to state explicitly what is done by the app and what is done by the dis-service.
+
+When a web site provides access to a service, it very likely sends nonfree JavaScript software to execute in the user's browser. Such JavaScript code is released software, and it's morally equivalent to other nonfree apps. If it does malicious things, we want to mention them here.
+
+When talking about mobile phones, we do list one other malicious characteristic, location tracking which is caused by the underlying radio system rather than by the specific software in them.
+
+As of March, 2023, the pages in this directory list around 550 instances of malicious functionalities (with more than 680 references to back them up), but there are surely thousands more we don't know about.
+
+Ideally we would list every instance. If you come across an instance which we do not list, please write to webmasters@gnu.org to tell us about it. Please include a reference to a reputable article that describes the malicious behavior clearly; we won't list an item without documentation to point to.

@@ -10,17 +10,24 @@
 
 <link rel="stylesheet" href="{% static 'image.css' %}">
 {% block body_block %}
-<h1> {{ blog_title }}</h1>
-<h3> by <a href="{% url 'froggr:profile' author_url %}">{{ blog_author }}</a> </h3>
+<h1> {{ post.title }}</h1>
+<h3> by <a href="{% url 'froggr:profile' author_url %}">{{ post.user.username }}</a> </h3>
 {% if user_owns_post %}
 <a href="{% url 'froggr:create-frogg' post_url %}"> Edit Post </a>
 {% endif %}
+<<<<<<< HEAD
 {% if blog_img %}
 <div class="image"><img src={{ MEDIA_URL }}{{ blog_img }}/></div>
 {% endif %}
 <p>{{ blog_text }}</p>
 <link rel="stylesheet" href="{% static 'comments.css' %}">
 <link rel="stylesheet" href="{% static 'likes.css' %}">
+=======
+{% if post.image %}
+<img src={{ MEDIA_URL }}{{ post.image }}/>
+{% endif %}
+<p>{{ post.text }}</p>
+>>>>>>> 4cc11a387bc58c2909fc7a4f76562aca397202bc
 
 <div class = "form-group">
   <strong id="like_count">{{ post.score }}</strong> likes

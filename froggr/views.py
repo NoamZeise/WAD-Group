@@ -8,30 +8,41 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.template.loader import render_to_string
 from django.utils.text import slugify
+from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.generic.base import View
+from django.template.defaultfilters import slugify
 from froggr_website.settings import MEDIA_URL
-from froggr.forms import UserForm, UserProfileForm, CommentForm
+from froggr.forms import UserForm, UserProfileForm, CommentForm, BlogPostForm
 from froggr.models import BlogPost, User, UserProfile, Comment
 from froggr import forms
 from datetime import datetime
-from django.db.models import Q
-from .forms import BlogPostForm
-from django.utils.decorators import method_decorator
-from django.views.generic.base import View
 
 
 
 # Create your views here.
 
+def missing_page(request, *args, **argv):
+    response =  render(request, '404.html')
+    response.status_code = 404;
+    return response
+
 def register(request):
     form = UserForm()
+    context = {}
     if request.method == 'POST':
         form = UserForm(request.POST)
+        if len(slugify(form.data.get("username"))) == 0:
+            form.add_error("username", "Username must contain more valid characters url")
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get("username")
-            messages.success(request, 'Account created for: ' + username)
-            return redirect('froggr:frog-in')
-    context = {'form': form}
+            login(request, user)
+            return redirect('froggr:home')
+        else:
+            context['username'] = form.instance.username
+            context['email'] = form.instance.email
+    context['form'] =  form
     return render(request, 'register.html', context)
 
 @login_required
@@ -80,9 +91,8 @@ def handle_text_image_form(form, request):
         form.instance.user = request.user
         if 'image' in request.FILES:
             form.instance.image = request.FILES['image']
-    #else:
-    #    print(form.errors)
-                
+            
+
 @login_required
 def create_profile(request):
     form = None
@@ -100,6 +110,13 @@ def create_profile(request):
         return redirect('froggr:profile')
         
     return render(request, "create_profile.html", {'profile_form': form})
+
+def new_blogpost_form_old_details(form):
+    return forms.BlogPostForm(
+                    initial={
+                        'title':form.instance.title,
+                        'image':form.instance.image,
+                        'text':form.instance.text})
 
 @login_required
 def create_frogg(request, post_slug=""):
@@ -120,42 +137,37 @@ def create_frogg(request, post_slug=""):
         form = forms.BlogPostForm(request.POST, instance=post)
         handle_text_image_form(form, request)
         if form != None:
-            form.instance.date = datetime.now().date()
             try:
                 form.save()
                 return redirect('froggr:posts', form.instance.post_slug)
             except IntegrityError:
                 # this post already exists, save the inputted info and return form again
-                form = forms.BlogPostForm(
-                    initial={
-                        'title':form.instance.title,
-                        'image':form.instance.image,
-                        'text':form.instance.text})
+                form = new_blogpost_form_old_details(form)
                 error_message = "You already have a post with this title!"
             except ValueError:
-                form = forms.BlogPostForm(
-                    initial={
-                        'title':form.instance.title,
-                        'image':form.instance.image,
-                        'text':form.instance.text})
+                form = new_blogpost_form_old_details(form)
                 error_message = "This title is invalid!"
                 
     return render(request, 'create_frogg.html',
                   {'blog_form': form, 'post_slug' : post_slug, 'error_message': error_message})
 
 def frogin(request):
+    context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             return redirect('froggr:home')
         else:
-            messages.info(request, 'Username OR Password is incorrect')
-    context = {}
+            try:
+                User.objects.get(username=username)
+                messages.info(request, 'Password was incorrect')
+            except User.DoesNotExist:
+                messages.info(request, 'Username does not exist')
+            context['username'] = username
     return render(request, 'frog_in.html', context)
 
 
@@ -179,10 +191,6 @@ def posts(request, post_slug):
         form = CommentForm()
     context_dict = {}
     context_dict['comment_form'] = form
-    context_dict['blog_title'] = post.title
-    context_dict['blog_img'] = post.image
-    context_dict['blog_text'] = post.text
-    context_dict['blog_author'] = post.user.username
     context_dict['post'] = post
     context_dict['author_url'] = UserProfile.objects.get(user=post.user).profile_slug
     if post.user == request.user:
@@ -193,25 +201,29 @@ def posts(request, post_slug):
 
 # ---- views that return lists of posts    
 
-INITIAL_LOAD = 21
-PAGES_PER_LOAD = 6
+INITIAL_POST_LOAD_COUNT = 21
+POSTS_PER_LOAD = 6
+POST_BOX_CHAR_LIMIT = 102
 
 def render_posts_for_ajax(query, count):
-    load_size = PAGES_PER_LOAD
+    load_size = POSTS_PER_LOAD
     if count == 0:
-        load_size = INITIAL_LOAD
-    posts = query.all()[count:(count + load_size)];
+        load_size = INITIAL_POST_LOAD_COUNT
     post_data = ""
-    for p in posts:
-        post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL})
+    for p in query.all()[count:(count + load_size)]:
+        text = p.text[:POST_BOX_CHAR_LIMIT] + '[...]' if len(p.text) > POST_BOX_CHAR_LIMIT else p.text
+        # insert space so that for very long words the text will not run on past the post box
+        halfway = int(POST_BOX_CHAR_LIMIT/2)
+        text = text[:halfway] + ' ' + text[halfway:]
+        post_data += render_to_string("post_box.html", { 'post' : p, 'MEDIA_URL' : MEDIA_URL,
+                                                         'post_text': text})
     return post_data
 
 def posts_page(request, query, base_page, base_context):
-    sorting_order = request.GET.get('sorting_order', 'ascending')
-    sort_by = request.GET.get('sort_by', 'title')
-
+    sorting_order = request.GET.get('sorting_order', 'descending')
+    sort_by = request.GET.get('sort_by', 'date')
     sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
-
+    
     count = 0
     first_load = False
     try:
@@ -255,13 +267,5 @@ def like_post(request):
         return HttpResponse(-1)
     except ValueError:
         return HttpResponse(-1)
-    if user in post.users_liked.all():
-        post.score = post.score - 1
-        post.users_liked.remove(user)
-        post.save()
-        return HttpResponse(post.score)
-    else:
-        post.score = post.score + 1
-        post.users_liked.add(user)
-        post.save()
-        return HttpResponse(post.score)
+    post.toggle_like(user)
+    return HttpResponse(post.score)
