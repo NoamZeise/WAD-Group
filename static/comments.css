@@ -1,3 +1,22 @@
-.form-group {
-    margin-left: 80px;
+#post-comment-section {
+    margin: auto;
+    width: 70%;
+}
+
+#comments {
+
+
+}
+
+#comment_form {
+
+}
+
+#like_btn {
+
+}
+
+#like_count {
+    text-align: right;
+    margin-right: 15%;
 }

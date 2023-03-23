@@ -2,35 +2,33 @@
 {% load static %}
 
 {% block title_block %}
-{{ blog_title }}
+{{ post.title }}
 {% endblock %}
 {% block head_block %}
 <script src="{% static 'frogg.js' %}"></script>
+<link rel="stylesheet" href="{% static 'comments.css' %}">
+<link rel="stylesheet" href="{% static 'post-page.css' %}">
 {% endblock %}
 
-<link rel="stylesheet" href="{% static 'image.css' %}">
 {% block body_block %}
+<div class="frogg-post">
 <h1> {{ post.title }}</h1>
 <h3> by <a href="{% url 'froggr:profile' author_url %}">{{ post.user.username }}</a> </h3>
 {% if user_owns_post %}
 <a href="{% url 'froggr:create-frogg' post_url %}"> Edit Post </a>
 {% endif %}
-<<<<<<< HEAD
-{% if blog_img %}
-<div class="image"><img src={{ MEDIA_URL }}{{ blog_img }}/></div>
-{% endif %}
-<p>{{ blog_text }}</p>
-<link rel="stylesheet" href="{% static 'comments.css' %}">
-<link rel="stylesheet" href="{% static 'likes.css' %}">
-=======
+<br><br><br><br>
 {% if post.image %}
-<img src={{ MEDIA_URL }}{{ post.image }}/>
+<img class="post-image" src={{ MEDIA_URL }}{{ post.image }}/>
 {% endif %}
+<br><br>
+<hr>
+<br><br>
 <p>{{ post.text }}</p>
->>>>>>> 4cc11a387bc58c2909fc7a4f76562aca397202bc
-
-<div class = "form-group">
-  <strong id="like_count">{{ post.score }}</strong> likes
+</div>
+<br><br><br>
+<div id="post-comment-section" class="form-group">
+  <h3 id="like_count"><strong>{{ post.score }}</strong> likes 
   {% csrf_token %}
   {% if user.is_authenticated %}
     {% if user not in post.users_liked.all %}
@@ -46,8 +44,8 @@
               class="btn btn-primary btn-sm like_btn{{post.post.slug}}"
               type="button">Dislike Post</button>
     {% endif %}
-  {% endif %}
-</div>
+      {% endif %}
+      </h3>
 <br><br>
 <div id="comments", class="form-group">
   <br>
@@ -70,6 +68,8 @@
   <h3> {{ comment.user.username }} says... </h3>
   <p> {{ comment.text }}</p>
   {% endfor %}
+</div>
+
 </div>
 
 {% endblock %}

@@ -5,8 +5,13 @@
 {{ username }}'s profile
 {% endblock %}
 
+{% block head_block %}
+<link rel="stylesheet" href="{% static 'post-page.css' %}">
+{% endblock %}
+
 
 {% block top_block %}
+<div class="frogg-post">
 <h1>{{ username }}</h1>
 {% if is_logged_in_profile %}
 <a href="{% url 'froggr:create-profile' %}"> Edit Profile </a>
@@ -16,4 +21,5 @@
 <img src={{ MEDIA_URL }}{{ profile_img }}/>
 {% endif %}
 <p>{{ profile_text }}</p>
+</div>
 {% endblock %}

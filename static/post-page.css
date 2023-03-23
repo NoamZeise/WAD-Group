@@ -1,0 +1,11 @@
+.post-image {
+    display: block;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frogg-post {
+    margin: auto;
+    width: 60%;
+}
