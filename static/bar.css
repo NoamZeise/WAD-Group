@@ -47,11 +47,3 @@
 .form-control {
   width: 200px;
 }
-
-#searchform {
-    padding-top: 1rem;
-}
-
-#searchbtn {
-    visibility: hidden;
-}
