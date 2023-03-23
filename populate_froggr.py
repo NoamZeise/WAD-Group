@@ -8,12 +8,12 @@ from froggr.models import User, UserProfile, Connection, BlogPost, Comment
 from froggr_website import settings
 
 def populate():
-    users = [gen_user("John Smith"),
-             gen_user("Eva_Smith"),
-             gen_user("Jean12"),
-             gen_user("BadRoyRog"),
-             gen_user("Jack Bean"),
-             gen_user("Elyssia-1"),]
+    users = [gen_user("John Smith", "example-posts/frog.jpg"),
+             gen_user("Eva_Smith", "example-posts/frog.jpg"),
+             gen_user("Jean12", "example-posts/frog.jpg"),
+             gen_user("BadRoyRog", "example-posts/frog.jpg"),
+             gen_user("Jack Bean", "example-posts/frog.jpg"),
+             gen_user("Elyssia-1", "example-posts/frog.jpg"),]
     gen_friends(users[0:3])
 
     blogs = [gen_blog_from_txt(users[0], "example-posts/fav-frog.txt"),
@@ -53,7 +53,7 @@ def populate():
     gen_reaction(users[0], blogs[8])
 
     # make loads of blogs for testing
-    user = gen_user("TestUser")
+    user = gen_user("TestUser", "example-posts/frog.jpg")
     for i in range(300):
         gen_blog(user, "Test Post " + str(i),
                  "TEST TEXT.",
@@ -61,7 +61,7 @@ def populate():
                  datetime.datetime(2000, 1, 1))
         
  
-def gen_user(name):
+def gen_user(name, profile_img_path):
     u = User.objects.get_or_create(username=name,
                                    email=(name + "@mail.com"))[0]
     u.set_password(name + "@123")
@@ -70,6 +70,7 @@ def gen_user(name):
     profile = UserProfile.objects.get_or_create(
         user=u)[0]
     profile.text = f"I'm {name} and this is my profile!"
+    profile.image = profile_img_path
     profile.save()
   
     print("> Added User: " + u.username)
