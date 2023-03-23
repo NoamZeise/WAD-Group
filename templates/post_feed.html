@@ -8,6 +8,7 @@ Home
 {% block head_block %}
 <script src="{% static 'posts.js' %}"></script>
 <script src="{% static 'sort.js' %}"></script>
+<link rel="stylesheet" href="{% static 'post-feed.css' %}">
 {% endblock %}
 
 {% block body_block %}
@@ -18,8 +19,7 @@ Home
 {% endblock %}
 
 <form id="sort-form" method="get">
-  <label for="sort_by">Sort by:</label>
-  <select name="sort_by" id="sort_by">
+  <select class="btn" name="sort_by" id="sort_by">
     <option value="date"  {% if request.GET.sort_by == 'date'  %}selected{% endif %}>Date </option>
     <option value="title" {% if request.GET.sort_by == 'title' %}selected{% endif %}>Title</option>
     <option value="score" {% if request.GET.sort_by == 'score' %}selected{% endif %}>Score</option>
@@ -28,7 +28,7 @@ Home
 	 value="{% if request.GET.sorting_order %}{{ request.GET.sorting_order }}{% else %}descending{% endif %}">
   <button type="button" id="order_toggle_button"
 	  class="{% if request.GET.sorting_order == 'descending' or not request.GET.sorting_order %}
-		       arrow down{% else %}arrow up{% endif %}">&#9650;</button>
+		       arrow down{% else %}arrow up{% endif %} btn">&#9650;</button>
 </form>
 
 
