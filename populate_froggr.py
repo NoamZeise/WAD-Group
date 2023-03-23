@@ -100,7 +100,7 @@ def gen_blog(user, title, text, image=None, date=None):
 
 
 def gen_blog_from_txt(user, filepath):
-    with open(filepath) as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         title = f.readline().strip()
         date = f.readline().strip().split('-')
         image = f.readline().strip()
