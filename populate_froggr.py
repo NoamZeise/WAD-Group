@@ -121,7 +121,6 @@ def gen_reaction(user, blog):
     blog.toggle_like(user)
     print(f"> Added like by {user.username} on post " +
           f"\"{blog.title}\"")
-    return r
 
 
 if __name__ == '__main__':
