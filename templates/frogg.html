@@ -15,17 +15,17 @@
 <h1> {{ post.title }}</h1>
 <h3> by <a href="{% url 'froggr:profile' author_url %}">{{ post.user.username }}</a> </h3>
 {% if user_owns_post %}
-<a href="{% url 'froggr:create-frogg' post_url %}"> Edit Post </a>
+<a class="btn btn-secondary" href="{% url 'froggr:create-frogg' post_url %}"> Edit Post </a>
 {% endif %}
 <br><br><br><br>
 {% if post.image %}
 <img class="post-image" src={{ MEDIA_URL }}{{ post.image }}/>
-{% endif %}
 <br><br>
 <hr>
+{% endif %}
 <br><br>
-<p>{{ post.text }}</p>
-</div>
+<pre>{{ post.text }}</pre>
+</div>  
 <br><br><br>
 <div id="post-comment-section" class="form-group">
   <h3 id="like_block"><strong id="like_count">{{ post.score }}</strong> likes 
@@ -57,7 +57,7 @@
     {% csrf_token %}
     
     {{ comment_form.as_p }}
-    <input type="submit" name="submit" value="Comment"/>
+    <input class="btn btn-primary" type="submit" name="submit" value="Comment"/>
   </form>
       {% endif %}
   <br><br>

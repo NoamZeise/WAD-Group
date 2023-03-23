@@ -1,9 +1,8 @@
 a { color: #04AA6D; }
 
-a.dull_link { color: inherit }
+a.dull_link { color: inherit; }
 
 .btn-primary {
     background-color: #04AA6D;
     border-color: #04AA6D;
 }
-
