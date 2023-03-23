@@ -80,9 +80,8 @@ def profile(request, profile_slug = None):
     context_dict["is_logged_in_profile"] = is_logged_in
     context_dict["profile_slug"] = "";
     if profile != None:
-        context_dict["profile_img"] = profile.image
-        context_dict["profile_text"] = profile.text
-        context_dict["profile_slug"] = profile.profile_slug
+        context_dict["profile"] = profile
+        context_dict["profile_slug"] = profile.profile_slug;
     return posts_page(request, BlogPost.objects.filter(user=user), "profile.html", context_dict)
 
 # returns the results of form.save() with image and user filled in
@@ -223,7 +222,7 @@ def posts_page(request, query, base_page, base_context):
     sorting_order = request.GET.get('sorting_order', 'descending')
     sort_by = request.GET.get('sort_by', 'date')
     sorted_queryset = BlogPost.sort_blogposts(query, sort_by, sorting_order)
-    
+
     count = 0
     first_load = False
     try:
@@ -238,7 +237,7 @@ def posts_page(request, query, base_page, base_context):
 
 def home(request):
     return posts_page(request, BlogPost.objects,
-                      'home.html', {})
+                      'post_feed.html', {})
 
 def search_results(request, search_query=None):
     if request.method == "POST":

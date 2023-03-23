@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'post_feed.html' %}
 {% load static %}
 
 {% block title_block %}
@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block head_block %}
+{{ block.super }}
 <link rel="stylesheet" href="{% static 'post-page.css' %}">
 {% endblock %}
-
 
 {% block top_block %}
 <div class="frogg-post">
@@ -17,9 +17,9 @@
 <a href="{% url 'froggr:create-profile' %}"> Edit Profile </a>
 {% endif %}
 <br>
-{% if profile_img %}
-<img src={{ MEDIA_URL }}{{ profile_img }}/>
+{% if profile.image %}
+<img class="post-image" src={{ MEDIA_URL }}{{ profile.image }}/>
 {% endif %}
-<p>{{ profile_text }}</p>
+<p>{{ profile.text }}</p>
 </div>
 {% endblock %}
