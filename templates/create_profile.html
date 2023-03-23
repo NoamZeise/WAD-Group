@@ -6,13 +6,13 @@ Create Profile
 {% endblock %}
 
 {% block body_block %}
+<link rel="stylesheet" href="{% static 'profile.css' %}">
 <h1> Edit your profile! </h1>
 
 <div>
   <form id="profile_form" method="post" action="{% url 'froggr:create-profile' %}"
 	enctype="multipart/form-data">
     {% csrf_token %}
-
     {{ profile_form.as_p }}
     <br>
     <br>
