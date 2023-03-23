@@ -30,5 +30,5 @@ class RegisterTests(TestCase):
 
     def test_register_success(self):
         response = self.client.post(reverse('froggr:register'), self.testUser)
-        self.assertRedirects(response, reverse('froggr:frog-in'))
+        self.assertRedirects(response, reverse('froggr:home'))
 
