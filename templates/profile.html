@@ -12,10 +12,12 @@
 
 {% block top_block %}
 <div class="frogg-post">
-<h1>{{ username }}</h1>
+<div class="frogg-title">
+<h1 class="frogg-header">{{ username }}</h1>
 {% if is_logged_in_profile %}
-<a href="{% url 'froggr:create-profile' %}"> Edit Profile </a>
+<a class="btn btn-secondary frogg-btn" href="{% url 'froggr:create-profile' %}">Edit Profile</a>
 {% endif %}
+</div>
 <br>
 {% if profile.image %}
 <img class="post-image" src={{ MEDIA_URL }}{{ profile.image }}/>
