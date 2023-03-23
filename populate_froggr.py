@@ -4,7 +4,7 @@ import datetime
 import django
 django.setup()
 from django.core.files import File
-from froggr.models import User, UserProfile, Connection, BlogPost, Comment, Reaction
+from froggr.models import User, UserProfile, Connection, BlogPost, Comment
 from froggr_website import settings
 
 def populate():
@@ -42,15 +42,15 @@ def populate():
     gen_comment(users[3], blogs[6], "Salt and Pepper")
     gen_comment(users[0], blogs[4], "Common")
     gen_comment(users[1], blogs[8], "BWOAWOEOAWDOWADOO")
-    gen_reaction(users[0], blogs[1], 1)
-    gen_reaction(users[0], blogs[3], 1)
-    gen_reaction(users[3], blogs[2], 1)
-    gen_reaction(users[1], blogs[1], 1)
-    gen_reaction(users[1], blogs[4], 1)
-    gen_reaction(users[0], blogs[5], 1)
-    gen_reaction(users[1], blogs[5], 1)
-    gen_reaction(users[1], blogs[6], 1)
-    gen_reaction(users[0], blogs[8], 1)
+    gen_reaction(users[0], blogs[1])
+    gen_reaction(users[0], blogs[3])
+    gen_reaction(users[3], blogs[2])
+    gen_reaction(users[1], blogs[1])
+    gen_reaction(users[1], blogs[4])
+    gen_reaction(users[0], blogs[5])
+    gen_reaction(users[1], blogs[5])
+    gen_reaction(users[1], blogs[6])
+    gen_reaction(users[0], blogs[8])
 
     # make loads of blogs for testing
     user = gen_user("TestUser")
@@ -117,10 +117,9 @@ def gen_comment(user, blog, text):
     return c
 
 
-def gen_reaction(user, blog, value):
-    r = Reaction.objects.get_or_create(user=user, post=blog, reaction=value)[0]
-    r.save()
-    print(f"> Added Reaction '{value}' by {user.username} on post " +
+def gen_reaction(user, blog):
+    blog.toggle_like(user)
+    print(f"> Added like by {user.username} on post " +
           f"\"{blog.title}\"")
     return r
 

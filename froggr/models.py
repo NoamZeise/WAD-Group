@@ -87,6 +87,16 @@ class BlogPost(models.Model):
     score = models.IntegerField(default=0)
     users_liked = models.ManyToManyField(User, blank=True, related_name='posts_liked')
 
+    def toggle_like(self, user):
+        if user in post.users_liked.all():
+            post.score = post.score - 1
+            post.users_liked.remove(user)
+        else:
+            post.score = post.score + 1
+            post.users_liked.add(user)
+        post.save()
+
+
     def save(self, *args, **kwargs):
         # make post url based on username and post title
         if len(self.title.strip()) == 0:
@@ -122,36 +132,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username + " -- " + self.post.title
-
-
-class Reaction(models.Model):
-    """ A reaction to a blogpost.
-    Made by a user and can be positive or negative"""
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
-    # should be +1 or -1, so they can all be added together together
-    # to get the 'score' of the page
-    reaction = models.SmallIntegerField()
-    
-    class Meta:
-        # user can only give one reaction to a post
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'post'],
-                name="only 1 reaction per user, per post")
-        ]
-
-    def save(self, *args, **kwargs):
-        self.post.score += self.reaction
-        self.post.save()
-        super(Reaction, self).save(*args, **kwargs)
-
-    def delete(self):
-        self.post.score -= self.reaction
-        self.post.save()
-        super(Reaction, self).delete()
-        
-    def __str__(self):
-        return self.user.username + "->" + self.post.title + " : " + str(self.reaction)
-

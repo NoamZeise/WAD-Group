@@ -267,13 +267,5 @@ def like_post(request):
         return HttpResponse(-1)
     except ValueError:
         return HttpResponse(-1)
-    if user in post.users_liked.all():
-        post.score = post.score - 1
-        post.users_liked.remove(user)
-        post.save()
-        return HttpResponse(post.score)
-    else:
-        post.score = post.score + 1
-        post.users_liked.add(user)
-        post.save()
-        return HttpResponse(post.score)
+    post.toggle_like(user)
+    return HttpResponse(post.score)
