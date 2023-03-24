@@ -31,7 +31,7 @@
 {% if profile.image %}
 <img class="post-image" src={{ MEDIA_URL }}{{ profile.image }}/>
 {% else %}
-<img class="post-image" src={% static 'placeholder.png' %}/>
+<img class="post-image" src="{% static 'defaultpic.jpeg' %}"/>
 {% endif %}
 <p>{{ profile.text }}</p>
 <br> <br>
