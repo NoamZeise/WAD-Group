@@ -74,7 +74,8 @@ def gen_user(name, profile_img_path):
     profile = UserProfile.objects.get_or_create(
         user=u)[0]
     profile.text = f"I'm {name} and this is my profile!"
-    profile.image = profile_img_path
+    profile.image.save(os.path.basename(profile_img_path),
+                 File(open(profile_img_path, 'rb')))
     profile.save()
   
     print("> Added User: " + u.username)
