@@ -50,7 +50,6 @@ def my_frogs(request):
     return render(request, 'my_frogs.html')
 
 def get_user_profile_or_none(user):
-    profile = None
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -60,6 +59,31 @@ def get_user_profile_or_none(user):
 def checkConnection(user1, user2):
     existing_connection = Connection.objects.filter(user=user1).filter(friend=user2)
     return (len(existing_connection) > 0)
+
+def getProfile(user):
+    try:
+        userprofile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        return None
+    except ValueError:
+        return None 
+    return userprofile 
+
+def getFollowers(user):
+    passedFollowers = Connection.objects.filter(friend=user)
+    followerList = []
+    for follower in passedFollowers:
+        followerProfile = getProfile(follower.user)
+        followerList.append((follower.user, followerProfile.profile_slug))
+    return followerList
+
+def getFollowing(user):
+    passedFollowing = Connection.objects.filter(user=user)
+    followingList = []
+    for following in passedFollowing:
+        followingProfile = getProfile(following.friend)
+        followingList.append((following.friend, followingProfile.profile_slug))
+    return followingList
 
 def profile(request, profile_slug = None):
     user = None
@@ -81,7 +105,9 @@ def profile(request, profile_slug = None):
     profile = get_user_profile_or_none(user)
     context_dict = {}
     context_dict["username"] = user.username
-    context_dict["following"] = checkConnection(request.user, user)
+    context_dict["following2"] = checkConnection(request.user, user)
+    context_dict["followers"] = getFollowers(user)
+    context_dict["following"] = getFollowing(user)
     context_dict["is_logged_in_profile"] = is_logged_in
     context_dict["profile_slug"] = "";
     if profile != None:
@@ -292,4 +318,4 @@ class follow(View):
             else:
                 existing_connection[0].delete()
                 return HttpResponse("Follow")
-        return HttpResponse("error")
+        return HttpResponse("error") 

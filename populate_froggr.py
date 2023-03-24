@@ -31,6 +31,7 @@ def populate():
              gen_blog_from_txt(users[5], "example-posts/emacs-lisp.txt"),
              gen_blog_from_txt(users[5], "example-posts/gnu-prop.txt"),
              gen_blog_from_txt(users[5], "example-posts/free-as-in.txt"),
+             gen_blog_from_txt(users[2], "example-posts/chickencopy.txt"),
              ]
     
     gen_comment(users[0], blogs[1], "a Burger!")
