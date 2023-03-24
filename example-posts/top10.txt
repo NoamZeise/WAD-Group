@@ -1,6 +1,6 @@
 Top 10 animes 
 2022-10-10
-example-posts/top10.avif
+example-posts/top10.png
 
 Fullmetal Alchemist: Brotherhood
 Attack on Titan

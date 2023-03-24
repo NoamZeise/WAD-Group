@@ -1,6 +1,6 @@
 How to fix a clutch
 2023-03-23
-example-posts/clutch.jpeg
+example-posts/Clutch.jpeg
 
 Park your car on a surface which is both solid and level.
 Disconnect the cable from the negative battery terminal.
