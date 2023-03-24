@@ -47,3 +47,7 @@
 .form-control {
   width: 200px;
 }
+
+.navbar-collapse .navbar-nav.text-right {
+  padding-right: 0.0rem;
+}
