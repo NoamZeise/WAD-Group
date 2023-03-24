@@ -7,3 +7,6 @@ a.dull_link { color: inherit }
     border-color: #04AA6D;
 }
 
+pre {
+    white-space:pre-wrap;
+}
