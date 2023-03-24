@@ -29,7 +29,7 @@
 </div>
 <br>
 {% if profile.image %}
-<img class="post-image" src={{ MEDIA_URL }}{{ profile.image }}/>
+<img class="post-image" src="{{ MEDIA_URL }}{{ profile.image }}"/>
 {% else %}
 <img class="post-image" src="{% static 'defaultpic.jpeg' %}"/>
 {% endif %}
