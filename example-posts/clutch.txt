@@ -1,0 +1,27 @@
+How to fix a clutch
+2023-03-23
+example-posts/clutch.jpeg
+
+Park your car on a surface which is both solid and level.
+Disconnect the cable from the negative battery terminal.
+Use a jack to raise the front end of your car off the ground. Use jack stands or a sturdy ramp to secure the car in its raised position. Stabilise the engine either by using a hoist from above or supports from below
+If your car is rear wheel drive then you should take off the transmission shifter lever next.
+Take off the driveshaft.
+Disengage the clutch linkage so that the cables are no longer connected.
+Locate the speedometer cable and disconnect it from the transmission.
+Locate the starter motor and unfasten it from the engine housing. Disconnect the electrical wires taking care to make a note of exactly where the wires ran to. (When it comes to putting these wires back in place, if you connect them to the wrong terminals you could short circuit the entire car’s electrical system and have to replace all of the wiring).
+Locate all of the other electrical connections on the engine housing and disconnect these too. Again, make sure that you know exactly how to reconnect these wires once you have replaced the clutch.
+Position a jack or some kind of structural support underneath the transmission putting slight pressure underneath it.
+Loosen all of the bolts on the transmission and disconnect it from its mount.
+Carefully slide the transmission out of place (you may need to loosen the jack slightly to be able to do this).
+You should now have access to the clutch itself.
+Inspect the flywheel and the pressure plate for identifying marks to help you know exactly what position to put them back in when you come to it.
+Loosen all of the bolts which fix the pressure plate in place and remove it, along with the clutch disc, from the car.
+Inspect the flywheel closely to see if it has been damaged in any way. Remove it and clean it or replace it if necessary.
+Look out for oil leaks around the whole of the clutch area.
+Check the pilot bearing in the centre of the flywheel to make sure that all of the needle bearings are lubricated properly.
+Be sure to clean the crankshaft flange well before you replace the flywheel. With the flywheel back in place, tighten the bolts securing it in position in a star formation. Secure them according to the specified torque for your particular vehicle. (You should be able to find this outlined in your owner’s manual).
+Put in the new clutch and pressure plate. Don’t forget to connect the new release bearing to the release fork before you replace any other parts you have disconnected.
+Replace all of the parts of the car which you took apart to access the clutch in reverse order to the way in which you removed them. Be extremely careful when it comes to rewiring the electrical parts.
+Once you have put all of the parts back where they should be, lower your car from the jacks slowly and carefully.
+Drive your car in a safe, quiet area to make sure that it is all working properly.
