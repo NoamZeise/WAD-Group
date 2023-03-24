@@ -108,16 +108,17 @@ def profile(request, profile_slug = None):
     
     context_dict["logged_in"] = request.user.is_authenticated
     if request.user.is_authenticated:
-        context_dict["following2"] = checkConnection(request.user, user)
-        context_dict["followers"] = getFollowers(user)
-        context_dict["following"] = getFollowing(user)
-        context_dict["following3"] = checkConnection(request.user, user)
+        context_dict["user_is_following"] = checkConnection(request.user, user)
+
+    context_dict["followers"] = getFollowers(user)
+    context_dict["following"] = getFollowing(user)
         
     context_dict["is_logged_in_profile"] = is_logged_in
     context_dict["profile_slug"] = "";
     if profile != None:
         context_dict["profile"] = profile
         context_dict["profile_slug"] = profile.profile_slug;
+    context_dict["post_view_title"] = f"{user.username}'s Posts"
     return posts_page(request, BlogPost.objects.filter(user=user), "profile.html", context_dict)
 
 # returns the results of form.save() with image and user filled in
@@ -295,7 +296,7 @@ def following_posts(request):
     return posts_page(request,
                       BlogPost.objects.filter(
                           user__in=Connection.objects.filter(user=request.user).values('friend')),
-                      "post_feed.html", {})
+                      "post_feed.html", {"post_view_title": "Posts by users you are following"})
 
 
 def no_results(request):
