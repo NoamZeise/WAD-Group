@@ -35,9 +35,9 @@
       </a>
 
       <div class="d-flex ml-auto order-lg-2">
-        <form class="form-inline" action="#" method="POST">
+        <form class="form-inline" action="{% url 'froggr:search-results' %}" method="POST">
           {% csrf_token %}
-          <input id="searchbar" class="form-control mr-sm-2" type="search" placeholder="Search" name="search">
+          <input id="searchbar" class="form-control mr-sm-2" type="search" placeholder="Search" name="search-query">
           <button id="searchbtn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

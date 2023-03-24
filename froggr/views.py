@@ -248,7 +248,7 @@ def home(request):
 
 def search_results(request, search_query=None):
     if request.method == "POST":
-        searched = request.POST['searched']
+        searched = request.POST['search-query']
         return redirect(reverse('froggr:search-results') + slugify(searched))
     if search_query == None:
         return posts_page(request, BlogPost.objects.all(),
