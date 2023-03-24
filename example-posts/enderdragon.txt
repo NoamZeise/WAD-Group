@@ -1,0 +1,52 @@
+How to defeat the enderdragon 
+2022-6-4
+example-posts/enderdragon.jpeg
+Sword
+
+The sword (ideally diamond or netherite) is used to damage the dragon on its perch as she is immune to arrows at this time. A secondary use is for provoked endermen.
+
+Enchanting the sword is highly recommended. Sharpness is useful for increasing damage to both the dragon and endermen. While Knockback is ineffective against the dragon, it is helpful against endermen. Fire Aspect makes endermen more difficult to deal with since they teleport upon taking damage for every fire tick. Looting does not help you with the fight but enhances ender pearl drops.
+
+Axe
+
+The axe (also ideally diamond or netherite) may deal more damage‌[JE only], but it isn't generally recommended in either version. in Java Edition, this is because of its pretty slow recovery.
+
+Bow
+
+The bow should be the player's main weapon; both for destroying the end crystals, and against the dragon while it is flying through the air. You should bring two to three stacks of arrows or the Infinity enchantment, though with enough practice you can get by with far less.
+
+If you get the chance to collect some snow blocks in your travels, it's a good idea to hang on to them until you either get Infinity or the means to craft or buy a large quantity of arrows from fletcher villagers. If you reach the end portal with only limited ammunition, you can save your arrows for the dragon, and use snowballs to destroy most if not all the End Crystals. Prior target practice is always a plus, though the rapid rate of snowball throwing can make up for inaccuracy if you brought enough. Thrown eggs, and even ender pearls, can be used the same way against end crystals, but the point is to use something easier to obtain than arrows, not harder. Pearls, though valuable, do teleport you to the top of the obsidian tower after destroying the end crystal, if that is where you want to be, assuming you don't miss and teleport to somewhere you don't want to be.
+
+Having the Power enchantment on your bow greatly increases damage against the dragon, so it can come in handy. You may need poison to throw at the dragon.
+
+If you get the chance to collect a supply of glowstone or glowstone dust, you can craft arrows into spectral arrows. While this makes no difference against the Ender Dragon or End Crystals, you end up with twice as much ammo.‌[Java Edition only]
+
+Crossbow
+
+If the player does not want to use a bow, a crossbow is a great alternative. The advantages of a crossbow are that it has a longer range and can inflict more damage than a regular bow. However, a crossbow cannot be enchanted with Infinity, so it is possible to run out of arrows while using it. You can also cannot enchant a crossbow with power but you can enchant a bow with power which makes a bow deal more damage. On the plus side, with the Piercing enchantment the arrows fired can pass through non-mob entities, so it is possible (although difficult) to destroy multiple end crystals with a single shot. Fireworks are not recommended since they do not destroy the end crystals and don't deal any damage to the ender dragon. Alternatively, Multishot can greatly increase your hit rate while the dragon is circling high around the tops of the towers, where it is usually a waste of arrows to even try with a bow or ordinary crossbow.
+
+Armor
+
+The ender dragon has an attack strength of 15♥ × 7.5 with her head on hard difficulty. It is the fifth strongest direct attack of any hostile mob, topped by the vindicator, the iron golem, ravager and warden. In Bedrock Edition, it is tied with the wither’s dash attack making it the fifth-strongest. Therefore, the player should wear a full set of diamond or netherite armor enchanted with Protection IV. Netherite armor also helps negate the ender dragon's strong knockback because of its natural knockback resistance. Wearing enchanted armor increases your chances of not dying, but it isn't necessary. Wearing an unenchanted full iron set reduces the damage on hard difficulty to about 10♥♥♥♥♥, a diamond or netherite set reduces it to 5♥♥♥.
+
+Since one of the hardest damage to avoid during the fight is fall damage, Feather Falling IV on the player's boots can be critical. Thorns is also recommended, because it damages any provoked endermen when they attack the player.
+
+Pickaxe
+
+When the player enters the End, they might spawn underground, so some kind of pickaxe is vital to mine through end stone to reach the surface. Having a regular diamond pickaxe is just fine, you can enchant it with Efficiency to dig your way free faster. A diamond pickaxe with Silk Touch is necessary to reclaim an ender chest.
+
+An iron pickaxe (or even stone) is enough if you are not going to mine additional endstone and if you have brought enough building blocks.
+
+Food/Healing
+
+As you are going to receive a lot of damage from the dragon or the endermen, healing items are critical to survive the fight. The higher the difficulty, the more food/healing you are going to need.
+
+Golden apples are the most efficient healing item because they provide Absorption, which grants the player 4♥♥ temporary health, as well as the Regeneration effect which restores another 4♥♥ health over 5 seconds. Beginners should bring a lot of them to avoid dying.
+Enchanted golden apples provide Absorption IV, which grants the player 16♥ × 8 temporary health and restore 16♥ × 8 health over 20 seconds. They are however difficult to find, so save them for an emergency if you found one.
+Golden carrots are a highly nutritious food, but quite expensive.
+Suspicious stews crafted with dandelions or blue orchids give the player the Saturation effect, which restores the player's saturation level to full. It can be used to restore 16♥ × 8 in Java Edition, making it a cheap alternative to restore lots of hearts in case the player runs low on health.
+Cooked porkchops, steak, bread and cooked salmon are other nutritious foods to bring to the End.
+You should bring at least one stack of food items to prevent starving and allow for quick regeneration.
+
+Also, potent healing potions and extended regeneration potions can bail you out of low-health scenarios quickly. It is recommended to convert them to splash potions to skip the drinking time.
+

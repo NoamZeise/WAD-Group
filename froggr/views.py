@@ -143,7 +143,7 @@ def create_profile(request):
         form = forms.UserProfileForm(request.POST, instance=profile)
         handle_text_image_form(form, request)
         form.save()
-        return redirect('froggr:profile')
+        return redirect('froggr:create-profile')
         
     return render(request, "create_profile.html", {'profile_form': form})
 
@@ -240,6 +240,11 @@ def posts(request, post_slug):
 INITIAL_POST_LOAD_COUNT = 21
 POSTS_PER_LOAD = 6
 POST_BOX_CHAR_LIMIT = 102
+
+def delete_post(request,post_slug=None):
+    post_to_delete=BlogPost.objects.get(post_slug=post_slug)
+    post_to_delete.delete()
+    return redirect('froggr:profile')
 
 def render_posts_for_ajax(query, count):
     load_size = POSTS_PER_LOAD

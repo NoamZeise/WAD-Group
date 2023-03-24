@@ -23,4 +23,5 @@ urlpatterns = [
     path('posts/<slug:post_slug>/', views.posts, name='posts'),
     path('like-post/', views.like_post, name='like_post'),
     path('following-posts/', views.following_posts, name='following-posts'),
+    path('delete/<post_slug>',views.delete_post,name='delete'),
 ]
