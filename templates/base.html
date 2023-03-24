@@ -62,7 +62,7 @@
             <a class="nav-link" href="{% url 'froggr:create-frogg' %}">Create a Frogg</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'froggr:friends' %}">Following</a>
+            <a class="nav-link" href="{% url 'froggr:following-posts' %}">Following</a>
           </li>
           {% endif %}
           {% if user.is_authenticated %}

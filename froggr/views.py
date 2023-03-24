@@ -291,7 +291,7 @@ def search_results(request, search_query=None):
                       'search_results.html', {'searched':search_query})
 
 @login_required
-def friends(request):
+def following_posts(request):
     return posts_page(request,
                       BlogPost.objects.filter(
                           user__in=Connection.objects.filter(user=request.user).values('friend')),
