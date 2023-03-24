@@ -31,7 +31,7 @@
 {% if profile.image %}
 <img class="post-image" src={{ MEDIA_URL }}{{ profile.image }}/>
 {% else %}
-<img class="post-image" src={% static 'defaultpic.jpeg' %}/>
+<img class="post-image" src={% static 'placeholder.png' %}/>
 {% endif %}
 <p>{{ profile.text }}</p>
 <br> <br>
@@ -55,6 +55,6 @@
 </div>
 <hr>
 </div>
-<script src="{% static "follow.js" %}" crossorigin="anonymous"></script>
+<script src="{% static 'follow.js' %}" crossorigin="anonymous"></script>
 {{block.super}}
 {% endblock %}
