@@ -7,42 +7,41 @@ Signup
 
 {% block head_block %}
 <link rel="icon" href="{% static 'frog.png' %}">
-<link rel="stylesheet" href="{% static 'logins.css' %}">
+<link rel="stylesheet" href="{% static 'login.css' %}">
 {% endblock %}
 
-{% block body_block %}	
+{% block body_block %}
 <div class="container h-100">
   <div class="d-flex justify-content-center h-100">
     <div class="user_card">
 
       <div class="d-flex justify-content-center">
-	<h3 id="form-title">SIGN UP TO FROGGR</h3>
+	<h2 id="form-title">FROGGR UP</h2>
       </div>
-
-      <div>	
+      <div>
 	<form id="register_form" method="POST" action="">
           {% csrf_token %}
-	  <div class="input-group mb-3">
+	  <div class="input-group mb-4">
 		  <div class="input-group-append">
 			  <span class="input-group-text"><i class="fas fa-user"></i></span>
 		  </div>
 		  <input type="text" name="username" value="{{username}}" placeholder="Username...">
 	  </div>
-	  <div class="input-group mb-2">
+	  <div class="input-group mb-4">
 		  <div class="input-group-append">
 			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
 		  </div>
 		  <input type="email" name="email" value="{{email}}" placeholder="Email...">
 	  </div>
-		<div class="input-group mb-2">
+		<div class="input-group mb-4">
 		  <div class="input-group-append">
-			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+			  <span class="input-group-text"><i class="fas fa-key"></i></span>
 		  </div>
 			<input type="password" name="password1" placeholder="Password...">
 	  </div>
-	  <div class="input-group mb-2">
+	  <div class="input-group mb-4">
 		  <div class="input-group-append">
-			  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+			  <span class="input-group-text"><i class="fas fa-key"></i></span>
 		  </div>
 	    	<input type="password" name="password2" placeholder="Re-enter password...">
 	  </div>
@@ -61,7 +60,7 @@ Signup
       </div>
 
       
-    </div> <!-- user card end-->
+    </div>
   </div>
 </div>
 

@@ -105,9 +105,14 @@ def profile(request, profile_slug = None):
     profile = get_user_profile_or_none(user)
     context_dict = {}
     context_dict["username"] = user.username
-    context_dict["following2"] = checkConnection(request.user, user)
-    context_dict["followers"] = getFollowers(user)
-    context_dict["following"] = getFollowing(user)
+    
+    context_dict["logged_in"] = request.user.is_authenticated
+    if request.user.is_authenticated:
+        context_dict["following2"] = checkConnection(request.user, user)
+        context_dict["followers"] = getFollowers(user)
+        context_dict["following"] = getFollowing(user)
+        context_dict["following3"] = checkConnection(request.user, user)
+        
     context_dict["is_logged_in_profile"] = is_logged_in
     context_dict["profile_slug"] = "";
     if profile != None:
