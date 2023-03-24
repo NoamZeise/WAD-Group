@@ -34,9 +34,6 @@
         </div>
       </a>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
@@ -64,37 +61,20 @@
             <a class="nav-link" href="{% url 'froggr:frog-in' %}">Frog in</a>
           </li>
           {% endif %}
-          <form class="form-inline ml-auto" action="#" method="POST">
-            {% csrf_token %}
-            <input id="searchbar" class="form-control mr-sm-2" type="search" placeholder="Search" name="search">
-            <button id="searchbtn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
         </ul>
       </div> 
-      
-    </nav>    <!--
-    <div class="topnav">
-      {% if user.is_authenticated %}
-      <a href="{% url 'froggr:home' %}">Home</a>
-      <a href="{% url 'froggr:profile' %}">Profile</a>
-      <a href="{% url 'froggr:create-frogg' %}">Create a frogg</a>
-      <a href="{% url 'froggr:search-results' %}">Friends</a>
-      {% endif %}
-      {% if user.is_authenticated %}
-      <a href="{% url 'froggr:frog-out' %}">Frog out</a>
-      {% else %}
-      <a href="{% url 'froggr:frog-in' %}">Frog in</a>
-      {% endif %} -->
-      <!-- old search form--> <!--
-      <form id="searchform" class="d-flex justify-content-end" method=POST action="{% url 'froggr:search-results' %}">
-        {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search posts" name="searched"/>
-        <button id="searchbtn" type="submit">Search</button>
-      </form> -->
-      
-      
-    </div>
-    <br></br><br></br>
+
+      <div class="d-flex">
+        <form class="form-inline" action="#" method="POST">
+          {% csrf_token %}
+          <input id="searchbar" class="form-control mr-sm-2" type="search" placeholder="Search" name="search">
+          <button id="searchbtn" class="btn btn-outline-success my-2 my-sm-0 this-is-a-search-button" type="submit">Search</button>
+        </form>
+        <button class="navbar-toggler fear-the-mighty-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
 
     
     {% block body_block %}
