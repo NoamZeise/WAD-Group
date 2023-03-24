@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title_block %}
-Create Profile
+Edit Your Profile
 {% endblock %}
 
 {% block head_block %}
@@ -10,15 +10,38 @@ Create Profile
 {% endblock %}
 
 {% block body_block %}
-<div id="profile-create">
-  <h1> Edit your profile! </h1>
-  <form id="profile_form" method="post" action="{% url 'froggr:create-profile' %}"
-	enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ profile_form.as_p }}
-    <br>
-    <br>
-    <input class="btn btn-primary" type="submit" name="submit" value="Create Profile"/>
-  </form>
+<br>
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h3 style="text-align: center">Your Profile Picture!</h3>
+			{% if request.user.userprofile.image %}
+				<img class="profile-pic" src="{{request.user.userprofile.image.url}}" >
+			{% else %}
+				<img class="profile-pic" src="{% static 'defaultpic.jpeg' %}" >
+			{% endif %}
+            <br>
+            <br>
+            <a class="btn btn-primary" href="{% url 'froggr:profile' %}">Back to Profile</a>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="card card-body">
+            <form id="profile_form" method="post" action="{% url 'froggr:create-profile' %}"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+				<h3 style="text-align: center">Edit Your Profile!</h3>
+            {{ profile_form.as_p }}
+            <br>
+            <br>
+            <input type="submit" name="submit" value="Edit Profile"class="btn btn-primary" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
+
+
+
+
+

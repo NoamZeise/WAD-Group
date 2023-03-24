@@ -143,7 +143,7 @@ def create_profile(request):
         form = forms.UserProfileForm(request.POST, instance=profile)
         handle_text_image_form(form, request)
         form.save()
-        return redirect('froggr:profile')
+        return redirect('froggr:create-profile')
         
     return render(request, "create_profile.html", {'profile_form': form})
 
