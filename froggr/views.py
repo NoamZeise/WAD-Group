@@ -290,6 +290,14 @@ def search_results(request, search_query=None):
                       Q(user__username__icontains=search_query)),
                       'search_results.html', {'searched':search_query})
 
+@login_required
+def friends(request):
+    return posts_page(request,
+                      BlogPost.objects.filter(
+                          user__in=Connection.objects.filter(user=request.user).values('friend')),
+                      "post_feed.html", {})
+
+
 def no_results(request):
     return render(request, "no_results.html")
 

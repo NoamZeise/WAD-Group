@@ -22,4 +22,5 @@ urlpatterns = [
     path('posts/', views.posts, name='posts'),
     path('posts/<slug:post_slug>/', views.posts, name='posts'),
     path('like-post/', views.like_post, name='like_post'),
+    path('friends/', views.friends, name='friends'),
 ]
