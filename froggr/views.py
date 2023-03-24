@@ -314,22 +314,33 @@ def like_post(request):
     post.toggle_like(user)
     return HttpResponse(post.score)
 
+def create_following_list(friend_user):
+    following = Connection.objects.filter(friend=friend_user)
+    follow_text = ""
+    for u in following:
+        follow_text += '<a href="/profile/' + slugify(u.user.username) + '/">' + u.user.username + '</a><br/>'
+    return follow_text
+
 class follow(View):
     def get(self, request):
         if request.user.is_authenticated:
             followname = request.GET['followname']
+            foundFriend = None
             try:
                 foundFriend = User.objects.get(username=followname)
             except User.DoesNotExist:
                 return HttpResponse("error")
             except ValueError:
                 return HttpResponse("error")
+            
             existing_connection = Connection.objects.filter(user=request.user).filter(friend=foundFriend)
             if len(existing_connection) == 0:
                 new_connection = Connection.objects.create(user=request.user, friend=foundFriend)
                 new_connection.save()
-                return HttpResponse("Unfollow")
+                follow_html = create_following_list(foundFriend)
+                return HttpResponse("Unfollow " + follow_html)
             else:
                 existing_connection[0].delete()
-                return HttpResponse("Follow")
+                follow_html = create_following_list(foundFriend)
+                return HttpResponse("Follow " + follow_html)
         return HttpResponse("error") 

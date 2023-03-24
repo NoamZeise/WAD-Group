@@ -8,7 +8,6 @@
 {% block head_block %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'post-page.css' %}">
-<link rel="stylesheet" href="{% static 'profile-page.css' %}">
 {% endblock %}
 
 {% block top_block %}
@@ -35,17 +34,21 @@
 <p>{{ profile.text }}</p>
 <br> <br>
 <div class="card">
-<strong>Following</strong>
+  <strong>Following</strong>
+  <div id="following_list">
 {% for userTuple in following %}
 <a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
 {% endfor %}
 </div>
+</div>
 <br>
 <div class="card">
-<strong>Followers</strong>
+  <strong>Followers</strong>
+  <div id="follower_list">
 {% for userTuple in followers %}
 <a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
 {% endfor %}
+</div>
 </div>
 </div>
 <hr>

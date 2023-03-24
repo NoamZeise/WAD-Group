@@ -5,8 +5,12 @@ $(document).ready(function() {
 		var followButton = $(this);
 		$.get('/follow/', 
 			{'followname': username}, 
-			function(data) {
-				followButton.text(data);
-			})
+		      function(data) {
+			  var return_data = data.split(" ", 1);
+			  var follow = return_data[0];
+			  var rest = data.substring(data.indexOf(" "), data.length);
+			  $("#follower_list").html(rest);
+			  followButton.text(follow);
+		      })
 	});
 });
