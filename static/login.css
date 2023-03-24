@@ -1,0 +1,46 @@
+body,
+html {
+    margin: 100;
+    padding: 0;
+    height: 100%;
+}
+
+.user_card {
+    width: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #FFFFFF;
+    position: relative;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+
+.user_card #form-title {
+  color: #008000;
+  font-weight: bold;
+}
+}
+.input-group-text {
+	color: black !important;
+	border: 10 !important;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login_btn {
+    width: 50%;
+	background-color: #04AA6D;
+    border-color: #04AA6D;
+}
+.input-group mb-4{
+}   border: 100 !important;
+ckground: #f7ba5b !important;
+			color: white !important;
+			border: 0 !important;
+			border-radius: 0.25rem 0 0 0.25rem !important;
