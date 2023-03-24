@@ -1,7 +1,3 @@
-#searchform {
-    padding-top: 1rem;
-}
-
-#searchbtn {
-    visibility: hidden;
-}
+.this-is-a-search-button {
+    margin-right: 8px;
+  }
