@@ -34,14 +34,20 @@
 {% endif %}
 <p>{{ profile.text }}</p>
 <br> <br>
+<div class="card">
 <strong>Following</strong>
 {% for userTuple in following %}
-	<a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
+<a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
 {% endfor %}
+</div>
+<br>
+<div class="card">
 <strong>Followers</strong>
 {% for userTuple in followers %}
-	<a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
+<a href="{% url 'froggr:profile' userTuple.1 %}">{{ userTuple.0.username }}</a><br/>
 {% endfor %}
+</div>
+</div>
 <hr>
 </div>
 <script src="{% static "follow.js" %}" crossorigin="anonymous"></script>
