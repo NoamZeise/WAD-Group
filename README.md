@@ -3,6 +3,8 @@
 A social media when people can post froggs(bloggs) that can be commented on and reacted to. 
 People can maintain follow lists, search for froggs, and sort posts by various properties.
 
+#Contributions
+
 # Dependencies
 
 * [jquery and ajax from google apis](https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js)
