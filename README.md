@@ -3,8 +3,17 @@
 A social media when people can post froggs(bloggs) that can be commented on and reacted to. 
 People can maintain follow lists, search for froggs, and sort posts by various properties.
 
-#Contributions
 
+# Team Contributions
+
+* Leon- the viewing of posts, followers and unfollowing users
+* Sujay- nav bar, css styling
+* Peter-sorting of posts, templates,css
+* Tim-log in, sign up, being able to like posts, css style
+* Noam- population script, models, ajax scrolling 
+
+
+ 
 # Dependencies
 
 * [jquery and ajax from google apis](https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js)
